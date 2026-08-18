@@ -115,9 +115,10 @@
 
   /* ---------- CENTER ---------- */
   .main{ padding:44px 40px 60px; min-width:0; }
-  .photo-wrap{ max-width:460px; margin:0 0 26px; }
+  .photo-wrap{ max-width:340px; margin:0 0 26px; }
   .photo-wrap img{
-    width:100%; border:1px solid var(--line);
+    width:100%; height:auto; aspect-ratio:900/1050; object-fit:cover;
+    border:1px solid var(--line);
   }
 
   .bio p{ font-size:14px; line-height:1.75; color:var(--text); margin:0 0 14px; max-width:64ch; }
@@ -205,13 +206,13 @@
   <!-- LEFT SIDEBAR -->
   <aside class="sidebar">
     <h1>Dr. Varun Agarwal</h1>
-    <p class="credentials">MBBS, MS (General Surgery), MCh (Urology, ongoing)</p>
+    <p class="credentials">MBBS, MS (General Surgery), MCh (Urology)</p>
 
     <div class="phone-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <a href="tel:+917788991678">+91 77889 91678</a>
     </div>
-    <p class="status-line">Urology Senior Resident (MCh Year 3) — in residency since 2019</p>
+    <p class="status-line">MCh Genitourinary Surgery and Renal Transplant</p>
 
     <hr>
 
@@ -259,17 +260,16 @@
 
     <div class="bio">
       <p>
-        Dr. Varun Agarwal is a Urology Senior Resident in the Department of
-        Urology at Kasturba Medical College, Manipal, with a foundation in
-        general surgery, active involvement in clinical research, and a
-        consistent academic record.
+        I'm a Urology Senior Resident at Kasturba Medical College, Manipal,
+        coming in with a general surgery background. Most of my time right
+        now is split between clinical work, OT, and research.
       </p>
       <p>
-        His postgraduate thesis compares suction versus non-suction access
-        sheaths in retrograde intrarenal surgery (RIRS), focusing on
-        intraoperative visibility and pressure dynamics. His broader
-        interests span evidence-based urology, surgical innovation,
-        artificial intelligence in medicine, and digital health platforms.
+        My current research looks at suction versus non-suction access
+        sheaths in RIRS — essentially what actually happens to visibility
+        and pressure inside the kidney during the procedure. Outside of
+        that, I'm interested in where AI and digital health can genuinely
+        help in urology, not just as a buzzword.
       </p>
     </div>
 
@@ -368,12 +368,12 @@
     <div class="right-block">
       <p class="right-heading">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        Publications
+        Academics
       </p>
 
       <div class="pub-item">
         <p class="pub-title">Comparison of Suction vs. Non-Suction Access Sheath in Retrograde Intrarenal Surgery (RIRS)</p>
-        <p class="pub-meta">Postgraduate thesis — Kasturba Medical College, Manipal</p>
+        <p class="pub-meta">Research — Kasturba Medical College, Manipal</p>
       </div>
       <div class="pub-item">
         <p class="pub-title">A Comparative Randomized Controlled Trial on Conventional Stent Placement vs. No Stent After Uncomplicated URSL for Proximal and Distal Ureteric Calculi</p>
