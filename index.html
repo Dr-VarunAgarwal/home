@@ -10,7 +10,21 @@
 <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+<meta name="theme-color" content="#5c8a8d">
+
 <meta name="description" content="Dr. Varun Agarwal — Urology Senior Resident, Kasturba Medical College, Manipal. MBBS, MS (General Surgery), MCh (Urology/Genito-Urinary Surgery and Renal Transplant).">
+
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Dr. Varun Agarwal">
+<meta property="og:title" content="Dr. Varun Agarwal — Urologist">
+<meta property="og:description" content="Urology Senior Resident, Kasturba Medical College, Manipal. MBBS, MS (General Surgery), MCh (Urology/Genito-Urinary Surgery and Renal Transplant).">
+<meta property="og:url" content="https://varunagarwal.com/">
+<meta property="og:image" content="https://varunagarwal.com/img/headshot.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dr. Varun Agarwal — Urologist">
+<meta name="twitter:description" content="Urology Senior Resident, Kasturba Medical College, Manipal.">
+<meta name="twitter:image" content="https://varunagarwal.com/img/headshot.jpg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -122,6 +136,7 @@
   }
 
   .sidebar-foot{ margin-top:auto; padding-top:26px; }
+  .sidebar-foot-links{ display:flex; align-items:center; gap:16px; }
   .blog-link{
     font-size:11px; font-weight:600; letter-spacing:0.02em;
     color:rgba(255,255,255,0.72); text-decoration:none;
@@ -129,11 +144,12 @@
   .blog-link:hover{ color:#fff; text-decoration:underline; }
 
   .side-expand{
-    display:block; background:none; border:none; padding:0; margin:0 0 12px;
+    display:inline-block; background:none; border:none; padding:0; margin:0;
     font-family:'Inter', sans-serif; font-size:10px; font-weight:600; letter-spacing:0.03em;
     color:rgba(255,255,255,0.4); cursor:pointer; text-align:left;
   }
   .side-expand:hover{ color:rgba(255,255,255,0.7); }
+  .side-expand.is-open{ color:rgba(255,255,255,0.85); text-decoration:underline; }
 
   .side-extra{ margin:0 0 20px; padding-top:18px; border-top:1px solid rgba(255,255,255,0.16); }
   .side-extra[hidden]{ display:none; }
@@ -349,8 +365,10 @@
         </div>
       </div>
 
-      <button class="side-expand" id="extraToggle" type="button" aria-expanded="false" aria-controls="sideExtra">Extracurricular ↓</button>
-      <a class="blog-link" href="https://blog.varunagarwal.com">Blog →</a>
+      <div class="sidebar-foot-links">
+        <button class="side-expand" id="extraToggle" type="button" aria-expanded="false" aria-controls="sideExtra">Extracurricular</button>
+        <a class="blog-link" href="https://blog.varunagarwal.com">Blog</a>
+      </div>
     </div>
   </aside>
 
@@ -575,7 +593,7 @@
       expanded = !expanded;
       extra.hidden = !expanded;
       toggle.setAttribute('aria-expanded', String(expanded));
-      toggle.textContent = expanded ? 'Extracurricular ↑' : 'Extracurricular ↓';
+      toggle.classList.toggle('is-open', expanded);
     });
   })();
 </script>
