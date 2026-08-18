@@ -89,19 +89,18 @@
   .sidebar h1 em{
     font-style:italic; font-weight:500; color:var(--gold);
   }
-  .credentials{
-    font-size:11px; letter-spacing:0.03em; font-weight:500;
-    color:rgba(255,255,255,0.86); margin:0 0 20px; text-transform:uppercase;
+  .degree-list{ margin:0 0 20px; }
+  .degree-list p{
+    font-size:12.5px; line-height:1.55; margin:0;
+    color:rgba(255,255,255,0.72); font-weight:500;
   }
+  .degree-list p:last-child{ color:#fff; font-weight:700; }
   .phone-row{
     display:flex; align-items:center; gap:8px;
-    font-size:13.5px; font-weight:600; margin-bottom:6px;
+    font-size:13.5px; font-weight:600; margin-bottom:22px;
   }
   .phone-row svg{ width:14px; height:14px; flex-shrink:0; color:#f2c9c7; }
   .phone-row a{ text-decoration:none; color:#fff; }
-  .status-line{
-    font-size:12px; color:rgba(255,255,255,0.75); margin:0 0 22px;
-  }
   .sidebar hr{
     border:none; border-top:1px solid rgba(255,255,255,0.22); margin:0 0 22px;
   }
@@ -122,8 +121,15 @@
     padding:2px 7px; border-radius:2px; margin-top:4px;
   }
 
+  .sidebar-foot{ margin-top:auto; padding-top:26px; }
+  .blog-link{
+    font-size:11px; font-weight:600; letter-spacing:0.02em;
+    color:rgba(255,255,255,0.72); text-decoration:none;
+  }
+  .blog-link:hover{ color:#fff; text-decoration:underline; }
+
   /* ---------- CENTER ---------- */
-  .main{ padding:44px 40px 60px; min-width:0; }
+  .main{ padding:44px 40px 150px; min-width:0; }
 
   .hero-grid{
     display:grid; grid-template-columns:260px 1fr; gap:36px;
@@ -140,11 +146,16 @@
 
   .bio p{ font-size:14px; line-height:1.75; color:var(--text); margin:0 0 14px; max-width:60ch; }
 
-  /* ---------- ACTION BAR ---------- */
+  /* ---------- ACTION BAR (fixed) ---------- */
   .action-bar{
-    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-    background:var(--ink); border-radius:6px;
-    padding:16px 20px; margin:34px 0 0;
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center;
+    background:var(--ink);
+    padding:12px 16px;
+    position:fixed; left:0; right:0; bottom:0; z-index:60;
+    box-shadow:0 -4px 16px rgba(0,0,0,0.16);
+  }
+  @media (min-width:981px){
+    .action-bar{ left:var(--sidebar-w); right:var(--right-w); justify-content:flex-start; padding:14px 40px; }
   }
   .btn{
     display:inline-flex; align-items:center; gap:7px;
@@ -171,6 +182,15 @@
   .entry-when{ font-size:11.5px; color:var(--muted); white-space:nowrap; }
   .entry-org{ font-size:12.5px; color:var(--muted); margin-top:2px; }
   .entry-detail{ font-size:12.5px; color:var(--text); margin-top:5px; line-height:1.6; }
+
+  details.training-more summary{
+    font-size:11.5px; font-weight:700; color:var(--accent);
+    cursor:pointer; list-style:none; padding-top:10px; border-top:1px solid var(--line);
+  }
+  details.training-more summary::-webkit-details-marker{ display:none; }
+  details.training-more summary::after{ content:" [+]"; }
+  details.training-more[open] summary::after{ content:" [–]"; }
+  details.training-more .entry:first-of-type{ margin-top:16px; }
 
   .tag-group-label{
     font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
@@ -244,7 +264,7 @@
 
   footer.page-foot{
     grid-column:1 / -1;
-    padding:20px 40px; border-top:1px solid var(--line);
+    padding:20px 40px 150px; border-top:1px solid var(--line);
     font-size:11px; color:var(--muted);
   }
 </style>
@@ -257,13 +277,16 @@
   <aside class="sidebar">
     <p class="name-eyebrow">Dr.</p>
     <h1>Varun <em>Agarwal</em></h1>
-    <p class="credentials">MBBS, MS (General Surgery), MCh (Urology)</p>
+    <div class="degree-list">
+      <p>MBBS</p>
+      <p>MS, General Surgery</p>
+      <p>MCh, Genitourinary Surgery &amp; Renal Transplant</p>
+    </div>
 
     <div class="phone-row">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       <a href="tel:+917788991678">+91 77889 91678</a>
     </div>
-    <p class="status-line">MCh Genitourinary Surgery and Renal Transplant</p>
 
     <hr>
 
@@ -290,6 +313,9 @@
       </div>
     </div>
 
+    <div class="sidebar-foot">
+      <a class="blog-link" href="https://blog.varunagarwal.com">Blog →</a>
+    </div>
   </aside>
 
   <!-- CENTER -->
@@ -316,38 +342,13 @@
     </div>
 
     <div class="center-section">
-      <p class="center-heading">Education</p>
+      <p class="center-heading">Training</p>
       <div class="entry">
         <div class="entry-head">
-          <span class="entry-title">MCh, Urology / Genito-Urinary Surgery &amp; Renal Transplant</span>
+          <span class="entry-title">MCh, Urology &amp; Genito-Urinary Surgery</span>
           <span class="entry-when">2023 — ongoing</span>
         </div>
-        <p class="entry-org">Kasturba Medical College, Manipal Academy of Higher Education</p>
-      </div>
-      <div class="entry">
-        <div class="entry-head">
-          <span class="entry-title">MS, General Surgery</span>
-          <span class="entry-when">2019 — 2022</span>
-        </div>
-        <p class="entry-org">Netaji Subhash Chandra Bose Subharti Medical College, Meerut</p>
-      </div>
-      <div class="entry">
-        <div class="entry-head">
-          <span class="entry-title">MBBS</span>
-          <span class="entry-when">2012 — 2018</span>
-        </div>
-        <p class="entry-org">Himalayan Institute of Medical Sciences, Dehradun</p>
-      </div>
-    </div>
-
-    <div class="center-section">
-      <p class="center-heading">Experience</p>
-      <div class="entry">
-        <div class="entry-head">
-          <span class="entry-title">Urology Senior Resident (MCh Year 3)</span>
-          <span class="entry-when">Ongoing</span>
-        </div>
-        <p class="entry-org">Kasturba Medical College, Manipal</p>
+        <p class="entry-org">Kasturba Medical College, Manipal · Urology Senior Resident (Year 3)</p>
         <p class="entry-detail">Advanced urological surgeries, inpatient management, and outpatient consultations.</p>
       </div>
       <div class="entry">
@@ -358,14 +359,25 @@
         <p class="entry-org">Government Doon Medical College, Dehradun</p>
         <p class="entry-detail">High outpatient caseload, independent surgeries, supervision of undergraduate students.</p>
       </div>
-      <div class="entry">
-        <div class="entry-head">
-          <span class="entry-title">Junior Resident, General Surgery</span>
-          <span class="entry-when">2019 — 2022</span>
+
+      <details class="training-more">
+        <summary>Show earlier training</summary>
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title">MS, General Surgery · Junior Resident</span>
+            <span class="entry-when">2019 — 2022</span>
+          </div>
+          <p class="entry-org">Subharti Hospital, Netaji Subhash Chandra Bose Subharti Medical College, Meerut</p>
+          <p class="entry-detail">Broad operative experience across general surgery, emergency, urology, neurosurgery, pediatric and plastic surgery. Coordinated emergency surgical care through the COVID-19 pandemic.</p>
         </div>
-        <p class="entry-org">Subharti Hospital, Meerut</p>
-        <p class="entry-detail">Broad operative experience across general surgery, emergency, urology, neurosurgery, pediatric and plastic surgery. Coordinated emergency surgical care through the COVID-19 pandemic.</p>
-      </div>
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title">MBBS</span>
+            <span class="entry-when">2012 — 2018</span>
+          </div>
+          <p class="entry-org">Himalayan Institute of Medical Sciences, Dehradun</p>
+        </div>
+      </details>
     </div>
 
     <div class="center-section">
@@ -390,17 +402,21 @@
     </div>
 
     <div class="action-bar">
-      <a class="btn btn-primary" href="mailto:contact@varunagarwal.com">
+      <a class="btn btn-primary" href="tel:+917788991678">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call
+      </a>
+      <a class="btn btn-ghost" href="mailto:contact@varunagarwal.com">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
         Email
+      </a>
+      <a class="btn btn-ghost" href="https://wa.me/917788991678" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
       </a>
       <a class="btn btn-ghost" href="https://contact.varunagarwal.com">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="12" r="2"/><path d="M15 10h4"/><path d="M15 14h4"/><path d="M6 16c0-1.5 1.4-2.5 3-2.5s3 1 3 2.5"/></svg>
         Contact card
-      </a>
-      <a class="btn btn-ghost" href="https://blog.varunagarwal.com">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-        Personal site
       </a>
     </div>
   </main>
