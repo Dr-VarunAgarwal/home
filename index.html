@@ -55,6 +55,12 @@
   @media (max-width:980px){
     .layout{ grid-template-columns:1fr; }
   }
+  @media (min-width:981px){
+    .sidebar, .right{ position:sticky; top:0; align-self:start; height:100vh; }
+    .sidebar{ overflow-y:auto; }
+    .right{ overflow-y:hidden; }
+    .right.is-scrollable{ overflow-y:auto; }
+  }
 
   /* ---------- LEFT SIDEBAR ---------- */
   .sidebar{
@@ -460,6 +466,17 @@
   </footer>
 
 </div>
+
+<script>
+  (function(){
+    var moreDetails = document.querySelector('details.more');
+    var rightPane = document.querySelector('.right');
+    if (!moreDetails || !rightPane) return;
+    moreDetails.addEventListener('toggle', function(){
+      rightPane.classList.toggle('is-scrollable', moreDetails.open);
+    });
+  })();
+</script>
 
 </body>
 </html>
