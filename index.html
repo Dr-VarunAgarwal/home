@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Varun Agarwal — Urologist</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta name="description" content="Dr. Varun Agarwal — Urology Senior Resident, Kasturba Medical College, Manipal. MBBS, MS (General Surgery), MCh (Urology/Genito-Urinary Surgery and Renal Transplant).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14181c;
+    --ink-soft:#1c2128;
+    --ink-card:#1a1f25;
+    --paper:#f3efe4;
+    --paper-dim:#c7ccd1;
+    --brass:#c9a15c;
+    --brass-dim:#8a7248;
+    --line: rgba(243,239,228,0.12);
+    --max: 760px;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--brass); outline-offset:3px; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:80px 0 0; }
+  .hero-top{ display:flex; gap:32px; align-items:flex-start; justify-content:space-between; }
+  .hero-text{ flex:1; min-width:0; }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 18px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(34px, 7.5vw, 54px);
+    line-height:1.05;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .role-line{
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    color:var(--paper-dim);
+    line-height:1.8;
+    margin:0 0 30px;
+  }
+  .role-line b{ color:var(--paper); font-weight:700; }
+  .role-line .sep{ color:var(--brass-dim); margin:0 8px; }
+
+  .headshot{
+    width:148px; height:148px; border-radius:50%;
+    object-fit:cover; object-position:50% 20%;
+    border:1px solid rgba(243,239,228,0.18);
+    filter:grayscale(0.55) contrast(1.05) brightness(0.98) sepia(0.12);
+    flex-shrink:0;
+  }
+  @media (max-width:560px){
+    .hero-top{ flex-direction:column-reverse; }
+    .headshot{ width:88px; height:88px; }
+  }
+
+  .cta-row{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:60px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:14.5px;
+    padding:13px 22px; border-radius:3px; text-decoration:none;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{ background:var(--brass); color:var(--ink); }
+  .btn-primary:hover{ background:#d8b06e; }
+  .btn-ghost{ border-color:rgba(243,239,228,0.25); color:var(--paper); background:transparent; }
+  .btn-ghost:hover{ border-color:var(--brass); color:var(--brass); }
+  .btn svg{ width:16px; height:16px; flex-shrink:0; }
+
+  /* ---------- PULSE DIVIDER (signature element) ---------- */
+  .pulse-wrap{ padding:4px 0 52px; }
+  .pulse-wrap svg{ width:100%; height:34px; display:block; }
+  .pulse-line{
+    fill:none; stroke:var(--brass); stroke-width:1.4;
+    stroke-dasharray:400; stroke-dashoffset:400;
+    animation:draw 1.8s ease-out forwards;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @media (prefers-reduced-motion: reduce){
+    .pulse-line{ animation:none; stroke-dashoffset:0; }
+  }
+
+  section{ margin-bottom:60px; }
+  .section-label{
+    font-family:'Space Mono', monospace; font-size:10.5px; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--brass-dim); margin:0 0 20px;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .bio p{
+    font-family:'Fraunces', serif; font-weight:400; font-size:19px; line-height:1.65;
+    color:#e4e1d8; margin:0 0 16px; max-width:56ch;
+  }
+
+  /* ---------- TIMELINE (experience / education) ---------- */
+  .timeline{ border-top:1px solid var(--line); }
+  .tl-item{ padding:22px 0; border-bottom:1px solid var(--line); }
+  .tl-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    gap:16px; flex-wrap:wrap; margin-bottom:8px;
+  }
+  .tl-role{ font-family:'Fraunces', serif; font-weight:500; font-size:18px; color:var(--paper); }
+  .tl-when{
+    font-family:'Space Mono', monospace; font-size:11px; color:var(--brass-dim);
+    white-space:nowrap;
+  }
+  .tl-org{ font-size:13.5px; color:var(--paper-dim); margin:0 0 8px; }
+  .tl-detail{ font-size:13.5px; color:#9ba0a6; line-height:1.65; margin:0; }
+  .tl-detail li{ margin-bottom:4px; }
+  .tl-detail ul{ margin:6px 0 0; padding-left:18px; }
+
+  /* ---------- PILLS (certifications / memberships / interests) ---------- */
+  .pill-group{ margin-bottom:28px; }
+  .pill-group:last-child{ margin-bottom:0; }
+  .pill-label{
+    font-family:'Space Mono', monospace; font-size:10px; letter-spacing:0.12em;
+    text-transform:uppercase; color:#9ba0a6; margin:0 0 12px;
+  }
+  .pills{ display:flex; flex-wrap:wrap; gap:8px; }
+  .pill{
+    font-family:'Inter', sans-serif; font-size:12.5px; font-weight:500;
+    color:var(--paper); background:var(--ink-card);
+    border:1px solid var(--line); border-radius:20px;
+    padding:7px 14px;
+  }
+
+  /* ---------- RESEARCH LIST ---------- */
+  .research-list{ border-top:1px solid var(--line); }
+  .research-item{ padding:18px 0; border-bottom:1px solid var(--line); }
+  .research-title{
+    font-family:'Fraunces', serif; font-size:15.5px; line-height:1.5;
+    color:#e4e1d8; margin:0 0 6px;
+  }
+  .research-meta{
+    font-family:'Space Mono', monospace; font-size:10.5px; color:var(--brass-dim);
+    letter-spacing:0.02em;
+  }
+  .research-note{
+    font-family:'Space Mono', monospace; font-size:11px; color:var(--brass-dim);
+    margin-top:22px;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line); }
+  .contact-row{
+    display:flex; justify-content:space-between; align-items:center; gap:16px;
+    padding:18px 0; border-bottom:1px solid var(--line);
+  }
+  .contact-row .label{
+    font-family:'Space Mono', monospace; font-size:11px; letter-spacing:0.1em;
+    text-transform:uppercase; color:#9ba0a6; flex-shrink:0;
+  }
+  .contact-row .value{
+    font-family:'Inter', sans-serif; font-weight:500; font-size:16px;
+    text-decoration:none; color:var(--paper); text-align:right;
+  }
+  .contact-row .value:hover{ color:var(--brass); }
+
+  /* ---------- ELSEWHERE ---------- */
+  .else-list{ display:flex; flex-direction:column; border-top:1px solid var(--line); }
+  .else-item{
+    display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+    padding:20px 0; border-bottom:1px solid var(--line);
+    text-decoration:none; color:var(--paper);
+  }
+  .else-item:hover .else-name{ color:var(--brass); }
+  .else-item:hover .else-arrow{ transform:translate(3px,-3px); }
+  .else-name{ font-family:'Fraunces', serif; font-weight:500; font-size:19px; }
+  .else-desc{
+    font-family:'Space Mono', monospace; font-size:11px; color:#9ba0a6;
+    margin-top:4px; display:block;
+  }
+  .else-arrow{ font-size:18px; color:var(--brass-dim); transition:transform 0.2s ease; flex-shrink:0; }
+
+  footer{
+    padding:36px 0 60px; border-top:1px solid var(--line);
+    font-family:'Space Mono', monospace; font-size:10.5px; color:var(--brass-dim);
+    letter-spacing:0.05em; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+  footer a{ color:var(--brass-dim); text-decoration:none; }
+  footer a:hover{ color:var(--brass); }
+
+  @media (max-width:480px){
+    .hero{ padding-top:56px; }
+    .contact-row{ flex-direction:column; align-items:flex-start; gap:4px; }
+    .contact-row .value{ text-align:left; }
+    .tl-when{ order:-1; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hero-text">
+          <p class="eyebrow">Urology</p>
+          <h1>Dr. Varun<br>Agarwal</h1>
+          <p class="role-line">
+            <b>Urology Senior Resident</b> · MCh Year 3, KMC Manipal<span class="sep">·</span>MBBS, MS (General Surgery)<br>
+            Dehradun, India
+          </p>
+        </div>
+        <img class="headshot" src="img/headshot.jpg" alt="Dr. Varun Agarwal" width="148" height="148">
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:contact@varunagarwal.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          Email
+        </a>
+        <a class="btn btn-ghost" href="https://contact.varunagarwal.com">Contact card</a>
+        <a class="btn btn-ghost" href="https://blog.varunagarwal.com">Personal site ↗</a>
+      </div>
+    </section>
+
+    <!-- SIGNATURE PULSE DIVIDER -->
+    <div class="pulse-wrap" aria-hidden="true">
+      <svg viewBox="0 0 600 34" preserveAspectRatio="none">
+        <path class="pulse-line" d="M0,17 L200,17 L215,4 L228,30 L242,17 L600,17"/>
+      </svg>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="bio">
+      <p class="section-label">About</p>
+      <p>
+        I am presently a Urology Senior Resident in the Department of Urology
+        at Kasturba Medical College, Manipal, with a foundation in general
+        surgery, active involvement in clinical research, and a consistent
+        academic record.
+      </p>
+      <p>
+        My postgraduate thesis compares suction versus non-suction access
+        sheaths in retrograde intrarenal surgery (RIRS), focusing on
+        intraoperative visibility and pressure dynamics. My broader interests
+        span evidence-based urology, surgical innovation, artificial
+        intelligence in medicine, and digital health platforms.
+      </p>
+    </section>
+
+    <!-- EDUCATION -->
+    <section>
+      <p class="section-label">Education</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">MCh, Urology / Genito-Urinary Surgery &amp; Renal Transplant</span>
+            <span class="tl-when">2023 — ongoing</span>
+          </div>
+          <p class="tl-org">Kasturba Medical College, Manipal Academy of Higher Education</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">MS, General Surgery</span>
+            <span class="tl-when">2019 — 2022</span>
+          </div>
+          <p class="tl-org">Netaji Subhash Chandra Bose Subharti Medical College, Swami Vivekanand Subharti University, Meerut</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">MBBS</span>
+            <span class="tl-when">2012 — 2018</span>
+          </div>
+          <p class="tl-org">Himalayan Institute of Medical Sciences, Swami Rama Himalayan University, Dehradun</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section>
+      <p class="section-label">Experience</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">Urology Senior Resident (MCh Year 3)</span>
+            <span class="tl-when">Ongoing</span>
+          </div>
+          <p class="tl-org">Kasturba Medical College, Manipal</p>
+          <p class="tl-detail">
+            Actively involved in advanced urological surgeries, inpatient management, and outpatient consultations.
+          </p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">Senior Resident, General Surgery</span>
+            <span class="tl-when">2022 — 2023</span>
+          </div>
+          <p class="tl-org">Government Doon Medical College, Dehradun</p>
+          <p class="tl-detail">
+            Managed a high outpatient caseload, performed independent surgeries, and supervised undergraduate students in clinical and operative settings.
+          </p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">Junior Resident, General Surgery</span>
+            <span class="tl-when">2019 — 2022</span>
+          </div>
+          <p class="tl-org">Subharti Hospital, Swami Vivekanand Subharti University, Meerut</p>
+          <p class="tl-detail">
+            Broad operative experience across general surgery, emergency, urology, neurosurgery, pediatric surgery, and plastic surgery units. Coordinated ward management and emergency surgical care during the COVID-19 pandemic.
+          </p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">Undergraduate Clinical Rotations</span>
+            <span class="tl-when">2012 — 2018</span>
+          </div>
+          <p class="tl-org">Himalayan Hospital, Dehradun</p>
+          <p class="tl-detail">
+            Patient management, ward rounds, and assisted clinical and surgical procedures across core disciplines.
+          </p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-head">
+            <span class="tl-role">Medical Outreach, Himalayan Villages</span>
+            <span class="tl-when">2016 — 2018</span>
+          </div>
+          <p class="tl-org">Co-founder, UVA — Upliftment of Villages Around Us</p>
+          <p class="tl-detail">
+            Co-founded an initiative bringing medical students to underserved regions of Uttarakhand — identifying local needs, assisting sanitation and electrical-fencing projects, and serving as attending doctor on field trips providing emergency and primary healthcare.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH & PRESENTATIONS -->
+    <section>
+      <p class="section-label">Research &amp; Presentations</p>
+      <div class="research-list">
+        <div class="research-item">
+          <p class="research-title">Comparison of Suction vs. Non-Suction Access Sheath in Retrograde Intrarenal Surgery (RIRS)</p>
+          <p class="research-meta">Postgraduate thesis — Kasturba Medical College, Manipal</p>
+        </div>
+        <div class="research-item">
+          <p class="research-title">A Comparative Randomized Controlled Trial on Conventional Stent Placement vs. No Stent After Uncomplicated URSL for Proximal and Distal Ureteric Calculi</p>
+          <p class="research-meta">Unmoderated Standard ePoster — 45th Congress of Société Internationale d'Urologie (SIU), Edinburgh, Oct–Nov 2025</p>
+        </div>
+        <div class="research-item">
+          <p class="research-title">A Propensity-Matched Comparison of Safety and Efficacy of PCNL in Pediatric and Adult Groups From a University Teaching Hospital</p>
+          <p class="research-meta">Moderated Paper Presentation — PUSCON 2026</p>
+        </div>
+        <div class="research-item">
+          <p class="research-title">Paediatric Renal Transplantation: A Retrospective Analysis of Surgical Techniques, Graft Outcomes, and Complications at a Tertiary Care Centre in India</p>
+          <p class="research-meta">Moderated Video Presentation — PUSCON 2026</p>
+        </div>
+        <div class="research-item">
+          <p class="research-title">Outcomes and Predictors of Failure After Delayed Urethroplasty for Pelvic Fracture Urethral Injury in Children: A 15-Year Single-Center Experience</p>
+          <p class="research-meta">Moderated Video Presentation — PUSCON 2026</p>
+        </div>
+        <div class="research-item">
+          <p class="research-title">Lichen Sclerosus with Complete Urethral Obliteration: A Rare Case Report</p>
+          <p class="research-meta">Moderated ePoster — SZUSICON 2025, 36th Annual Conference of the Association of Southern Urologists</p>
+        </div>
+      </div>
+      <p class="research-note">Selected for EUREP 2026, the European School of Urology's residents' training programme, Prague. Full conference and workshop history available on request.</p>
+    </section>
+
+    <!-- CERTIFICATIONS / MEMBERSHIPS / INTERESTS -->
+    <section>
+      <p class="section-label">Certifications &amp; Memberships</p>
+      <div class="pill-group">
+        <p class="pill-label">Certifications</p>
+        <div class="pills">
+          <span class="pill">Advanced Cardiac Life Support</span>
+          <span class="pill">Basic Life Support</span>
+          <span class="pill">Wilderness First Responder</span>
+          <span class="pill">PLAB (UK) Part 1 &amp; 2</span>
+          <span class="pill">IELTS</span>
+        </div>
+      </div>
+      <div class="pill-group">
+        <p class="pill-label">Memberships</p>
+        <div class="pills">
+          <span class="pill">Association of Surgeons of India — Lifetime Member</span>
+          <span class="pill">Urological Society of India</span>
+          <span class="pill">European Association of Urology</span>
+          <span class="pill">Société Internationale d'Urologie</span>
+          <span class="pill">American Urological Association</span>
+        </div>
+      </div>
+      <div class="pill-group">
+        <p class="pill-label">Interests</p>
+        <div class="pills">
+          <span class="pill">Evidence-based urology</span>
+          <span class="pill">Surgical innovation</span>
+          <span class="pill">AI in medicine</span>
+          <span class="pill">Digital health</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section>
+      <p class="section-label">Contact</p>
+      <div class="contact-grid">
+        <div class="contact-row">
+          <span class="label">Phone</span>
+          <a class="value" href="tel:+917788991678">+91 77889 91678</a>
+        </div>
+        <div class="contact-row">
+          <span class="label">Email</span>
+          <a class="value" href="mailto:contact@varunagarwal.com">contact@varunagarwal.com</a>
+        </div>
+        <div class="contact-row">
+          <span class="label">Location</span>
+          <span class="value">Dehradun, India</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ELSEWHERE -->
+    <section>
+      <p class="section-label">Elsewhere</p>
+      <div class="else-list">
+        <a class="else-item" href="https://contact.varunagarwal.com" rel="noopener">
+          <span>
+            <span class="else-name">Contact card</span>
+            <span class="else-desc">Save my details, call, or message directly</span>
+          </span>
+          <span class="else-arrow">↗</span>
+        </a>
+        <a class="else-item" href="https://blog.varunagarwal.com" rel="noopener">
+          <span>
+            <span class="else-name">lucidité</span>
+            <span class="else-desc">My personal site — books, wander, notes</span>
+          </span>
+          <span class="else-arrow">↗</span>
+        </a>
+        <a class="else-item" href="https://instagram.com/ag.varun" target="_blank" rel="noopener">
+          <span>
+            <span class="else-name">Instagram</span>
+            <span class="else-desc">@ag.varun</span>
+          </span>
+          <span class="else-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <span>Dehradun, India — varunagarwal.com</span>
+      <a href="https://blog.varunagarwal.com">Personal site ↗</a>
+    </footer>
+
+  </div>
+
+</body>
+</html>
