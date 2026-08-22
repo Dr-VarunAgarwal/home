@@ -162,6 +162,47 @@
   /* ---------- CENTER ---------- */
   .main{ padding:44px 40px 150px; min-width:0; }
 
+  /* ---------- SLIDESHOW ---------- */
+  .slideshow{
+    position:relative; margin:0 0 40px; overflow:hidden;
+    background:var(--ink); border:1px solid var(--line);
+  }
+  .slideshow-track{ position:relative; height:clamp(200px, 30vw, 360px); }
+  .slide{
+    position:absolute; inset:0; margin:0; opacity:0;
+    transition:opacity 0.7s ease;
+  }
+  .slide.is-active{ opacity:1; }
+  .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .slide-caption{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:10px 44px 10px 14px;
+    background:linear-gradient(transparent, rgba(0,0,0,0.7));
+    color:#fff; font-family:'Inter', sans-serif; font-size:11.5px;
+    font-weight:500; letter-spacing:0.01em; pointer-events:none;
+  }
+  .slide-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:30px; height:30px; border-radius:50%; border:none;
+    background:rgba(0,0,0,0.35); color:#fff; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; line-height:1;
+  }
+  .slide-nav:hover{ background:rgba(0,0,0,0.55); }
+  .slide-nav.prev{ left:10px; }
+  .slide-nav.next{ right:10px; }
+  .slide-dots{
+    position:absolute; right:12px; bottom:11px; display:flex; gap:5px; z-index:2;
+  }
+  .dot{
+    width:6px; height:6px; border-radius:50%; border:none; padding:0;
+    background:rgba(255,255,255,0.4); cursor:pointer;
+  }
+  .dot.is-active{ background:#fff; }
+  @media (max-width:700px){
+    .slideshow-track{ height:220px; }
+  }
+
   .hero-grid{
     display:grid; grid-template-columns:260px 1fr; gap:36px;
     align-items:start; margin-bottom:0;
@@ -374,6 +415,52 @@
 
   <!-- CENTER -->
   <main class="main">
+    <div class="slideshow" id="slideshow">
+      <div class="slideshow-track" id="slideTrack">
+        <figure class="slide is-active" data-caption="With colleagues — SZUSICON 2026">
+          <img src="img/pro/slide-01.jpg" alt="With colleagues at SZUSICON 2026" loading="eager">
+        </figure>
+        <figure class="slide" data-caption="Presenting the access-sheath RCT — SZUSICON 2026">
+          <img src="img/pro/slide-02.jpg" alt="Presenting research at a podium, SZUSICON 2026" loading="lazy">
+        </figure>
+        <figure class="slide" data-caption="37th Annual Conference of ASU — SZUSICON 2026">
+          <img src="img/pro/slide-03.jpg" alt="Receiving recognition at SZUSICON 2026" loading="lazy">
+        </figure>
+        <figure class="slide" data-caption="Conference sidelines, 2026">
+          <img src="img/pro/slide-04.jpg" alt="At a conference, 2026" loading="lazy">
+        </figure>
+        <figure class="slide" data-caption="PUSCON 2026, Ranchi">
+          <img src="img/pro/slide-05.jpg" alt="Holding a certificate at PUSCON 2026, Ranchi" loading="lazy">
+        </figure>
+        <figure class="slide" data-caption="Presenting on paediatric renal transplantation — PUSCON 2026">
+          <img src="img/pro/slide-06.jpg" alt="Presenting on paediatric renal transplantation at PUSCON 2026" loading="lazy">
+        </figure>
+        <figure class="slide" data-caption="ePoster session — SIU Congress, Edinburgh">
+          <img src="img/pro/slide-07.jpg" alt="Standing by an ePoster display at the SIU Congress, Edinburgh" loading="lazy">
+        </figure>
+        <figure class="slide" data-caption="SIU Congress, Edinburgh — October 2025">
+          <img src="img/pro/slide-08.jpg" alt="At the SIU Congress, Edinburgh, October 2025" loading="lazy">
+        </figure>
+        <figure class="slide" data-caption="Conference, 2025">
+          <img src="img/pro/slide-09.jpg" alt="At a conference, 2025" loading="lazy">
+        </figure>
+      </div>
+      <div class="slide-caption" id="slideCaption">With colleagues — SZUSICON 2026</div>
+      <button class="slide-nav prev" id="slidePrev" type="button" aria-label="Previous photo">‹</button>
+      <button class="slide-nav next" id="slideNext" type="button" aria-label="Next photo">›</button>
+      <div class="slide-dots" id="slideDots">
+        <button class="dot is-active" type="button" aria-label="Photo 1"></button>
+        <button class="dot" type="button" aria-label="Photo 2"></button>
+        <button class="dot" type="button" aria-label="Photo 3"></button>
+        <button class="dot" type="button" aria-label="Photo 4"></button>
+        <button class="dot" type="button" aria-label="Photo 5"></button>
+        <button class="dot" type="button" aria-label="Photo 6"></button>
+        <button class="dot" type="button" aria-label="Photo 7"></button>
+        <button class="dot" type="button" aria-label="Photo 8"></button>
+        <button class="dot" type="button" aria-label="Photo 9"></button>
+      </div>
+    </div>
+
     <div class="hero-grid">
       <div class="photo-wrap">
         <img src="img/headshot.jpg" alt="Dr. Varun Agarwal" width="900" height="1050">
@@ -565,6 +652,49 @@
 </div>
 
 <script>
+  (function(){
+    var track = document.getElementById('slideTrack');
+    var caption = document.getElementById('slideCaption');
+    var dotsWrap = document.getElementById('slideDots');
+    var prevBtn = document.getElementById('slidePrev');
+    var nextBtn = document.getElementById('slideNext');
+    if (!track || !caption || !dotsWrap || !prevBtn || !nextBtn) return;
+
+    var slides = Array.prototype.slice.call(track.querySelectorAll('.slide'));
+    var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('.dot'));
+    var current = 0;
+    var timer = null;
+
+    function show(index){
+      current = (index + slides.length) % slides.length;
+      slides.forEach(function(s, i){ s.classList.toggle('is-active', i === current); });
+      dots.forEach(function(d, i){ d.classList.toggle('is-active', i === current); });
+      caption.textContent = slides[current].getAttribute('data-caption') || '';
+    }
+
+    function start(){
+      timer = setInterval(function(){ show(current + 1); }, 4500);
+    }
+    function stop(){
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+    function restart(){ stop(); start(); }
+
+    prevBtn.addEventListener('click', function(){ show(current - 1); restart(); });
+    nextBtn.addEventListener('click', function(){ show(current + 1); restart(); });
+    dots.forEach(function(d, i){
+      d.addEventListener('click', function(){ show(i); restart(); });
+    });
+
+    var sw = document.getElementById('slideshow');
+    sw.addEventListener('mouseenter', stop);
+    sw.addEventListener('mouseleave', start);
+
+    show(0);
+    start();
+  })();
+
   (function(){
     var toggle = document.getElementById('rightToggle');
     var label = document.getElementById('rightToggleLabel');
