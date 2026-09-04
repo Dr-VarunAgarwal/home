@@ -16,8 +16,8 @@ Separate in tone and purpose from the personal `blog.varunagarwal.com`
 Pulled from `Curriculum Vitae JULY 2026.docx` (Desktop\Personal) on 2026-08-18.
 Re-sync this page by hand when the CV is next updated — there's no automated link between them.
 
+## Status
+Live at varunagarwal.com (repo pushed, Pages/DNS configured, confirmed responding).
+
 ## Before publishing
 - [ ] Swap `img/headshot.jpg` for a proper professional photo when available
-- [ ] Double check phone/email against `contact.varunagarwal.com` — this page currently mirrors it
-- [ ] Create the `home` repo under github.com/Dr-VarunAgarwal, push this directory, enable GitHub Pages (Settings → Pages → Deploy from branch → main → / root)
-- [ ] Point DNS: in Cloudflare, add a CNAME record for `@` (root) to `dr-varunagarwal.github.io` with proxy status set appropriately, then set the custom domain in GitHub Pages settings and enable "Enforce HTTPS" once available
