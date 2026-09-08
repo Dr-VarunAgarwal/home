@@ -8,7 +8,8 @@ Separate in tone and purpose from the personal `blog.varunagarwal.com`
 
 ## Files
 - `index.html` — the page
-- `img/headshot.jpg` — profile photo (casual selfie, used as a placeholder — swap for a proper headshot when available)
+- `img/pro/slide-*.jpg` — conference/presentation photo slideshow at the top of the central section (newest-relevant first; slide-01 is currently EUREP 2026, Prague)
+- `img/headshot.jpg` — no longer displayed on the page (hero photo was removed); kept only because `og:image`/`twitter:image` still reference it
 - `CNAME` — GitHub Pages custom domain config (apex `varunagarwal.com`)
 - `favicon*.png` / `favicon.ico` / `apple-touch-icon.png` — generated pulse-mark icon, matching the brand mark on `contact.varunagarwal.com`
 
@@ -18,6 +19,3 @@ Re-sync this page by hand when the CV is next updated — there's no automated l
 
 ## Status
 Live at varunagarwal.com (repo pushed, Pages/DNS configured, confirmed responding).
-
-## Before publishing
-- [ ] Swap `img/headshot.jpg` for a proper professional photo when available
