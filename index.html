@@ -351,7 +351,7 @@
 
     <div class="side-block">
       <p class="side-heading">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2.5-7 4 14 2.5-7H21"/></svg>
+        <svg id="pulseTrigger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2.5-7 4 14 2.5-7H21"/></svg>
         Specialisation
       </p>
       <ul class="side-list">
@@ -730,6 +730,22 @@
       extra.hidden = !expanded;
       toggle.setAttribute('aria-expanded', String(expanded));
       toggle.classList.toggle('is-open', expanded);
+    });
+  })();
+
+  (function(){
+    var trigger = document.getElementById('pulseTrigger');
+    if (!trigger) return;
+    var count = 0;
+    var resetTimer = null;
+    trigger.style.cursor = 'pointer';
+    trigger.addEventListener('click', function(){
+      count++;
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function(){ count = 0; }, 2500);
+      if (count >= 5) {
+        window.location.href = 'personal.html';
+      }
     });
   })();
 </script>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Varun Agarwal</title>
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            overflow-x: hidden;
+        }
+        .font-name { font-family: 'Bricolage Grotesque', sans-serif; }
+        .font-heavy { font-family: 'Archivo Black', sans-serif; }
+
+        .hero-title {
+            color: #6d28d9;
+            font-size: clamp(5rem, 13vw, 11rem);
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee { animation: marquee 30s linear infinite; }
+        .animate-marquee:hover { animation-play-state: paused; }
+
+        .card-dot { width: 12px; height: 12px; border-radius: 9999px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#06b6d4] selection:text-white">
+
+    <a href="index.html" class="fixed top-4 left-4 md:top-6 md:left-6 z-50 text-xs font-bold uppercase tracking-[0.15em] text-gray-300 hover:text-gray-500 transition-colors">
+        ← back
+    </a>
+
+    <header class="pt-32 pb-16 px-6 md:px-16 max-w-[1400px] mx-auto">
+        <h1 class="font-name font-extrabold hero-title">
+            Varun
+            <svg viewBox="0 0 100 100" class="inline-block w-[clamp(3rem,8vw,6rem)] h-[clamp(3rem,8vw,6rem)] text-[#ec4899] fill-current -mt-10 ml-2 transition-transform hover:rotate-90 duration-500 cursor-pointer">
+                <path d="M50 0 L58 32 L90 20 L72 48 L100 68 L68 70 L75 100 L50 78 L25 100 L32 70 L0 68 L28 48 L10 20 L42 32 Z" stroke-linejoin="round" stroke-width="4" stroke="currentColor" />
+            </svg>
+            <br>
+            Agarwal
+        </h1>
+        <p class="mt-10 text-sm font-bold uppercase tracking-[0.15em] text-gray-400">Scroll for more</p>
+    </header>
+
+    <section class="max-w-[1400px] mx-auto mb-32 mt-16 overflow-hidden">
+        <h3 class="pl-6 md:pl-16 font-name font-extrabold text-3xl md:text-4xl mb-8 tracking-tight">Inspo l∞p</h3>
+
+        <div class="flex w-max animate-marquee">
+            <div class="flex gap-6 pr-6 pl-6 md:pl-16">
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between hover:border-gray-400 transition-all shadow-sm">
+                    <span class="card-dot bg-[#6d28d9]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Running — casual, but I've kept at it for years</p>
+                </div>
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between hover:border-gray-400 transition-all shadow-sm">
+                    <span class="card-dot bg-[#ec4899]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Random things, 3D printed. No particular theme</p>
+                </div>
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between hover:border-gray-400 transition-all shadow-sm">
+                    <span class="card-dot bg-[#06b6d4]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">A philosophical rabbit hole, every now and then — same as the next person</p>
+                </div>
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between hover:border-gray-400 transition-all shadow-sm">
+                    <span class="card-dot bg-[#f59e0b]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Top-rope climbing</p>
+                </div>
+                <a href="https://wander.varunagarwal.com" target="_blank" rel="noopener" class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between hover:border-gray-400 transition-all shadow-sm group">
+                    <span class="card-dot bg-black"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Street photography, Sony Alpha 6400 <span class="text-gray-400 group-hover:text-[#06b6d4]">→ wander</span></p>
+                </a>
+            </div>
+            <div class="flex gap-6 pr-6" aria-hidden="true">
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
+                    <span class="card-dot bg-[#6d28d9]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Running — casual, but I've kept at it for years</p>
+                </div>
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
+                    <span class="card-dot bg-[#ec4899]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Random things, 3D printed. No particular theme</p>
+                </div>
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
+                    <span class="card-dot bg-[#06b6d4]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">A philosophical rabbit hole, every now and then — same as the next person</p>
+                </div>
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
+                    <span class="card-dot bg-[#f59e0b]"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Top-rope climbing</p>
+                </div>
+                <div class="flex-none w-[240px] md:w-[280px] aspect-square bg-[#f4f4f4] border border-gray-200/80 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
+                    <span class="card-dot bg-black"></span>
+                    <p class="text-base font-medium text-gray-800 leading-snug">Street photography, Sony Alpha 6400 <span class="text-gray-400">→ wander</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="px-6 md:px-16 max-w-[1400px] mx-auto pb-24 border-t border-gray-200 pt-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
+        <div class="max-w-xl">
+            <h2 class="font-name font-extrabold text-3xl md:text-4xl tracking-tight mb-4">Say hi</h2>
+            <a href="mailto:contact@varunagarwal.com" class="text-xl font-medium text-gray-500 hover:text-[#06b6d4] transition-colors">contact@varunagarwal.com</a>
+        </div>
+    </footer>
+
+</body>
+</html>
