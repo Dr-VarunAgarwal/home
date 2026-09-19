@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Dashboard · varunagarwal.com</title>
+<style>
+  :root{
+    --bg:#0d0d0d; --card:#161616; --card-raised:#1c1c1c; --border:#2a2a2a;
+    --ink:#eee; --ink-soft:#999; --ink-faint:#666;
+    --accent:#c9634f; --blue:#5b8fc9; --green:#3b7a4a; --amber:#8a6a2a;
+    --live:#3b7a4a; --draft:#8a6a2a; --tool:#3a5a7a; --danger:#a8402f;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-size:14px; line-height:1.55;
+    padding:0 0 100px;
+  }
+  a{ color:var(--blue); }
+  code{ font-family:var(--mono); background:rgba(255,255,255,0.06); padding:1px 5px; border-radius:4px; font-size:0.9em; }
+  .wrap{ max-width:900px; margin:0 auto; padding:32px 20px; }
+
+  header.top{ margin-bottom:28px; }
+  header.top .eyebrow{ font-family:var(--mono); font-size:10.5px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin:0 0 0.5rem; }
+  header.top h1{ font-family:Georgia, serif; font-style:italic; font-weight:500; font-size:1.9rem; margin:0 0 0.5rem; }
+  header.top p{ font-size:13px; color:var(--ink-soft); max-width:60ch; margin:0; }
+
+  .card{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:16px; }
+  .card h2{ font-size:13px; letter-spacing:0.5px; text-transform:uppercase; color:var(--ink-faint); margin:0 0 14px; border-bottom:1px solid var(--border); padding-bottom:8px; }
+  .card h3{ font-size:15px; margin:0 0 8px; color:var(--ink); }
+
+  label{ display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); margin:0 0 6px; }
+  input[type=text], input[type=password], textarea, select{
+    width:100%; font-family:var(--sans); font-size:14px; color:var(--ink);
+    background:#0f0f0f; border:1px solid var(--border); border-radius:7px;
+    padding:9px 11px; margin-bottom:12px;
+  }
+  textarea{ resize:vertical; min-height:64px; line-height:1.5; }
+  input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--accent); }
+  .hint{ font-size:11.5px; color:var(--ink-faint); line-height:1.6; margin:-6px 0 12px; }
+
+  button{ font-family:var(--sans); font-weight:600; font-size:13px; border:1px solid var(--border); background:var(--card-raised); color:var(--ink); padding:8px 14px; border-radius:7px; cursor:pointer; }
+  button:hover{ border-color:#444; }
+  button.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  button.primary:hover{ background:#b0543f; }
+  button.small{ padding:5px 10px; font-size:11.5px; }
+  button:disabled{ opacity:0.4; cursor:default; }
+  button.danger-text{ background:none; border:none; color:var(--danger); text-decoration:underline; padding:0; font-size:11.5px; }
+
+  .tabs{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px; }
+  .tab{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.03em; padding:7px 13px; border:1px solid var(--border); border-radius:100px; cursor:pointer; color:var(--ink-soft); background:var(--card); }
+  .tab.active{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+
+  .badge{ font-size:9px; letter-spacing:0.8px; text-transform:uppercase; font-weight:700; padding:2px 8px; border-radius:100px; }
+  .badge.live{ background:rgba(59,122,74,0.25); color:#7fc98f; }
+  .badge.draft{ background:rgba(138,106,42,0.25); color:#e0b054; }
+  .badge.tool{ background:rgba(58,90,122,0.25); color:#7ba6d9; }
+
+  table.sites{ width:100%; border-collapse:collapse; font-size:13px; }
+  table.sites th{ text-align:left; font-size:10px; letter-spacing:0.5px; text-transform:uppercase; color:var(--ink-faint); padding:0 10px 8px; border-bottom:1px solid var(--border); }
+  table.sites td{ padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.sites tr:last-child td{ border-bottom:none; }
+  table.sites a{ text-decoration:none; font-weight:600; }
+
+  .field-block{ background:var(--card-raised); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:12px; }
+  .field-block-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:10px; }
+  .field-block-title{ font-weight:600; font-size:13.5px; }
+  .status-line{ font-family:var(--mono); font-size:11.5px; margin-top:8px; min-height:1.4em; }
+  .status-line.ok{ color:#7fc98f; }
+  .status-line.err{ color:#e08a7a; }
+  .status-line.mid{ color:var(--ink-faint); }
+
+  .entry-row{ display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--border); cursor:pointer; }
+  .entry-row:first-child{ border-top:none; }
+  .entry-row:hover{ background:rgba(255,255,255,0.02); }
+  .entry-thumb{ width:38px; height:38px; border-radius:6px; object-fit:cover; flex-shrink:0; background:var(--border); }
+  .entry-row-text{ flex:1; min-width:0; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .entry-row-sub{ font-family:var(--mono); font-size:10px; color:var(--ink-faint); }
+
+  .notice{ background:rgba(138,106,42,0.12); border:1px dashed var(--amber); border-radius:8px; padding:12px 14px; font-size:12.5px; color:var(--ink-soft); line-height:1.6; margin-bottom:16px; }
+  .notice.info{ border-color:var(--blue); background:rgba(91,143,201,0.1); }
+
+  ul.plain{ list-style:none; margin:0; padding:0; }
+  ul.plain li{ padding:6px 0; border-top:1px solid var(--border); font-size:13px; }
+  ul.plain li:first-child{ border-top:none; }
+
+  .links{ display:flex; flex-wrap:wrap; gap:8px; }
+  .links a{ display:inline-flex; align-items:center; gap:6px; background:var(--card-raised); border:1px solid var(--border); border-radius:100px; padding:7px 14px; font-size:11.5px; text-decoration:none; color:var(--ink-soft); }
+  .links a:hover{ border-color:#444; color:var(--ink); }
+
+  footer.bottom{ margin-top:32px; font-size:11px; color:var(--ink-faint); line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">varunagarwal.com / internal</p>
+    <h1>Dashboard.</h1>
+    <p>Status across the whole site family, plus a live text editor for the sections listed below. Not linked from any nav, blocked in every site's robots.txt. Formerly at wander.varunagarwal.com/dashboard — moved here 2026-09-20.</p>
+  </header>
+
+  <div id="token-gate" class="card">
+    <h2>GitHub access</h2>
+    <div id="token-status" style="font-size:12.5px;color:var(--ink-soft);margin-bottom:10px;"></div>
+    <label for="pat">Personal access token</label>
+    <input type="password" id="pat" placeholder="github_pat_...">
+    <p class="hint">
+      Fine-grained token at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">github.com/settings/tokens</a>,
+      scoped to these 6 repositories under <code>Dr-VarunAgarwal</code>: <code>home</code>, <code>blog</code>, <code>field-notes</code>, <code>notes</code>, <code>books</code>, <code>contact</code> —
+      with <strong>Contents: Read and write</strong> permission on each. Stored only in this browser.
+    </p>
+    <button class="primary" onclick="saveToken()">Save token</button>
+    <p style="margin:12px 0 0;"><button class="danger-text" onclick="forgetToken()">Forget saved token</button></p>
+  </div>
+
+  <div id="app" style="display:none;">
+    <div class="tabs" id="tabs"></div>
+    <div id="panels"></div>
+  </div>
+
+  <footer class="bottom">
+    Direct-to-GitHub edits — saving commits straight to the relevant repo, same as the old wander edit/log tools. A save is live once GitHub Pages redeploys (usually well under two minutes).
+  </footer>
+
+</div>
+
+<script>
+/* =====================================================================
+   SITE REGISTRY
+   ===================================================================== */
+const SITES = {
+  home:    { label:'Home (CV)',   repo:'Dr-VarunAgarwal/home',        url:'https://varunagarwal.com' },
+  blog:    { label:'Blog hub',    repo:'Dr-VarunAgarwal/blog',        url:'https://blog.varunagarwal.com' },
+  books:   { label:'Books',       repo:'Dr-VarunAgarwal/books',       url:'https://books.varunagarwal.com' },
+  notes:   { label:'Notes',       repo:'Dr-VarunAgarwal/notes',       url:'https://notes.varunagarwal.com' },
+  contacts:{ label:'Contact',     repo:'Dr-VarunAgarwal/contact',     url:'https://contact.varunagarwal.com' },
+  wander:  { label:'Wander',      repo:'Dr-VarunAgarwal/field-notes', url:'https://wander.varunagarwal.com' },
+};
+const TOKEN_KEY = 'va_dashboard_gh_pat';
+
+/* =====================================================================
+   GitHub Contents API — multi-repo
+   ===================================================================== */
+function ghHeaders(){
+  return { 'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`, 'Accept': 'application/vnd.github+json' };
+}
+function ghApi(repo){ return `https://api.github.com/repos/${repo}/contents`; }
+async function ghGet(repo, path){
+  const res = await fetch(`${ghApi(repo)}/${path}`, { headers: ghHeaders() });
+  if (!res.ok) throw new Error(`GET ${repo}/${path} failed (${res.status}): ${(await res.json().catch(()=>({})))?.message || res.statusText}`);
+  return res.json();
+}
+async function ghPut(repo, path, body){
+  const res = await fetch(`${ghApi(repo)}/${path}`, { method:'PUT', headers: ghHeaders(), body: JSON.stringify(body) });
+  if (!res.ok) throw new Error(`PUT ${repo}/${path} failed (${res.status}): ${(await res.json().catch(()=>({})))?.message || res.statusText}`);
+  return res.json();
+}
+function base64ToUtf8(base64){
+  const binary = atob(base64.replace(/\n/g, ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+function utf8ToBase64(str){
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary);
+}
+function escapeHtml(str){
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* =====================================================================
+   Token gate
+   ===================================================================== */
+function renderTokenStatus(){
+  const has = !!localStorage.getItem(TOKEN_KEY);
+  document.getElementById('token-status').innerHTML = has ? '<span style="color:#7fc98f;">&check; Token saved on this device</span>' : 'No token saved yet.';
+  document.getElementById('app').style.display = has ? 'block' : 'none';
+  document.getElementById('pat').value = '';
+  if (has) initApp();
+}
+async function saveToken(){
+  const val = document.getElementById('pat').value.trim();
+  if (!val) return;
+  localStorage.setItem(TOKEN_KEY, val);
+  renderTokenStatus();
+}
+function forgetToken(){
+  localStorage.removeItem(TOKEN_KEY);
+  renderTokenStatus();
+}
+renderTokenStatus();
+
+/* =====================================================================
+   Generic array/entry parsing — string/bracket-aware, no real JS parser.
+   Ported from field-notes/edit/index.html, which this dashboard supersedes;
+   kept verbatim since it's already been battle-tested there.
+   ===================================================================== */
+function findMatchingBracket(str, openIdx){
+  let depth = 0;
+  for (let i = openIdx; i < str.length; i++){
+    if (str[i] === '[') depth++;
+    else if (str[i] === ']'){ depth--; if (depth === 0) return i; }
+  }
+  throw new Error('Could not find the matching closing bracket — file structure may have changed.');
+}
+function splitTopLevelEntries(span){
+  const inner = span.slice(1, -1);
+  const entries = [];
+  let depth = 0, start = -1, inString = false, quoteChar = '';
+  for (let i = 0; i < inner.length; i++){
+    const c = inner[i];
+    if (inString){
+      if (c === '\\'){ i++; continue; }
+      if (c === quoteChar) inString = false;
+      continue;
+    }
+    if (c === '"' || c === "'" || c === '`'){ inString = true; quoteChar = c; continue; }
+    if (c === '{'){ if (depth === 0) start = i; depth++; }
+    else if (c === '[') depth++;
+    else if (c === ']') depth--;
+    else if (c === '}'){
+      depth--;
+      if (depth === 0 && start !== -1){ entries.push(inner.slice(start, i + 1)); start = -1; }
+    }
+  }
+  return entries;
+}
+function splitTopLevelEntriesWithPos(span, spanOffset){
+  const entries = splitTopLevelEntries(span);
+  const results = [];
+  let cursor = 0;
+  for (const text of entries){
+    const idx = span.indexOf(text, cursor);
+    results.push({ text, start: spanOffset + idx, end: spanOffset + idx + text.length });
+    cursor = idx + text.length;
+  }
+  return results;
+}
+function splitEntryFields(entryText){
+  const inner = entryText.slice(1, -1);
+  const fields = [];
+  let depth = 0, inString = false, quoteChar = '', fieldStart = 0;
+  for (let i = 0; i <= inner.length; i++){
+    const c = inner[i];
+    if (i === inner.length || (c === ',' && depth === 0 && !inString)){
+      const chunk = inner.slice(fieldStart, i).trim();
+      if (chunk) fields.push(chunk);
+      fieldStart = i + 1;
+      continue;
+    }
+    if (inString){
+      if (c === '\\'){ i++; continue; }
+      if (c === quoteChar) inString = false;
+      continue;
+    }
+    if (c === '"' || c === "'" || c === '`'){ inString = true; quoteChar = c; continue; }
+    if (c === '{' || c === '[') depth++;
+    else if (c === '}' || c === ']') depth--;
+  }
+  return fields;
+}
+function splitKeyValue(fieldText){
+  const i = fieldText.indexOf(':');
+  return { key: fieldText.slice(0, i).trim(), valueRaw: fieldText.slice(i + 1).trim() };
+}
+function valueKind(valueRaw){
+  if (valueRaw === 'null') return 'null';
+  if (valueRaw[0] === '[') return 'array';
+  if (valueRaw[0] === "'" || valueRaw[0] === '"') return 'string';
+  return 'other';
+}
+function unquoteString(raw){
+  const q = raw[0];
+  if ((q !== "'" && q !== '"') || raw[raw.length - 1] !== q || raw.length < 2) return raw;
+  let out = '';
+  for (let i = 1; i < raw.length - 1; i++){
+    if (raw[i] === '\\'){ i++; out += raw[i]; }
+    else out += raw[i];
+  }
+  return out;
+}
+function quoteCharOr(raw, fallback){ return (raw[0] === "'" || raw[0] === '"') ? raw[0] : fallback; }
+function escapeForQuote(str, q){ return str.replace(/\\/g, '\\\\').split(q).join('\\' + q); }
+function serializeString(str, q){ return `${q}${escapeForQuote(str, q)}${q}`; }
+function parseArrayOfStrings(raw){
+  const items = [];
+  let i = 0;
+  while (i < raw.length){
+    const c = raw[i];
+    if (c === "'" || c === '"'){
+      const q = c;
+      let j = i + 1, value = '';
+      while (j < raw.length && raw[j] !== q){
+        if (raw[j] === '\\'){ value += raw[j + 1]; j += 2; }
+        else { value += raw[j]; j++; }
+      }
+      items.push(value);
+      i = j + 1;
+    } else { i++; }
+  }
+  return items;
+}
+function serializeArrayOfStrings(arr){ return '[' + arr.map(s => serializeString(s, "'")).join(', ') + ']'; }
+function parseEntryIdGeneric(entryText){
+  const strMatch = /id:\s*(['"])((?:(?!\1)[\s\S])*)\1/.exec(entryText);
+  if (strMatch) return strMatch[2];
+  const numMatch = /id:\s*(-?\d+)/.exec(entryText);
+  return numMatch ? numMatch[1] : null;
+}
+function extractStringField(entryText, key){
+  const m = new RegExp(`${key}:\\s*(['"])((?:(?!\\1)[\\s\\S])*)\\1`).exec(entryText);
+  return m ? m[2] : '';
+}
+function fieldLabel(key){ return key.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase()); }
+
+/* =====================================================================
+   Generic HTML text editors, for pages with no DATA array at all —
+   just hardcoded markup. Two mechanisms:
+
+   1. Marked leaf fields: a tag carries data-edit="id" and its entire
+      content is plain text/inline-HTML with no same-name nested tag.
+      Source files were given these markers by hand, once.
+
+   2. Structural blocks: a repeating class (".entry", ".pub-item", ...)
+      is located directly by tag+class, no markers needed, on the
+      assumption the block's own tag never nests inside itself (true
+      for every block type registered below — checked against the real
+      markup before writing this).
+
+   Both write back the *raw* HTML text a textarea shows (no encode/decode
+   round-trip — DOM .value assignment already treats it as plain text on
+   both read and write), and both re-fetch fresh content at save time and
+   verify the exact original text is still present exactly once before
+   splicing in the edit, so a stale tab can't silently clobber a change
+   made elsewhere.
+   ===================================================================== */
+function findLeafField(content, id){
+  const markerIdx = content.indexOf(`data-edit="${id}"`);
+  if (markerIdx === -1) return null;
+  const ltIdx = content.lastIndexOf('<', markerIdx);
+  const tagMatch = /^<\s*([a-zA-Z0-9]+)/.exec(content.slice(ltIdx));
+  if (!tagMatch) return null;
+  const tagName = tagMatch[1].toLowerCase();
+  const gtIdx = content.indexOf('>', markerIdx);
+  if (gtIdx === -1) return null;
+  const innerStart = gtIdx + 1;
+  const closeTag = `</${tagName}>`;
+  const innerEnd = content.indexOf(closeTag, innerStart);
+  if (innerEnd === -1) return null;
+  return { innerStart, innerEnd, closeEnd: innerEnd + closeTag.length, text: content.slice(innerStart, innerEnd) };
+}
+function findBlocksByClass(content, tag, cls){
+  const blocks = [];
+  const openTagRe = new RegExp('<' + tag + '\\b[^>]*>', 'gi');
+  let m;
+  while ((m = openTagRe.exec(content))){
+    const openTag = m[0];
+    const classMatch = /class="([^"]*)"/.exec(openTag);
+    const classes = classMatch ? classMatch[1].split(/\s+/) : [];
+    if (!classes.includes(cls)) continue;
+    const innerStart = m.index + openTag.length;
+    const closeTag = `</${tag}>`;
+    const closeIdx = content.indexOf(closeTag, innerStart);
+    if (closeIdx === -1) throw new Error(`Unclosed <${tag} class="${cls}"> while scanning — file structure may have changed.`);
+    const closeEnd = closeIdx + closeTag.length;
+    blocks.push({ start: m.index, end: closeEnd, outer: content.slice(m.index, closeEnd) });
+    openTagRe.lastIndex = closeEnd;
+  }
+  return blocks;
+}
+function extractLeafFieldInBlock(blockOuter, tag, cls){
+  const re = new RegExp(`<${tag}\\b[^>]*class="${cls}"[^>]*>([\\s\\S]*?)</${tag}>`);
+  const m = re.exec(blockOuter);
+  return m ? m[1] : null;
+}
+function replaceLeafFieldInBlock(blockOuter, tag, cls, newText){
+  const re = new RegExp(`(<${tag}\\b[^>]*class="${cls}"[^>]*>)[\\s\\S]*?(</${tag}>)`);
+  return blockOuter.replace(re, (_, open, close) => open + newText + close);
+}
+/* whole-element text field, no inner sub-tag (e.g. a plain <li>text</li>) */
+function blockWholeText(blockOuter, tag){
+  const m = new RegExp(`^<${tag}\\b[^>]*>([\\s\\S]*)</${tag}>$`).exec(blockOuter);
+  return m ? m[1] : blockOuter;
+}
+function replaceBlockWholeText(blockOuter, tag, newText){
+  return blockOuter.replace(new RegExp(`^(<${tag}\\b[^>]*>)[\\s\\S]*(</${tag}>)$`), (_, open, close) => open + newText + close);
+}
+
+/* =====================================================================
+   REGISTRY — what's actually editable right now.
+   Anything not listed here isn't wired yet; see the "Not yet wired" note
+   on the Overview tab for what that covers and why.
+   ===================================================================== */
+const MARKED_FIELDS = {
+  home: { file:'index.html', groups:[
+    { title:'Bio', fields:[
+      {id:'bio-1', label:'Bio — paragraph 1'},
+      {id:'bio-2', label:'Bio — paragraph 2'},
+    ]},
+    { title:'Milestone card', fields:[
+      {id:'milestone-label', label:'Milestone — label (e.g. "Completed")'},
+      {id:'milestone-title', label:'Milestone — title'},
+      {id:'milestone-meta', label:'Milestone — meta line'},
+    ]},
+  ]},
+  blog: { file:'index.html', groups:[
+    { title:'Hub copy', fields:[
+      {id:'intro', label:'Intro paragraph'},
+      {id:'blurb-books', label:'Books card blurb'},
+      {id:'blurb-wander', label:'Wander card blurb'},
+      {id:'blurb-notes', label:'Notes card blurb'},
+      {id:'blurb-paws', label:'Paws card blurb'},
+    ]},
+  ]},
+  books: { file:'index.html', groups:[
+    { title:'Page copy', fields:[
+      {id:'intro', label:'Intro paragraph (raw HTML — contains a link, edit carefully)'},
+      {id:'rest-note', label:'"Everything else" note'},
+    ]},
+  ]},
+  notes: { file:'index.html', groups:[
+    { title:'Page copy', fields:[
+      {id:'tagline', label:'Tagline'},
+      {id:'ticker', label:'News ticker text'},
+    ]},
+  ]},
+  contacts: { file:'index.html', groups:[
+    { title:'Bio', fields:[ {id:'bio', label:'About paragraph'} ] },
+  ]},
+};
+
+const BLOCKS = {
+  home: { file:'index.html', types:[
+    { key:'training', label:'Training entries', tag:'div', cls:'entry',
+      fields:[ {key:'title', tag:'span', cls:'entry-title', label:'Title'},
+               {key:'when', tag:'span', cls:'entry-when', label:'When'},
+               {key:'org', tag:'p', cls:'entry-org', label:'Organisation'},
+               {key:'detail', tag:'p', cls:'entry-detail', label:'Detail'} ] },
+    { key:'pub', label:'Presentations & workshops', tag:'div', cls:'pub-item',
+      fields:[ {key:'title', tag:'p', cls:'pub-title', label:'Title'},
+               {key:'meta', tag:'p', cls:'pub-meta', label:'Meta line'} ] },
+    { key:'focus', label:'Focus areas', tag:'li', cls:null, whole:true },
+  ]},
+  contacts: { file:'index.html', types:[
+    { key:'else', label:'"Elsewhere" links', tag:'a', cls:'else-item',
+      fields:[ {key:'name', tag:'span', cls:'else-name', label:'Name'},
+               {key:'desc', tag:'span', cls:'else-desc', label:'Description'} ] },
+  ]},
+};
+/* focus-list <li> has no class of its own — scope it separately by container */
+function focusListBlocks(content){
+  const ulOpen = content.indexOf('<ul class="focus-list">');
+  if (ulOpen === -1) return [];
+  const ulClose = content.indexOf('</ul>', ulOpen);
+  const span = content.slice(ulOpen, ulClose);
+  const blocks = [];
+  const re = /<li>([\s\S]*?)<\/li>/g;
+  let m;
+  while ((m = re.exec(span))){
+    blocks.push({ start: ulOpen + m.index, end: ulOpen + m.index + m[0].length, outer: m[0] });
+  }
+  return blocks;
+}
+
+const COLLECTIONS = {
+  books: [
+    { file:'index.html', varName:'DATA', label:'Shelf', hasId:true, readonly:['id','cover'], long:['note'] },
+    { file:'index.html', varName:'DATA_HIGHLIGHTS', label:'Highlights', hasId:false, readonly:['cover'], long:[] },
+    { file:'index.html', varName:'DATA_REST', label:'Rest of the shelf', hasId:false, readonly:[], long:[] },
+  ],
+  notes: [
+    { file:'index.html', varName:'ENTRIES', label:'Filed items', hasId:false, readonly:['slug','status','category'], long:['blurb','meta'] },
+  ],
+};
+
+/* =====================================================================
+   Tabs / shell
+   ===================================================================== */
+const TABS = [
+  { key:'overview', label:'Overview' },
+  { key:'home', label:'Home (CV)' },
+  { key:'blog', label:'Blog hub' },
+  { key:'books', label:'Books' },
+  { key:'notes', label:'Notes' },
+  { key:'contacts', label:'Contact' },
+  { key:'wander', label:'Wander' },
+];
+let activeTab = 'overview';
+function initApp(){
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = TABS.map(t => `<div class="tab${t.key===activeTab?' active':''}" data-tab="${t.key}">${t.label}</div>`).join('');
+  tabsEl.querySelectorAll('.tab').forEach(el => el.onclick = () => switchTab(el.dataset.tab));
+  const panels = document.getElementById('panels');
+  panels.innerHTML = TABS.map(t => `<div class="tab-panel${t.key===activeTab?' active':''}" id="panel-${t.key}"></div>`).join('');
+  renderOverview();
+  renderMarkedFieldsPanel('home'); renderBlocksPanel('home');
+  renderMarkedFieldsPanel('blog');
+  renderMarkedFieldsPanel('books'); renderCollectionsPanel('books');
+  renderMarkedFieldsPanel('notes'); renderCollectionsPanel('notes');
+  renderMarkedFieldsPanel('contacts'); renderBlocksPanel('contacts');
+  renderWanderPanel();
+}
+function switchTab(key){
+  activeTab = key;
+  document.querySelectorAll('.tab').forEach(el => el.classList.toggle('active', el.dataset.tab === key));
+  document.querySelectorAll('.tab-panel').forEach(el => el.classList.toggle('active', el.id === `panel-${key}`));
+}
+
+/* ---------- Overview ---------- */
+function renderOverview(){
+  const el = document.getElementById('panel-overview');
+  const rows = Object.entries(SITES).map(([key, s]) => `
+    <tr>
+      <td><a href="${s.url}" target="_blank" rel="noopener">${s.label}</a></td>
+      <td style="color:var(--ink-soft);">${s.repo}</td>
+      <td><a href="${s.url}" target="_blank" rel="noopener" style="color:var(--ink-faint);">${s.url.replace('https://','')} &rarr;</a></td>
+    </tr>`).join('');
+  el.innerHTML = `
+    <div class="card">
+      <h2>Site family</h2>
+      <table class="sites">
+        <tr><th>Site</th><th>Repo</th><th>Live</th></tr>
+        ${rows}
+      </table>
+    </div>
+    <div class="card">
+      <h2>What's wired up</h2>
+      <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.7;">
+        Each tab above edits real text on the live site — saving commits straight to that site's GitHub repo.
+        Home, Blog hub, Books, Notes and Contact cover their homepage copy plus (for Books/Notes) their full entry
+        collections. Wander keeps its existing per-place caption/tag editor, now reachable from here too.
+      </p>
+    </div>
+    <div class="notice">
+      <strong>Not yet wired, on purpose</strong> — flagging rather than guessing at these:<br>
+      &middot; <code>home/personal.html</code> — hero is letter-by-letter spans, and the marquee duplicates its
+      text twice for the CSS loop; a naive editor would break both. Needs a proper pass.<br>
+      &middot; <code>notes/e-inked</code> device reviews — hardcoded paragraphs, not the DATA array
+      <code>editor/draft-desk.html</code> assumed existed. Real, but needs migrating to something editable first.<br>
+      &middot; Certifications/memberships tags (home) — each has a second copy of its text in a tooltip attribute; skipped rather than edit one and silently desync the other.<br>
+      &middot; Extracurricular items (home) — lower churn, left for a later pass.<br>
+      &middot; Adding/deleting/reordering entries, and photo uploads — this tool edits existing text fields only. Wander's own <a href="https://wander.varunagarwal.com/log/" target="_blank" rel="noopener">log/</a> tool still handles new photos.
+    </div>
+    <div class="card">
+      <h2>Other tools still in place</h2>
+      <div class="links">
+        <a href="https://wander.varunagarwal.com/log/" target="_blank" rel="noopener">Wander — add a story &rarr;</a>
+        <a href="../../editor/draft-desk.html" target="_blank" rel="noopener">editor/draft-desk.html (local drafts, unpublished) &rarr;</a>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- Marked-leaf-field panels ---------- */
+async function renderMarkedFieldsPanel(site){
+  const cfg = MARKED_FIELDS[site];
+  if (!cfg) return;
+  const el = document.getElementById(`panel-${site}`);
+  const holder = document.createElement('div');
+  holder.className = 'card';
+  holder.innerHTML = `<h2>Page copy</h2><div id="mf-${site}">Loading…</div>`;
+  el.appendChild(holder);
+  const target = holder.querySelector(`#mf-${site}`);
+  try {
+    const file = await ghGet(SITES[site].repo, cfg.file);
+    const content = base64ToUtf8(file.content);
+    target.innerHTML = cfg.groups.map(g => `
+      <h3>${g.title}</h3>
+      ${g.fields.map(f => {
+        const found = findLeafField(content, f.id);
+        if (!found) return `<div class="hint">"${f.label}" — marker not found, skipped.</div>`;
+        return `<div class="field-block" data-mf-id="${f.id}">
+          <label>${f.label}</label>
+          <textarea data-mf-value>${escapeHtmlForTextarea(found.text)}</textarea>
+        </div>`;
+      }).join('')}
+    `).join('');
+    const btn = document.createElement('button');
+    btn.className = 'primary'; btn.textContent = 'Save changes'; btn.style.marginTop = '4px';
+    btn.onclick = () => saveMarkedFields(site, cfg, target, btn);
+    target.appendChild(btn);
+    const status = document.createElement('div');
+    status.className = 'status-line'; status.id = `mf-status-${site}`;
+    target.appendChild(status);
+  } catch (err) {
+    target.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
+  }
+}
+/* textarea content is read/written via .value, which never HTML-decodes —
+   but the initial markup has to go IN via innerHTML somewhere upstream of
+   that, so escape here purely so the raw source (e.g. a literal "&amp;")
+   survives being placed inside the textarea tag in the first place. */
+function escapeHtmlForTextarea(str){ return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function saveMarkedFields(site, cfg, container, btn){
+  btn.disabled = true;
+  const statusEl = document.getElementById(`mf-status-${site}`);
+  statusEl.className = 'status-line mid'; statusEl.textContent = 'Checking for changes…';
+  const blocks = [...container.querySelectorAll('[data-mf-id]')];
+  try {
+    const file = await ghGet(SITES[site].repo, cfg.file);
+    let content = base64ToUtf8(file.content);
+    let changedCount = 0;
+    for (const b of blocks){
+      const id = b.dataset.mfId;
+      const newText = b.querySelector('[data-mf-value]').value;
+      const found = findLeafField(content, id);
+      if (!found) throw new Error(`"${id}" no longer found on the live page — someone/something changed it since this loaded.`);
+      if (found.text === newText) continue;
+      content = content.slice(0, found.innerStart) + newText + content.slice(found.innerEnd);
+      changedCount++;
+    }
+    if (!changedCount){ statusEl.className = 'status-line mid'; statusEl.textContent = 'Nothing changed.'; btn.disabled = false; return; }
+    statusEl.textContent = 'Publishing…';
+    await ghPut(SITES[site].repo, cfg.file, {
+      message: `Edit ${site} page copy (${changedCount} field${changedCount>1?'s':''})`,
+      content: utf8ToBase64(content), sha: file.sha,
+    });
+    statusEl.className = 'status-line ok'; statusEl.textContent = `✓ Saved (${changedCount} field${changedCount>1?'s':''}). GitHub Pages redeploys shortly.`;
+  } catch (err) {
+    statusEl.className = 'status-line err'; statusEl.textContent = `✗ ${err.message}`;
+  } finally { btn.disabled = false; }
+}
+
+/* ---------- Structural block panels ---------- */
+async function renderBlocksPanel(site){
+  const cfg = BLOCKS[site];
+  if (!cfg) return;
+  const el = document.getElementById(`panel-${site}`);
+  const holder = document.createElement('div');
+  holder.className = 'card';
+  holder.innerHTML = `<h2>Repeating sections</h2><div id="bk-${site}">Loading…</div>`;
+  el.appendChild(holder);
+  const target = holder.querySelector(`#bk-${site}`);
+  try {
+    const file = await ghGet(SITES[site].repo, cfg.file);
+    const content = base64ToUtf8(file.content);
+    let html = '';
+    cfg.types.forEach(type => {
+      const blocks = type.key === 'focus' ? focusListBlocks(content) : findBlocksByClass(content, type.tag, type.cls);
+      html += `<h3>${type.label} <span style="color:var(--ink-faint);font-weight:400;">(${blocks.length})</span></h3>`;
+      blocks.forEach((blk, i) => {
+        if (type.whole){
+          const text = blockWholeText(blk.outer, type.tag);
+          html += `<div class="field-block" data-blk-type="${type.key}" data-blk-idx="${i}" data-blk-orig="${escapeHtml(blk.outer)}">
+            <label>${type.label} #${i+1}</label>
+            <textarea data-bk-value>${escapeHtmlForTextarea(text)}</textarea>
+          </div>`;
+        } else {
+          const fieldsHtml = type.fields.map(f => {
+            const v = extractLeafFieldInBlock(blk.outer, f.tag, f.cls);
+            if (v === null) return '';
+            return `<label>${f.label}</label><textarea data-bk-field="${f.key}">${escapeHtmlForTextarea(v)}</textarea>`;
+          }).join('');
+          html += `<div class="field-block" data-blk-type="${type.key}" data-blk-idx="${i}" data-blk-orig="${escapeHtml(blk.outer)}">
+            <div class="field-block-head"><span class="field-block-title">#${i+1}</span></div>
+            ${fieldsHtml}
+          </div>`;
+        }
+      });
+    });
+    target.innerHTML = html;
+    const btn = document.createElement('button');
+    btn.className = 'primary'; btn.textContent = 'Save changes'; btn.style.marginTop = '4px';
+    btn.onclick = () => saveBlocks(site, cfg, target, btn);
+    target.appendChild(btn);
+    const status = document.createElement('div');
+    status.className = 'status-line'; status.id = `bk-status-${site}`;
+    target.appendChild(status);
+  } catch (err) {
+    target.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
+  }
+}
+async function saveBlocks(site, cfg, container, btn){
+  btn.disabled = true;
+  const statusEl = document.getElementById(`bk-status-${site}`);
+  statusEl.className = 'status-line mid'; statusEl.textContent = 'Checking for changes…';
+  const blockEls = [...container.querySelectorAll('[data-blk-type]')];
+  try {
+    const file = await ghGet(SITES[site].repo, cfg.file);
+    let content = base64ToUtf8(file.content);
+    let changedCount = 0;
+    for (const be of blockEls){
+      const typeKey = be.dataset.blkType;
+      const type = cfg.types.find(t => t.key === typeKey);
+      const origOuter = unescapeHtmlAttr(be.dataset.blkOrig);
+      const occurrences = countOccurrences(content, origOuter);
+      let newOuter = origOuter;
+      if (type.whole){
+        const newText = be.querySelector('[data-bk-value]').value;
+        newOuter = replaceBlockWholeText(origOuter, type.key === 'focus' ? 'li' : type.tag, newText);
+      } else {
+        be.querySelectorAll('[data-bk-field]').forEach(ta => {
+          const key = ta.dataset.bkField;
+          const f = type.fields.find(x => x.key === key);
+          newOuter = replaceLeafFieldInBlock(newOuter, f.tag, f.cls, ta.value);
+        });
+      }
+      if (newOuter === origOuter) continue;
+      if (occurrences === 0) throw new Error(`A "${type.label}" block no longer matches the live page exactly — it may have changed elsewhere. Reload and retry.`);
+      if (occurrences > 1) throw new Error(`A "${type.label}" block isn't uniquely identifiable right now (identical to another one) — skipped to avoid editing the wrong one. Make the two blocks differ first, or edit this one directly.`);
+      const idx = content.indexOf(origOuter);
+      content = content.slice(0, idx) + newOuter + content.slice(idx + origOuter.length);
+      changedCount++;
+    }
+    if (!changedCount){ statusEl.className = 'status-line mid'; statusEl.textContent = 'Nothing changed.'; btn.disabled = false; return; }
+    statusEl.textContent = 'Publishing…';
+    await ghPut(SITES[site].repo, cfg.file, {
+      message: `Edit ${site} repeating sections (${changedCount} block${changedCount>1?'s':''})`,
+      content: utf8ToBase64(content), sha: file.sha,
+    });
+    statusEl.className = 'status-line ok'; statusEl.textContent = `✓ Saved (${changedCount} block${changedCount>1?'s':''}). GitHub Pages redeploys shortly.`;
+  } catch (err) {
+    statusEl.className = 'status-line err'; statusEl.textContent = `✗ ${err.message}`;
+  } finally { btn.disabled = false; }
+}
+function unescapeHtmlAttr(str){
+  const ta = document.createElement('textarea');
+  ta.innerHTML = str;
+  return ta.value;
+}
+function countOccurrences(haystack, needle){
+  if (!needle) return 0;
+  let count = 0, idx = 0;
+  while ((idx = haystack.indexOf(needle, idx)) !== -1){ count++; idx += needle.length; }
+  return count;
+}
+
+/* ---------- Collections (books / notes) ---------- */
+async function renderCollectionsPanel(site){
+  const list = COLLECTIONS[site];
+  if (!list) return;
+  const el = document.getElementById(`panel-${site}`);
+  for (const coll of list){
+    const holder = document.createElement('div');
+    holder.className = 'card';
+    const collId = `${site}-${coll.varName}`;
+    holder.innerHTML = `<h2>${coll.label} <span style="color:var(--ink-faint);font-weight:400;text-transform:none;">(${coll.varName})</span></h2>
+      <div id="coll-list-${collId}">Loading…</div>
+      <div id="coll-editor-${collId}" style="display:none;"></div>`;
+    el.appendChild(holder);
+    loadCollection(site, coll, collId);
+  }
+}
+const collState = {}; // collId -> { file, rawEntries: [text,...] }
+async function loadCollection(site, coll, collId){
+  const listEl = document.getElementById(`coll-list-${collId}`);
+  try {
+    const file = await ghGet(SITES[site].repo, coll.file);
+    const content = base64ToUtf8(file.content);
+    const marker = `const ${coll.varName} = [`;
+    const start = content.indexOf(marker);
+    if (start === -1) throw new Error(`Couldn't find "${coll.varName}" — file structure may have changed.`);
+    const openBracketPos = start + marker.length - 1;
+    const closeBracketPos = findMatchingBracket(content, openBracketPos);
+    const rawEntries = splitTopLevelEntries(content.slice(openBracketPos, closeBracketPos + 1));
+    collState[collId] = { site, coll, rawEntries };
+    renderCollectionList(collId);
+  } catch (err) {
+    listEl.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
+  }
+}
+function collPreview(entryText){
+  const fields = splitEntryFields(entryText).map(splitKeyValue);
+  const byKey = Object.fromEntries(fields.map(f => [f.key, f.valueRaw]));
+  const title = ['title','name'].map(k => byKey[k] && byKey[k] !== 'null' ? unquoteString(byKey[k]) : '').find(Boolean);
+  const author = byKey.author && byKey.author !== 'null' ? unquoteString(byKey.author) : '';
+  const cover = byKey.cover ? unquoteString(byKey.cover) : '';
+  return { title: title || '(untitled)', sub: author, cover };
+}
+function renderCollectionList(collId){
+  const { rawEntries } = collState[collId];
+  const listEl = document.getElementById(`coll-list-${collId}`);
+  listEl.innerHTML = rawEntries.map((e, i) => {
+    const p = collPreview(e);
+    return `<div class="entry-row" onclick="openCollectionEntry('${collId}', ${i})">
+      ${p.cover ? `<img class="entry-thumb" src="${p.cover}" alt="" loading="lazy">` : '<div class="entry-thumb"></div>'}
+      <div class="entry-row-text">${escapeHtml(p.title)}${p.sub ? ` <span class="entry-row-sub">— ${escapeHtml(p.sub)}</span>` : ''}</div>
+    </div>`;
+  }).join('') || '<div class="hint">No entries.</div>';
+}
+function openCollectionEntry(collId, idx){
+  const state = collState[collId];
+  const { coll } = state;
+  const entryText = state.rawEntries[idx];
+  const fields = splitEntryFields(entryText);
+  document.getElementById(`coll-list-${collId}`).style.display = 'none';
+  const editorEl = document.getElementById(`coll-editor-${collId}`);
+  editorEl.style.display = 'block';
+  const fieldsHtml = fields.map(f => {
+    const { key, valueRaw } = splitKeyValue(f);
+    if (coll.readonly.includes(key)) return '';
+    const kind = valueKind(valueRaw);
+    if (kind !== 'string' && kind !== 'null' && kind !== 'array') return '';
+    const display = kind === 'array' ? parseArrayOfStrings(valueRaw).join(', ') : kind === 'null' ? '' : unquoteString(valueRaw);
+    const isLong = coll.long.includes(key);
+    return `<label>${fieldLabel(key)}${kind==='array' ? ' (comma-separated)' : ''}</label>` +
+      (isLong ? `<textarea data-cf-key="${key}" data-cf-kind="${kind}">${escapeHtmlForTextarea(display)}</textarea>`
+              : `<input type="text" data-cf-key="${key}" data-cf-kind="${kind}" value="${escapeHtml(display)}">`);
+  }).join('');
+  editorEl.innerHTML = `
+    <button class="small" onclick="closeCollectionEntry('${collId}')" style="margin-bottom:10px;">&larr; Back to list</button>
+    <div data-cf-orig="${escapeHtml(entryText)}" data-cf-idx="${idx}">
+      ${fieldsHtml || '<div class="hint">No editable text fields on this entry.</div>'}
+      <button class="primary" onclick="saveCollectionEntry('${collId}')">Save changes</button>
+      <div class="status-line" id="coll-status-${collId}"></div>
+    </div>
+  `;
+}
+function closeCollectionEntry(collId){
+  document.getElementById(`coll-editor-${collId}`).style.display = 'none';
+  document.getElementById(`coll-list-${collId}`).style.display = 'block';
+}
+async function saveCollectionEntry(collId){
+  const state = collState[collId];
+  const { site, coll } = state;
+  const editorEl = document.getElementById(`coll-editor-${collId}`);
+  const wrap = editorEl.querySelector('[data-cf-orig]');
+  const origEntryText = unescapeHtmlAttr(wrap.dataset.cfOrig);
+  const statusEl = document.getElementById(`coll-status-${collId}`);
+  statusEl.className = 'status-line mid'; statusEl.textContent = 'Checking for changes…';
+  const origFields = splitEntryFields(origEntryText);
+  const inputs = [...wrap.querySelectorAll('[data-cf-key]')];
+  const editedFields = [];
+  inputs.forEach(input => {
+    const key = input.dataset.cfKey, kind = input.dataset.cfKind;
+    const original = origFields.find(f => splitKeyValue(f).key === key);
+    const { valueRaw: originalRaw } = splitKeyValue(original);
+    const newDisplay = input.value;
+    let newRaw;
+    if (kind === 'array') newRaw = serializeArrayOfStrings(newDisplay.split(',').map(s=>s.trim()).filter(Boolean));
+    else if (kind === 'null') newRaw = newDisplay.trim() ? serializeString(newDisplay.trim(), quoteCharOr(originalRaw, "'")) : 'null';
+    else newRaw = serializeString(newDisplay, quoteCharOr(originalRaw, "'"));
+    if (newRaw !== originalRaw) editedFields.push({ key, newRawValue: newRaw });
+  });
+  if (!editedFields.length){ statusEl.className = 'status-line mid'; statusEl.textContent = 'Nothing changed.'; return; }
+  try {
+    statusEl.textContent = 'Fetching current file…';
+    const file = await ghGet(SITES[site].repo, coll.file);
+    const content = base64ToUtf8(file.content);
+    const marker = `const ${coll.varName} = [`;
+    const start = content.indexOf(marker);
+    if (start === -1) throw new Error(`Couldn't find "${coll.varName}" anymore.`);
+    const openBracketPos = start + marker.length - 1;
+    const closeBracketPos = findMatchingBracket(content, openBracketPos);
+    const entries = splitTopLevelEntriesWithPos(content.slice(openBracketPos, closeBracketPos + 1), openBracketPos);
+    const occ = entries.filter(e => e.text === origEntryText);
+    if (occ.length === 0) throw new Error('This entry no longer matches the live page exactly — it changed elsewhere. Reload and retry.');
+    if (occ.length > 1) throw new Error('This entry is identical to another one right now — skipped to avoid editing the wrong one.');
+    const target = occ[0];
+    const newFields = origFields.map(f => {
+      const { key } = splitKeyValue(f);
+      const edited = editedFields.find(e => e.key === key);
+      return edited ? `${key}:${edited.newRawValue}` : f;
+    });
+    const newEntryText = '{' + newFields.join(', ') + '}';
+    const updated = content.slice(0, target.start) + newEntryText + content.slice(target.end);
+    statusEl.textContent = 'Publishing…';
+    await ghPut(SITES[site].repo, coll.file, {
+      message: `Edit ${site} ${coll.varName}: ${editedFields.map(f=>f.key).join(', ')}`,
+      content: utf8ToBase64(updated), sha: file.sha,
+    });
+    statusEl.className = 'status-line ok'; statusEl.textContent = '✓ Saved. GitHub Pages redeploys shortly.';
+    const idx = state.rawEntries.indexOf(origEntryText);
+    if (idx !== -1) state.rawEntries[idx] = newEntryText;
+    wrap.dataset.cfOrig = escapeHtml(newEntryText);
+  } catch (err) {
+    statusEl.className = 'status-line err'; statusEl.textContent = `✗ ${err.message}`;
+  }
+}
+
+/* =====================================================================
+   Wander tab — the moved dashboard's curated status notes (kept as
+   written, only the relative links made absolute since this now lives
+   on a different domain), plus the site's existing per-place DATA-array
+   editor, ported in and pointed at this repo the same way every other
+   collection above is.
+   ===================================================================== */
+function renderWanderPanel(){
+  const el = document.getElementById('panel-wander');
+  el.innerHTML = `
+    <div class="notice info">
+      This status section is a hand-updated snapshot carried over from the old
+      <code>wander.varunagarwal.com/dashboard</code> (moved here 2026-09-20) — not live data.
+      Check <code>PLACES</code> in <a href="https://wander.varunagarwal.com/" target="_blank" rel="noopener">wander's own index.html</a> if it's been a while.
+    </div>
+
+    <div class="card">
+      <h2>Needs attention</h2>
+      <a class="entry-row" style="cursor:pointer;" href="https://wander.varunagarwal.com/urotrip2026/berlin/" target="_blank" rel="noopener">
+        <div class="entry-row-text"><strong>Contact Sheet — Berlin</strong> <span class="badge draft">Draft</span><br>
+        <span style="color:var(--ink-soft);font-size:12px;">kind:'contactsheet' format. 15 real Sept 1 photos now (3 keepers + hero); Sept 2's East Side Gallery shoot got its own page instead (The Wall, live).</span></div>
+      </a>
+      <a class="entry-row" style="cursor:pointer;" href="https://wander.varunagarwal.com/urotrip2026/amsterdam-film/" target="_blank" rel="noopener">
+        <div class="entry-row-text"><strong>On Film</strong> <span class="badge draft">Draft</span><br>
+        <span style="color:var(--ink-soft);font-size:12px;">Negative/positive film-strip treatment. Roll 1 (Amsterdam street shots) is real; Berlin isn't going here.</span></div>
+      </a>
+      <a class="entry-row" style="cursor:pointer;" href="https://wander.varunagarwal.com/urotrip2026/berlin-deal/" target="_blank" rel="noopener">
+        <div class="entry-row-text"><strong>The Deal — Berlin spread</strong> <span class="badge draft">Draft</span><br>
+        <span style="color:var(--ink-soft);font-size:12px;">kind:'deal' format (flip cards). 22 real Sept 1 photos. Dashboard-only until the format itself is chosen — new formats stay dashboard-only until then.</span></div>
+      </a>
+    </div>
+
+    <div class="card">
+      <h2>Live, still evolving</h2>
+      <a class="entry-row" style="cursor:pointer;" href="https://wander.varunagarwal.com/urotrip2026/" target="_blank" rel="noopener">
+        <div class="entry-row-text"><strong>eUrope</strong> <span class="badge live">Live</span><br>
+        <span style="color:var(--ink-soft);font-size:12px;">4 cards — Postcards, On Film, Contact Sheet (Berlin), The Wall.</span></div>
+      </a>
+      <a class="entry-row" style="cursor:pointer;" href="https://wander.varunagarwal.com/urotrip2026/east-side-gallery/" target="_blank" rel="noopener">
+        <div class="entry-row-text"><strong>The Wall — East Side Gallery</strong> <span class="badge live">Live</span><br>
+        <span style="color:var(--ink-soft);font-size:12px;">kind:'wall' format, promoted to the eUrope landing page. 49 of 78 distinct Sept 2 frames curated.</span></div>
+      </a>
+      <ul class="plain" style="margin-top:10px;font-size:12.5px;color:var(--ink-soft);">
+        <li>Berlin contact sheet has its first 15 real frames (Sept 1) — still needs the rest of that day's ~200 shots. The Deal is still dashboard-only, unlike The Wall.</li>
+        <li><code>urotrip2026/amsterdam-postcards/</code> still carries 3 stale Berlin stub entries from before the postcards/film-strip split — probably just delete rather than fill in.</li>
+        <li>Prague's format is still undecided — postcards, film-strip, contact-sheet, or something else.</li>
+        <li>The shared pill-nav clips against the VA badge on narrow phones (~375px) — needs an actual CSS fix, not another shortened label.</li>
+        <li>One planned reorg, flagged 2026-09-09, not yet executed: fold Camden and Shoreditch into a single "London".</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>All live places</h2>
+      <table class="sites">
+        <tr><th>Name</th><th>Kind</th><th>Count</th></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/london/" target="_blank" rel="noopener">Shoreditch</a></td><td>album</td><td>75 pieces</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/camden/" target="_blank" rel="noopener">Camden</a></td><td>album</td><td>11 pieces</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/khajuraho/" target="_blank" rel="noopener">Khajuraho</a></td><td>album</td><td>26 pieces</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/concerts/" target="_blank" rel="noopener">Concerts</a></td><td>album</td><td>16 shows</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/udupi/" target="_blank" rel="noopener">Udupi</a></td><td>album</td><td>15 pieces</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/glasgow/" target="_blank" rel="noopener">Glasgow</a></td><td>album</td><td>27 pieces</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/manchester/" target="_blank" rel="noopener">Manchester</a></td><td>album</td><td>29 pieces</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/kanatal/" target="_blank" rel="noopener">Kanatal</a></td><td>album</td><td>19 pieces</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/skye/" target="_blank" rel="noopener">Isle of Skye</a></td><td>walk</td><td>4d &middot; 42 photos</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/glasgow-edinburgh/" target="_blank" rel="noopener">Glasgow &amp; Edinburgh</a></td><td>walk</td><td>2d &middot; 12 photos</td></tr>
+        <tr><td><a href="https://wander.varunagarwal.com/urotrip2026/" target="_blank" rel="noopener">eUrope</a></td><td>multi-format</td><td>5 sections</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Caption &amp; tag editor</h2>
+      <p class="hint" style="margin-top:0;">Same mechanism as this dashboard's other collections, pointed at field-notes' per-place pages — the same tool that used to live only at wander's own <code>/edit/</code>.</p>
+      <label for="wander-page-select">Which page?</label>
+      <select id="wander-page-select" onchange="onWanderPageChange()"><option value="">Loading pages…</option></select>
+      <div id="wander-browse" style="display:none;">
+        <input type="text" id="wander-search" placeholder="search title, artist, caption, location..." oninput="renderWanderEntryList()">
+        <p id="wander-count" class="hint" style="margin-top:-6px;"></p>
+        <div id="wander-entry-list"></div>
+      </div>
+      <div id="wander-editor" style="display:none;"></div>
+    </div>
+  `;
+  populateWanderPageList();
+}
+
+const WANDER_READONLY = new Set(['id','img','type','category','citySlug','ratio','order','colorFrame','date','slug','extras','curated','video']);
+const WANDER_LONG = new Set(['caption','notes','altText','note','blurb']);
+let wanderPagesCache = null, wanderPageSlug = null, wanderRawEntries = [], wanderEntryList = [];
+
+async function ensureWanderPages(){
+  if (wanderPagesCache) return wanderPagesCache;
+  const file = await ghGet(SITES.wander.repo, 'index.html');
+  const content = base64ToUtf8(file.content);
+  const marker = 'const PLACES = [';
+  const start = content.indexOf(marker);
+  if (start === -1) throw new Error("Couldn't find PLACES.");
+  const openBracketPos = start + marker.length - 1;
+  const closeBracketPos = findMatchingBracket(content, openBracketPos);
+  const span = content.slice(openBracketPos, closeBracketPos + 1);
+  const pages = splitTopLevelEntries(span)
+    .map(e => ({ name: extractStringField(e, 'name'), slug: extractStringField(e, 'slug'), status: extractStringField(e, 'status') }))
+    .filter(p => p.status === 'live' && p.slug)
+    .map(p => ({ name: p.name, slug: p.slug }));
+  pages.push({ name: 'Street Art', slug: 'street-art' });
+  wanderPagesCache = pages;
+  return pages;
+}
+async function populateWanderPageList(){
+  const select = document.getElementById('wander-page-select');
+  try {
+    const pages = await ensureWanderPages();
+    select.innerHTML = '<option value="">Pick a page…</option>' + pages.map(p => `<option value="${p.slug}">${p.name}</option>`).join('');
+  } catch (err) {
+    select.innerHTML = `<option value="">Couldn't load: ${err.message}</option>`;
+  }
+}
+function wanderParseForList(entryText){
+  const fields = splitEntryFields(entryText).map(splitKeyValue);
+  const byKey = Object.fromEntries(fields.map(f => [f.key, f.valueRaw]));
+  const id = parseEntryIdGeneric(entryText);
+  const img = byKey.img ? unquoteString(byKey.img) : '';
+  const previewRaw = ['title','caption','artist','location'].map(k => byKey[k] && byKey[k] !== 'null' ? unquoteString(byKey[k]) : '').find(Boolean);
+  return { id, img, preview: previewRaw || '(untitled)' };
+}
+async function onWanderPageChange(){
+  const slug = document.getElementById('wander-page-select').value;
+  document.getElementById('wander-browse').style.display = 'none';
+  document.getElementById('wander-editor').style.display = 'none';
+  if (!slug) return;
+  wanderPageSlug = slug;
+  document.getElementById('wander-count').textContent = 'Loading…';
+  document.getElementById('wander-browse').style.display = 'block';
+  try {
+    const file = await ghGet(SITES.wander.repo, `${slug}/index.html`);
+    const content = base64ToUtf8(file.content);
+    const marker = 'const DATA = [';
+    const start = content.indexOf(marker);
+    if (start === -1) throw new Error(`"${slug}" has no single flat DATA array — likely a multi-format landing page. Edit its sub-pages in a full session instead.`);
+    const openBracketPos = start + marker.length - 1;
+    const closeBracketPos = findMatchingBracket(content, openBracketPos);
+    wanderRawEntries = splitTopLevelEntries(content.slice(openBracketPos, closeBracketPos + 1));
+    wanderEntryList = wanderRawEntries.map(wanderParseForList);
+    document.getElementById('wander-search').value = '';
+    renderWanderEntryList();
+  } catch (err) {
+    document.getElementById('wander-count').textContent = `Couldn't load: ${err.message}`;
+  }
+}
+function renderWanderEntryList(){
+  const q = document.getElementById('wander-search').value.trim().toLowerCase();
+  const filtered = q ? wanderEntryList.filter(e => e.preview.toLowerCase().includes(q) || String(e.id).includes(q)) : wanderEntryList;
+  document.getElementById('wander-count').textContent = `${filtered.length} of ${wanderEntryList.length} shown`;
+  document.getElementById('wander-entry-list').innerHTML = filtered.map(e => `
+    <div class="entry-row" onclick="openWanderEntry('${e.id}')">
+      <img class="entry-thumb" src="https://wander.varunagarwal.com/${wanderPageSlug}/${e.img}" alt="" loading="lazy">
+      <div class="entry-row-text">#${escapeHtml(e.id)} <span class="entry-row-sub">${escapeHtml(e.preview)}</span></div>
+    </div>`).join('');
+}
+function openWanderEntry(id){
+  const entryText = wanderRawEntries.find(t => parseEntryIdGeneric(t) === String(id));
+  if (!entryText) return;
+  const fields = splitEntryFields(entryText);
+  document.getElementById('wander-browse').style.display = 'none';
+  const ed = document.getElementById('wander-editor');
+  ed.style.display = 'block';
+  const fieldsHtml = fields.map(f => {
+    const { key, valueRaw } = splitKeyValue(f);
+    if (WANDER_READONLY.has(key)) return '';
+    const kind = valueKind(valueRaw);
+    if (kind !== 'string' && kind !== 'null' && kind !== 'array') return '';
+    const display = kind === 'array' ? parseArrayOfStrings(valueRaw).join(', ') : kind === 'null' ? '' : unquoteString(valueRaw);
+    const isLong = WANDER_LONG.has(key);
+    return `<label>${fieldLabel(key)}${kind==='array'?' (comma-separated)':''}</label>` +
+      (isLong ? `<textarea data-wf-key="${key}" data-wf-kind="${kind}">${escapeHtmlForTextarea(display)}</textarea>`
+              : `<input type="text" data-wf-key="${key}" data-wf-kind="${kind}" value="${escapeHtml(display)}">`);
+  }).join('');
+  ed.innerHTML = `
+    <button class="small" onclick="closeWanderEntry()" style="margin-bottom:10px;">&larr; Back to list</button>
+    <div data-wf-id="${escapeHtml(id)}">
+      ${fieldsHtml || '<div class="hint">No editable text fields on this entry.</div>'}
+      <button class="primary" onclick="saveWanderEntry()">Save changes</button>
+      <div class="status-line" id="wander-status"></div>
+    </div>
+  `;
+}
+function closeWanderEntry(){
+  document.getElementById('wander-editor').style.display = 'none';
+  document.getElementById('wander-browse').style.display = 'block';
+}
+async function saveWanderEntry(){
+  const ed = document.getElementById('wander-editor');
+  const wrap = ed.querySelector('[data-wf-id]');
+  const entryId = wrap.dataset.wfId;
+  const entryText = wanderRawEntries.find(t => parseEntryIdGeneric(t) === String(entryId));
+  const origFields = splitEntryFields(entryText);
+  const statusEl = document.getElementById('wander-status');
+  statusEl.className = 'status-line mid'; statusEl.textContent = 'Checking for changes…';
+  const inputs = [...wrap.querySelectorAll('[data-wf-key]')];
+  const editedFields = [];
+  inputs.forEach(input => {
+    const key = input.dataset.wfKey, kind = input.dataset.wfKind;
+    const original = origFields.find(f => splitKeyValue(f).key === key);
+    const { valueRaw: originalRaw } = splitKeyValue(original);
+    const newDisplay = input.value;
+    let newRaw;
+    if (kind === 'array') newRaw = serializeArrayOfStrings(newDisplay.split(',').map(s=>s.trim()).filter(Boolean));
+    else if (kind === 'null') newRaw = newDisplay.trim() ? serializeString(newDisplay.trim(), quoteCharOr(originalRaw, "'")) : 'null';
+    else newRaw = serializeString(newDisplay, quoteCharOr(originalRaw, "'"));
+    if (newRaw !== originalRaw) editedFields.push({ key, newRawValue: newRaw });
+  });
+  if (!editedFields.length){ statusEl.className = 'status-line mid'; statusEl.textContent = 'Nothing changed.'; return; }
+  try {
+    statusEl.textContent = 'Fetching current file…';
+    const file = await ghGet(SITES.wander.repo, `${wanderPageSlug}/index.html`);
+    const content = base64ToUtf8(file.content);
+    const marker = 'const DATA = [';
+    const start = content.indexOf(marker);
+    const openBracketPos = start + marker.length - 1;
+    const closeBracketPos = findMatchingBracket(content, openBracketPos);
+    const entries = splitTopLevelEntriesWithPos(content.slice(openBracketPos, closeBracketPos + 1), openBracketPos);
+    const target = entries.find(e => parseEntryIdGeneric(e.text) === String(entryId));
+    if (!target) throw new Error(`Couldn't find id ${entryId} anymore.`);
+    const fields = splitEntryFields(target.text);
+    const newFields = fields.map(f => {
+      const { key } = splitKeyValue(f);
+      const edited = editedFields.find(e => e.key === key);
+      return edited ? `${key}:${edited.newRawValue}` : f;
+    });
+    const newEntryText = '{' + newFields.join(', ') + '}';
+    const updated = content.slice(0, target.start) + newEntryText + content.slice(target.end);
+    statusEl.textContent = 'Publishing…';
+    await ghPut(SITES.wander.repo, `${wanderPageSlug}/index.html`, {
+      message: `Edit ${wanderPageSlug} #${entryId}: ${editedFields.map(f=>f.key).join(', ')}`,
+      content: utf8ToBase64(updated), sha: file.sha,
+    });
+    statusEl.className = 'status-line ok'; statusEl.textContent = '✓ Saved. GitHub Pages redeploys shortly.';
+    const idx = wanderRawEntries.findIndex(t => parseEntryIdGeneric(t) === String(entryId));
+    if (idx !== -1){ wanderRawEntries[idx] = newEntryText; wanderEntryList = wanderRawEntries.map(wanderParseForList); }
+  } catch (err) {
+    statusEl.className = 'status-line err'; statusEl.textContent = `✗ ${err.message}`;
+  }
+}
+</script>
+</body>
+</html>

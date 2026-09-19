@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /personal.html
+Disallow: /dashboard/
 
 Sitemap: https://varunagarwal.com/sitemap.xml
