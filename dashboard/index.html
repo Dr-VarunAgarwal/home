@@ -344,20 +344,32 @@ function fieldLabel(key){ return key.replace(/([A-Z])/g, ' $1').replace(/^./, c 
    splicing in the edit, so a stale tab can't silently clobber a change
    made elsewhere.
    ===================================================================== */
-function findLeafField(content, id){
-  const markerIdx = content.indexOf(`data-edit="${id}"`);
-  if (markerIdx === -1) return null;
-  const ltIdx = content.lastIndexOf('<', markerIdx);
-  const tagMatch = /^<\s*([a-zA-Z0-9]+)/.exec(content.slice(ltIdx));
-  if (!tagMatch) return null;
-  const tagName = tagMatch[1].toLowerCase();
-  const gtIdx = content.indexOf('>', markerIdx);
-  if (gtIdx === -1) return null;
-  const innerStart = gtIdx + 1;
-  const closeTag = `</${tagName}>`;
-  const innerEnd = content.indexOf(closeTag, innerStart);
-  if (innerEnd === -1) return null;
-  return { innerStart, innerEnd, closeEnd: innerEnd + closeTag.length, text: content.slice(innerStart, innerEnd) };
+/* Returns every occurrence of a data-edit="id" marker, not just the
+   first -- some fields (a marquee that duplicates its track for a CSS
+   loop) intentionally repeat the same text in two places, and both
+   need to move together or the loop visibly desyncs. A single-occurrence
+   field is just an array of length 1; callers don't need to special-case it. */
+function findAllLeafFields(content, id){
+  const marker = `data-edit="${id}"`;
+  const results = [];
+  let searchFrom = 0;
+  while (true){
+    const markerIdx = content.indexOf(marker, searchFrom);
+    if (markerIdx === -1) break;
+    const ltIdx = content.lastIndexOf('<', markerIdx);
+    const tagMatch = /^<\s*([a-zA-Z0-9]+)/.exec(content.slice(ltIdx));
+    if (!tagMatch) break;
+    const tagName = tagMatch[1].toLowerCase();
+    const gtIdx = content.indexOf('>', markerIdx);
+    if (gtIdx === -1) break;
+    const innerStart = gtIdx + 1;
+    const closeTag = `</${tagName}>`;
+    const innerEnd = content.indexOf(closeTag, innerStart);
+    if (innerEnd === -1) break;
+    results.push({ innerStart, innerEnd, closeEnd: innerEnd + closeTag.length, text: content.slice(innerStart, innerEnd) });
+    searchFrom = innerEnd + closeTag.length;
+  }
+  return results;
 }
 function findBlocksByClass(content, tag, cls){
   const blocks = [];
@@ -395,6 +407,63 @@ function blockWholeText(blockOuter, tag){
 function replaceBlockWholeText(blockOuter, tag, newText){
   return blockOuter.replace(new RegExp(`^(<${tag}\\b[^>]*>)[\\s\\S]*(</${tag}>)$`), (_, open, close) => open + newText + close);
 }
+/* 3. Scoped blocks: same as (2), but the repeating element has no class
+   of its own unique to it on the whole page (utility-class pages like
+   personal.html reuse "rounded-2xl" etc. everywhere) -- so the search is
+   first narrowed to one container by id, same tradeoff focusListBlocks
+   already made for <li> with no class at all. */
+function findSection(content, id){
+  const marker = `id="${id}"`;
+  const idIdx = content.indexOf(marker);
+  if (idIdx === -1) return null;
+  const ltIdx = content.lastIndexOf('<', idIdx);
+  const tagMatch = /^<\s*([a-zA-Z0-9]+)/.exec(content.slice(ltIdx));
+  if (!tagMatch) return null;
+  const tagName = tagMatch[1].toLowerCase();
+  const gtIdx = content.indexOf('>', idIdx);
+  if (gtIdx === -1) return null;
+  const innerStart = gtIdx + 1;
+  const closeTag = `</${tagName}>`;
+  const innerEnd = content.indexOf(closeTag, innerStart);
+  if (innerEnd === -1) return null;
+  return { innerStart, innerEnd };
+}
+/* 4. Positional sub-fields: two plain children of the same tag inside a
+   block with no class of their own to tell them apart (a stat tile's
+   value and caption are both bare <p> -- only order distinguishes them).
+   The original opening tag is kept byte-for-byte (it may carry a
+   per-instance accent color/style), only the inner text is swapped. */
+function extractLeafFieldByNth(blockOuter, tag, nth){
+  const re = new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)</${tag}>`, 'g');
+  let m, i = 0;
+  while ((m = re.exec(blockOuter))){ i++; if (i === nth) return m[1]; }
+  return null;
+}
+function replaceLeafFieldByNth(blockOuter, tag, nth, newText){
+  const re = new RegExp(`<${tag}\\b[^>]*>[\\s\\S]*?</${tag}>`, 'g');
+  let i = 0;
+  return blockOuter.replace(re, (whole) => {
+    i++;
+    if (i !== nth) return whole;
+    const open = /^<[^>]*>/.exec(whole)[0];
+    return open + newText + `</${tag}>`;
+  });
+}
+/* 5. Paired attribute+text: one element whose editable text lives in two
+   places at once -- its own inner text AND a tooltip attribute repeating
+   the same fact in longer form (home's certification chips: "ACLS" +
+   data-tip="Advanced Cardiac Life Support") -- read and written together
+   so they can't silently drift apart. */
+function extractTagAttrField(blockOuter, attr){
+  const attrMatch = new RegExp(`${attr}="([^"]*)"`).exec(blockOuter);
+  const textMatch = />([^<]*)<\/span>\s*$/.exec(blockOuter);
+  return { attrText: attrMatch ? attrMatch[1] : '', innerText: textMatch ? textMatch[1] : '' };
+}
+function replaceTagAttrField(blockOuter, attr, newAttrText, newInnerText){
+  let out = blockOuter.replace(new RegExp(`${attr}="[^"]*"`), `${attr}="${newAttrText.replace(/"/g, '&quot;')}"`);
+  out = out.replace(/(>)[^<]*(<\/span>\s*)$/, `$1${newInnerText}$2`);
+  return out;
+}
 
 /* =====================================================================
    REGISTRY — what's actually editable right now.
@@ -402,60 +471,119 @@ function replaceBlockWholeText(blockOuter, tag, newText){
    on the Overview tab for what that covers and why.
    ===================================================================== */
 const MARKED_FIELDS = {
-  home: { file:'index.html', groups:[
-    { title:'Bio', fields:[
-      {id:'bio-1', label:'Bio — paragraph 1'},
-      {id:'bio-2', label:'Bio — paragraph 2'},
+  home: [
+    { file:'index.html', groups:[
+      { title:'Bio', fields:[
+        {id:'bio-1', label:'Bio — paragraph 1'},
+        {id:'bio-2', label:'Bio — paragraph 2'},
+      ]},
+      { title:'Milestone card', fields:[
+        {id:'milestone-label', label:'Milestone — label (e.g. "Completed")'},
+        {id:'milestone-title', label:'Milestone — title'},
+        {id:'milestone-meta', label:'Milestone — meta line'},
+      ]},
     ]},
-    { title:'Milestone card', fields:[
-      {id:'milestone-label', label:'Milestone — label (e.g. "Completed")'},
-      {id:'milestone-title', label:'Milestone — title'},
-      {id:'milestone-meta', label:'Milestone — meta line'},
+    { file:'personal.html', groups:[
+      { title:'Building', fields:[
+        {id:'work-relievu-name', label:'Project name'},
+        {id:'work-relievu-tag', label:'Status tag (e.g. "In progress")'},
+        {id:'work-relievu-desc', label:'Description'},
+      ]},
+      { title:'Inspo l∞p cards', fields:[
+        {id:'loop-running', label:'Card — Running'},
+        {id:'loop-3dprint', label:'Card — 3D printed things'},
+        {id:'loop-philosophy', label:'Card — Philosophical rabbit hole'},
+        {id:'loop-climbing', label:'Card — Top-rope climbing'},
+      ]},
     ]},
-  ]},
-  blog: { file:'index.html', groups:[
-    { title:'Hub copy', fields:[
-      {id:'intro', label:'Intro paragraph'},
-      {id:'blurb-books', label:'Books card blurb'},
-      {id:'blurb-wander', label:'Wander card blurb'},
-      {id:'blurb-notes', label:'Notes card blurb'},
-      {id:'blurb-paws', label:'Paws card blurb'},
+  ],
+  blog: [
+    { file:'index.html', groups:[
+      { title:'Hub copy', fields:[
+        {id:'intro', label:'Intro paragraph'},
+        {id:'blurb-books', label:'Books card blurb'},
+        {id:'blurb-wander', label:'Wander card blurb'},
+        {id:'blurb-notes', label:'Notes card blurb'},
+        {id:'blurb-paws', label:'Paws card blurb'},
+      ]},
     ]},
-  ]},
-  books: { file:'index.html', groups:[
-    { title:'Page copy', fields:[
-      {id:'intro', label:'Intro paragraph (raw HTML — contains a link, edit carefully)'},
-      {id:'rest-note', label:'"Everything else" note'},
+  ],
+  books: [
+    { file:'index.html', groups:[
+      { title:'Page copy', fields:[
+        {id:'intro', label:'Intro paragraph (raw HTML — contains a link, edit carefully)'},
+        {id:'rest-note', label:'"Everything else" note'},
+      ]},
     ]},
-  ]},
-  notes: { file:'index.html', groups:[
-    { title:'Page copy', fields:[
-      {id:'tagline', label:'Tagline'},
-      {id:'ticker', label:'News ticker text'},
+  ],
+  notes: [
+    { file:'index.html', groups:[
+      { title:'Page copy', fields:[
+        {id:'tagline', label:'Tagline'},
+        {id:'ticker', label:'News ticker text'},
+      ]},
     ]},
-  ]},
-  contacts: { file:'index.html', groups:[
-    { title:'Bio', fields:[ {id:'bio', label:'About paragraph'} ] },
-  ]},
+    { file:'e-inked/index.html', groups:[
+      { title:'XTEink X4', fields:[
+        {id:'e-xteink-1', label:'Paragraph 1'}, {id:'e-xteink-2', label:'Paragraph 2'},
+        {id:'e-xteink-3', label:'Paragraph 3'}, {id:'e-xteink-4', label:'Paragraph 4'},
+        {id:'e-xteink-5', label:'Paragraph 5'}, {id:'e-xteink-6', label:'Paragraph 6'},
+      ]},
+      { title:'Kindle Colorsoft', fields:[
+        {id:'e-kindle-1', label:'Paragraph 1'}, {id:'e-kindle-2', label:'Paragraph 2'},
+        {id:'e-kindle-3', label:'Paragraph 3'}, {id:'e-kindle-4', label:'Paragraph 4'},
+      ]},
+      { title:'Bloomin8 photo frame', fields:[
+        {id:'e-bloomin8-1', label:'Paragraph 1'}, {id:'e-bloomin8-2', label:'Paragraph 2'},
+        {id:'e-bloomin8-3', label:'Paragraph 3'},
+      ]},
+      { title:'TRMNL X', fields:[
+        {id:'e-trmnl-1', label:'Paragraph 1'}, {id:'e-trmnl-2', label:'Paragraph 2'},
+        {id:'e-trmnl-3', label:'Paragraph 3'},
+      ]},
+      { title:'Pebble Time 2', fields:[
+        {id:'e-pebble-1', label:'Paragraph 1'}, {id:'e-pebble-2', label:'Paragraph 2'},
+      ]},
+    ]},
+  ],
+  contacts: [
+    { file:'index.html', groups:[
+      { title:'Bio', fields:[ {id:'bio', label:'About paragraph'} ] },
+    ]},
+  ],
 };
 
 const BLOCKS = {
-  home: { file:'index.html', types:[
-    { key:'training', label:'Training entries', tag:'div', cls:'entry',
-      fields:[ {key:'title', tag:'span', cls:'entry-title', label:'Title'},
-               {key:'when', tag:'span', cls:'entry-when', label:'When'},
-               {key:'org', tag:'p', cls:'entry-org', label:'Organisation'},
-               {key:'detail', tag:'p', cls:'entry-detail', label:'Detail'} ] },
-    { key:'pub', label:'Presentations & workshops', tag:'div', cls:'pub-item',
-      fields:[ {key:'title', tag:'p', cls:'pub-title', label:'Title'},
-               {key:'meta', tag:'p', cls:'pub-meta', label:'Meta line'} ] },
-    { key:'focus', label:'Focus areas', tag:'li', cls:null, whole:true },
-  ]},
-  contacts: { file:'index.html', types:[
-    { key:'else', label:'"Elsewhere" links', tag:'a', cls:'else-item',
-      fields:[ {key:'name', tag:'span', cls:'else-name', label:'Name'},
-               {key:'desc', tag:'span', cls:'else-desc', label:'Description'} ] },
-  ]},
+  home: [
+    { file:'index.html', types:[
+      { key:'training', label:'Training entries', tag:'div', cls:'entry',
+        fields:[ {key:'title', tag:'span', cls:'entry-title', label:'Title'},
+                 {key:'when', tag:'span', cls:'entry-when', label:'When'},
+                 {key:'org', tag:'p', cls:'entry-org', label:'Organisation'},
+                 {key:'detail', tag:'p', cls:'entry-detail', label:'Detail'} ] },
+      { key:'pub', label:'Presentations & workshops', tag:'div', cls:'pub-item',
+        fields:[ {key:'title', tag:'p', cls:'pub-title', label:'Title'},
+                 {key:'meta', tag:'p', cls:'pub-meta', label:'Meta line'} ] },
+      { key:'focus', label:'Focus areas', tag:'li', cls:null, kind:'whole' },
+      { key:'extra', label:'Extracurricular', tag:'div', cls:'extra-item',
+        fields:[ {key:'title', tag:'p', cls:'extra-title', label:'Title'},
+                 {key:'meta', tag:'p', cls:'extra-meta', label:'When'},
+                 {key:'detail', tag:'p', cls:'extra-detail', label:'Detail'} ] },
+      { key:'certs', label:'Certifications & memberships', tag:'span', cls:'tag', kind:'tagAttr', attr:'data-tip' },
+    ]},
+    { file:'personal.html', types:[
+      { key:'numbers', label:'By the numbers', tag:'div', cls:'rounded-2xl', kind:'nth', scope:{id:'numbers'},
+        fields:[ {key:'value', tag:'p', nth:1, label:'Number'},
+                 {key:'caption', tag:'p', nth:2, label:'Caption'} ] },
+    ]},
+  ],
+  contacts: [
+    { file:'index.html', types:[
+      { key:'else', label:'"Elsewhere" links', tag:'a', cls:'else-item',
+        fields:[ {key:'name', tag:'span', cls:'else-name', label:'Name'},
+                 {key:'desc', tag:'span', cls:'else-desc', label:'Description'} ] },
+    ]},
+  ],
 };
 /* focus-list <li> has no class of its own — scope it separately by container */
 function focusListBlocks(content){
@@ -470,6 +598,41 @@ function focusListBlocks(content){
     blocks.push({ start: ulOpen + m.index, end: ulOpen + m.index + m[0].length, outer: m[0] });
   }
   return blocks;
+}
+
+/* ---------- "Check if live" — same idea as the old wander tools' deploy
+   check, generalized to any site+file: GitHub Pages sends
+   Access-Control-Allow-Origin: * on every one of these, so the real HTML
+   can be fetched straight from the browser and searched for the text
+   that was just saved. ---------- */
+function liveUrlFor(site, file){
+  const base = SITES[site].url;
+  if (file === 'index.html') return base + '/';
+  if (file.endsWith('/index.html')) return base + '/' + file.slice(0, -'index.html'.length);
+  return base + '/' + file;
+}
+function appendLiveCheck(statusEl, site, file, needle){
+  const btn = document.createElement('button');
+  btn.className = 'small'; btn.textContent = 'Check if live'; btn.style.marginLeft = '8px';
+  const result = document.createElement('span');
+  result.style.marginLeft = '8px'; result.style.fontFamily = 'var(--mono)'; result.style.fontSize = '11px';
+  btn.onclick = async () => {
+    btn.disabled = true; result.textContent = 'checking…'; result.style.color = 'var(--ink-faint)';
+    try {
+      const res = await fetch(liveUrlFor(site, file), { cache:'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const isLive = !needle || text.includes(needle);
+      result.textContent = isLive ? '✓ confirmed live' : '⏳ not live yet — GitHub Pages still deploying, try again shortly';
+      result.style.color = isLive ? '#7fc98f' : 'var(--ink-faint)';
+    } catch (err) {
+      result.textContent = `couldn't check: ${err.message}`;
+      result.style.color = '#e08a7a';
+    } finally { btn.disabled = false; }
+  };
+  statusEl.appendChild(document.createTextNode(' '));
+  statusEl.appendChild(btn);
+  statusEl.appendChild(result);
 }
 
 const COLLECTIONS = {
@@ -537,18 +700,19 @@ function renderOverview(){
       <h2>What's wired up</h2>
       <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.7;">
         Each tab above edits real text on the live site — saving commits straight to that site's GitHub repo.
-        Home, Blog hub, Books, Notes and Contact cover their homepage copy plus (for Books/Notes) their full entry
-        collections. Wander keeps its existing per-place caption/tag editor, now reachable from here too.
+        Home covers the CV (bio, training, presentations/workshops, focus areas, extracurricular, certification
+        &amp; membership tags) plus personal.html (Building card, Inspo l∞p cards, By the numbers stats).
+        Blog hub, Books, Notes and Contact cover their homepage copy; Books/Notes also expose their full entry
+        collections, and Notes now reaches into e-inked's device reviews paragraph-by-paragraph. Wander keeps its
+        existing per-place caption/tag editor, now reachable from here too. A field that repeats itself on the
+        page (a marquee's looping duplicate, a stat tile) updates every copy together, never just one.
       </p>
     </div>
     <div class="notice">
       <strong>Not yet wired, on purpose</strong> — flagging rather than guessing at these:<br>
-      &middot; <code>home/personal.html</code> — hero is letter-by-letter spans, and the marquee duplicates its
-      text twice for the CSS loop; a naive editor would break both. Needs a proper pass.<br>
-      &middot; <code>notes/e-inked</code> device reviews — hardcoded paragraphs, not the DATA array
-      <code>editor/draft-desk.html</code> assumed existed. Real, but needs migrating to something editable first.<br>
-      &middot; Certifications/memberships tags (home) — each has a second copy of its text in a tooltip attribute; skipped rather than edit one and silently desync the other.<br>
-      &middot; Extracurricular items (home) — lower churn, left for a later pass.<br>
+      &middot; <code>home/personal.html</code>'s hero name — letter-by-letter spans with NATO-phonetic tooltips per
+      letter, purely decorative and never actually changes (it's a name); not worth the risk of a generic editor
+      mangling it for close to zero upside.<br>
       &middot; Adding/deleting/reordering entries, and photo uploads — this tool edits existing text fields only. Wander's own <a href="https://wander.varunagarwal.com/log/" target="_blank" rel="noopener">log/</a> tool still handles new photos.
     </div>
     <div class="card">
@@ -563,37 +727,45 @@ function renderOverview(){
 
 /* ---------- Marked-leaf-field panels ---------- */
 async function renderMarkedFieldsPanel(site){
-  const cfg = MARKED_FIELDS[site];
-  if (!cfg) return;
+  const cfgs = MARKED_FIELDS[site];
+  if (!cfgs) return;
   const el = document.getElementById(`panel-${site}`);
-  const holder = document.createElement('div');
-  holder.className = 'card';
-  holder.innerHTML = `<h2>Page copy</h2><div id="mf-${site}">Loading…</div>`;
-  el.appendChild(holder);
-  const target = holder.querySelector(`#mf-${site}`);
-  try {
-    const file = await ghGet(SITES[site].repo, cfg.file);
-    const content = base64ToUtf8(file.content);
-    target.innerHTML = cfg.groups.map(g => `
-      <h3>${g.title}</h3>
-      ${g.fields.map(f => {
-        const found = findLeafField(content, f.id);
-        if (!found) return `<div class="hint">"${f.label}" — marker not found, skipped.</div>`;
-        return `<div class="field-block" data-mf-id="${f.id}">
-          <label>${f.label}</label>
-          <textarea data-mf-value>${escapeHtmlForTextarea(found.text)}</textarea>
-        </div>`;
-      }).join('')}
-    `).join('');
-    const btn = document.createElement('button');
-    btn.className = 'primary'; btn.textContent = 'Save changes'; btn.style.marginTop = '4px';
-    btn.onclick = () => saveMarkedFields(site, cfg, target, btn);
-    target.appendChild(btn);
-    const status = document.createElement('div');
-    status.className = 'status-line'; status.id = `mf-status-${site}`;
-    target.appendChild(status);
-  } catch (err) {
-    target.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
+  for (const cfg of cfgs){
+    const panelId = `${site}__${cfg.file}`;
+    const holder = document.createElement('div');
+    holder.className = 'card';
+    holder.innerHTML = `<h2>Page copy <span style="color:var(--ink-faint);font-weight:400;text-transform:none;">(${cfg.file})</span></h2><div id="mf-${panelId}">Loading…</div>`;
+    el.appendChild(holder);
+    // getElementById, not querySelector('#id') -- panelId embeds a
+    // filename like "index.html", and an unescaped "." inside a CSS id
+    // selector is parsed as a class-selector boundary, silently failing
+    // to match. getElementById does a plain string match, no CSS parsing.
+    const target = document.getElementById(`mf-${panelId}`);
+    try {
+      const file = await ghGet(SITES[site].repo, cfg.file);
+      const content = base64ToUtf8(file.content);
+      target.innerHTML = cfg.groups.map(g => `
+        <h3>${g.title}</h3>
+        ${g.fields.map(f => {
+          const found = findAllLeafFields(content, f.id);
+          if (!found.length) return `<div class="hint">"${f.label}" — marker not found, skipped.</div>`;
+          if (!found.every(o => o.text === found[0].text)) return `<div class="hint">"${f.label}" — its copies currently disagree with each other; fix that directly before editing here.</div>`;
+          return `<div class="field-block" data-mf-id="${f.id}">
+            <label>${f.label}${found.length > 1 ? ` <span style="color:var(--ink-faint);font-weight:400;text-transform:none;">(${found.length} copies, updated together)</span>` : ''}</label>
+            <textarea data-mf-value>${escapeHtmlForTextarea(found[0].text)}</textarea>
+          </div>`;
+        }).join('')}
+      `).join('');
+      const btn = document.createElement('button');
+      btn.className = 'primary'; btn.textContent = 'Save changes'; btn.style.marginTop = '4px';
+      btn.onclick = () => saveMarkedFields(site, cfg, target, btn, panelId);
+      target.appendChild(btn);
+      const status = document.createElement('div');
+      status.className = 'status-line'; status.id = `mf-status-${panelId}`;
+      target.appendChild(status);
+    } catch (err) {
+      target.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
+    }
   }
 }
 /* textarea content is read/written via .value, which never HTML-decodes —
@@ -602,23 +774,28 @@ async function renderMarkedFieldsPanel(site){
    survives being placed inside the textarea tag in the first place. */
 function escapeHtmlForTextarea(str){ return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-async function saveMarkedFields(site, cfg, container, btn){
+async function saveMarkedFields(site, cfg, container, btn, panelId){
   btn.disabled = true;
-  const statusEl = document.getElementById(`mf-status-${site}`);
+  const statusEl = document.getElementById(`mf-status-${panelId}`);
   statusEl.className = 'status-line mid'; statusEl.textContent = 'Checking for changes…';
   const blocks = [...container.querySelectorAll('[data-mf-id]')];
   try {
     const file = await ghGet(SITES[site].repo, cfg.file);
     let content = base64ToUtf8(file.content);
-    let changedCount = 0;
+    let changedCount = 0, lastChangedText = '';
     for (const b of blocks){
       const id = b.dataset.mfId;
       const newText = b.querySelector('[data-mf-value]').value;
-      const found = findLeafField(content, id);
-      if (!found) throw new Error(`"${id}" no longer found on the live page — someone/something changed it since this loaded.`);
-      if (found.text === newText) continue;
-      content = content.slice(0, found.innerStart) + newText + content.slice(found.innerEnd);
+      const occurrences = findAllLeafFields(content, id);
+      if (!occurrences.length) throw new Error(`"${id}" no longer found on the live page — someone/something changed it since this loaded.`);
+      if (!occurrences.every(o => o.text === occurrences[0].text)) throw new Error(`"${id}"'s copies now disagree with each other — reload and fix directly.`);
+      if (occurrences[0].text === newText) continue;
+      for (let k = occurrences.length - 1; k >= 0; k--){
+        const o = occurrences[k];
+        content = content.slice(0, o.innerStart) + newText + content.slice(o.innerEnd);
+      }
       changedCount++;
+      lastChangedText = newText;
     }
     if (!changedCount){ statusEl.className = 'status-line mid'; statusEl.textContent = 'Nothing changed.'; btn.disabled = false; return; }
     statusEl.textContent = 'Publishing…';
@@ -627,63 +804,89 @@ async function saveMarkedFields(site, cfg, container, btn){
       content: utf8ToBase64(content), sha: file.sha,
     });
     statusEl.className = 'status-line ok'; statusEl.textContent = `✓ Saved (${changedCount} field${changedCount>1?'s':''}). GitHub Pages redeploys shortly.`;
+    appendLiveCheck(statusEl, site, cfg.file, lastChangedText);
   } catch (err) {
     statusEl.className = 'status-line err'; statusEl.textContent = `✗ ${err.message}`;
   } finally { btn.disabled = false; }
 }
 
 /* ---------- Structural block panels ---------- */
+function blockKindOf(type){ return type.kind || (type.whole ? 'whole' : 'fields'); }
 async function renderBlocksPanel(site){
-  const cfg = BLOCKS[site];
-  if (!cfg) return;
+  const cfgs = BLOCKS[site];
+  if (!cfgs) return;
   const el = document.getElementById(`panel-${site}`);
-  const holder = document.createElement('div');
-  holder.className = 'card';
-  holder.innerHTML = `<h2>Repeating sections</h2><div id="bk-${site}">Loading…</div>`;
-  el.appendChild(holder);
-  const target = holder.querySelector(`#bk-${site}`);
-  try {
-    const file = await ghGet(SITES[site].repo, cfg.file);
-    const content = base64ToUtf8(file.content);
-    let html = '';
-    cfg.types.forEach(type => {
-      const blocks = type.key === 'focus' ? focusListBlocks(content) : findBlocksByClass(content, type.tag, type.cls);
-      html += `<h3>${type.label} <span style="color:var(--ink-faint);font-weight:400;">(${blocks.length})</span></h3>`;
-      blocks.forEach((blk, i) => {
-        if (type.whole){
-          const text = blockWholeText(blk.outer, type.tag);
-          html += `<div class="field-block" data-blk-type="${type.key}" data-blk-idx="${i}" data-blk-orig="${escapeHtml(blk.outer)}">
-            <label>${type.label} #${i+1}</label>
-            <textarea data-bk-value>${escapeHtmlForTextarea(text)}</textarea>
-          </div>`;
-        } else {
-          const fieldsHtml = type.fields.map(f => {
-            const v = extractLeafFieldInBlock(blk.outer, f.tag, f.cls);
-            if (v === null) return '';
-            return `<label>${f.label}</label><textarea data-bk-field="${f.key}">${escapeHtmlForTextarea(v)}</textarea>`;
-          }).join('');
-          html += `<div class="field-block" data-blk-type="${type.key}" data-blk-idx="${i}" data-blk-orig="${escapeHtml(blk.outer)}">
-            <div class="field-block-head"><span class="field-block-title">#${i+1}</span></div>
-            ${fieldsHtml}
-          </div>`;
-        }
+  for (const cfg of cfgs){
+    const panelId = `${site}__${cfg.file}`;
+    const holder = document.createElement('div');
+    holder.className = 'card';
+    holder.innerHTML = `<h2>Repeating sections <span style="color:var(--ink-faint);font-weight:400;text-transform:none;">(${cfg.file})</span></h2><div id="bk-${panelId}">Loading…</div>`;
+    el.appendChild(holder);
+    const target = document.getElementById(`bk-${panelId}`);
+    try {
+      const file = await ghGet(SITES[site].repo, cfg.file);
+      const content = base64ToUtf8(file.content);
+      let html = '';
+      cfg.types.forEach(type => {
+        const section = type.scope ? findSection(content, type.scope.id) : null;
+        if (type.scope && !section){ html += `<h3>${type.label}</h3><div class="hint">Section "${type.scope.id}" not found — skipped.</div>`; return; }
+        const scopedContent = section ? content.slice(section.innerStart, section.innerEnd) : content;
+        const kind = blockKindOf(type);
+        const blocks = type.key === 'focus' ? focusListBlocks(scopedContent) : findBlocksByClass(scopedContent, type.tag, type.cls);
+        html += `<h3>${type.label} <span style="color:var(--ink-faint);font-weight:400;">(${blocks.length})</span></h3>`;
+        blocks.forEach((blk, i) => {
+          if (kind === 'whole'){
+            const text = blockWholeText(blk.outer, type.key === 'focus' ? 'li' : type.tag);
+            html += `<div class="field-block" data-blk-type="${type.key}" data-blk-orig="${escapeHtml(blk.outer)}">
+              <label>${type.label} #${i+1}</label>
+              <textarea data-bk-value>${escapeHtmlForTextarea(text)}</textarea>
+            </div>`;
+          } else if (kind === 'tagAttr'){
+            const { attrText, innerText } = extractTagAttrField(blk.outer, type.attr);
+            html += `<div class="field-block" data-blk-type="${type.key}" data-blk-orig="${escapeHtml(blk.outer)}">
+              <div class="field-block-head"><span class="field-block-title">#${i+1}</span></div>
+              <label>Short label</label><input type="text" data-bk-tagtext value="${escapeHtml(innerText)}">
+              <label>Full name (tooltip)</label><input type="text" data-bk-tagattr value="${escapeHtml(attrText)}">
+            </div>`;
+          } else if (kind === 'nth'){
+            const fieldsHtml = type.fields.map(f => {
+              const v = extractLeafFieldByNth(blk.outer, f.tag, f.nth);
+              if (v === null) return '';
+              return `<label>${f.label}</label><input type="text" data-bk-nth="${f.nth}" data-bk-tag="${f.tag}" value="${escapeHtml(v)}">`;
+            }).join('');
+            html += `<div class="field-block" data-blk-type="${type.key}" data-blk-orig="${escapeHtml(blk.outer)}">
+              <div class="field-block-head"><span class="field-block-title">#${i+1}</span></div>
+              ${fieldsHtml}
+            </div>`;
+          } else {
+            const fieldsHtml = type.fields.map(f => {
+              const v = extractLeafFieldInBlock(blk.outer, f.tag, f.cls);
+              if (v === null) return '';
+              return `<label>${f.label}</label><textarea data-bk-field="${f.key}">${escapeHtmlForTextarea(v)}</textarea>`;
+            }).join('');
+            html += `<div class="field-block" data-blk-type="${type.key}" data-blk-orig="${escapeHtml(blk.outer)}">
+              <div class="field-block-head"><span class="field-block-title">#${i+1}</span></div>
+              ${fieldsHtml}
+            </div>`;
+          }
+        });
       });
-    });
-    target.innerHTML = html;
-    const btn = document.createElement('button');
-    btn.className = 'primary'; btn.textContent = 'Save changes'; btn.style.marginTop = '4px';
-    btn.onclick = () => saveBlocks(site, cfg, target, btn);
-    target.appendChild(btn);
-    const status = document.createElement('div');
-    status.className = 'status-line'; status.id = `bk-status-${site}`;
-    target.appendChild(status);
-  } catch (err) {
-    target.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
+      target.innerHTML = html;
+      const btn = document.createElement('button');
+      btn.className = 'primary'; btn.textContent = 'Save changes'; btn.style.marginTop = '4px';
+      btn.onclick = () => saveBlocks(site, cfg, target, btn, panelId);
+      target.appendChild(btn);
+      const status = document.createElement('div');
+      status.className = 'status-line'; status.id = `bk-status-${panelId}`;
+      target.appendChild(status);
+    } catch (err) {
+      target.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
+    }
   }
 }
-async function saveBlocks(site, cfg, container, btn){
+async function saveBlocks(site, cfg, container, btn, panelId){
   btn.disabled = true;
-  const statusEl = document.getElementById(`bk-status-${site}`);
+  const statusEl = document.getElementById(`bk-status-${panelId}`);
   statusEl.className = 'status-line mid'; statusEl.textContent = 'Checking for changes…';
   const blockEls = [...container.querySelectorAll('[data-blk-type]')];
   try {
@@ -693,20 +896,28 @@ async function saveBlocks(site, cfg, container, btn){
     for (const be of blockEls){
       const typeKey = be.dataset.blkType;
       const type = cfg.types.find(t => t.key === typeKey);
+      const kind = blockKindOf(type);
       const origOuter = unescapeHtmlAttr(be.dataset.blkOrig);
-      const occurrences = countOccurrences(content, origOuter);
       let newOuter = origOuter;
-      if (type.whole){
+      if (kind === 'whole'){
         const newText = be.querySelector('[data-bk-value]').value;
-        newOuter = replaceBlockWholeText(origOuter, type.key === 'focus' ? 'li' : type.tag, newText);
+        newOuter = replaceBlockWholeText(origOuter, typeKey === 'focus' ? 'li' : type.tag, newText);
+      } else if (kind === 'tagAttr'){
+        const newInner = be.querySelector('[data-bk-tagtext]').value;
+        const newAttr = be.querySelector('[data-bk-tagattr]').value;
+        newOuter = replaceTagAttrField(origOuter, type.attr, newAttr, newInner);
+      } else if (kind === 'nth'){
+        be.querySelectorAll('[data-bk-nth]').forEach(inp => {
+          newOuter = replaceLeafFieldByNth(newOuter, inp.dataset.bkTag, Number(inp.dataset.bkNth), inp.value);
+        });
       } else {
         be.querySelectorAll('[data-bk-field]').forEach(ta => {
-          const key = ta.dataset.bkField;
-          const f = type.fields.find(x => x.key === key);
+          const f = type.fields.find(x => x.key === ta.dataset.bkField);
           newOuter = replaceLeafFieldInBlock(newOuter, f.tag, f.cls, ta.value);
         });
       }
       if (newOuter === origOuter) continue;
+      const occurrences = countOccurrences(content, origOuter);
       if (occurrences === 0) throw new Error(`A "${type.label}" block no longer matches the live page exactly — it may have changed elsewhere. Reload and retry.`);
       if (occurrences > 1) throw new Error(`A "${type.label}" block isn't uniquely identifiable right now (identical to another one) — skipped to avoid editing the wrong one. Make the two blocks differ first, or edit this one directly.`);
       const idx = content.indexOf(origOuter);
@@ -720,6 +931,7 @@ async function saveBlocks(site, cfg, container, btn){
       content: utf8ToBase64(content), sha: file.sha,
     });
     statusEl.className = 'status-line ok'; statusEl.textContent = `✓ Saved (${changedCount} block${changedCount>1?'s':''}). GitHub Pages redeploys shortly.`;
+    appendLiveCheck(statusEl, site, cfg.file, '');
   } catch (err) {
     statusEl.className = 'status-line err'; statusEl.textContent = `✗ ${err.message}`;
   } finally { btn.disabled = false; }
@@ -746,6 +958,9 @@ async function renderCollectionsPanel(site){
     holder.className = 'card';
     const collId = `${site}-${coll.varName}`;
     holder.innerHTML = `<h2>${coll.label} <span style="color:var(--ink-faint);font-weight:400;text-transform:none;">(${coll.varName})</span></h2>
+      <div id="coll-controls-${collId}" style="display:none;">
+        <input type="text" id="coll-search-${collId}" placeholder="search title, author..." oninput="renderCollectionList('${collId}')">
+      </div>
       <div id="coll-list-${collId}">Loading…</div>
       <div id="coll-editor-${collId}" style="display:none;"></div>`;
     el.appendChild(holder);
@@ -765,6 +980,8 @@ async function loadCollection(site, coll, collId){
     const closeBracketPos = findMatchingBracket(content, openBracketPos);
     const rawEntries = splitTopLevelEntries(content.slice(openBracketPos, closeBracketPos + 1));
     collState[collId] = { site, coll, rawEntries };
+    const controls = document.getElementById(`coll-controls-${collId}`);
+    if (controls) controls.style.display = rawEntries.length > 8 ? 'block' : 'none';
     renderCollectionList(collId);
   } catch (err) {
     listEl.innerHTML = `<div class="status-line err">Couldn't load: ${err.message}</div>`;
@@ -781,13 +998,15 @@ function collPreview(entryText){
 function renderCollectionList(collId){
   const { rawEntries } = collState[collId];
   const listEl = document.getElementById(`coll-list-${collId}`);
-  listEl.innerHTML = rawEntries.map((e, i) => {
-    const p = collPreview(e);
-    return `<div class="entry-row" onclick="openCollectionEntry('${collId}', ${i})">
+  const searchEl = document.getElementById(`coll-search-${collId}`);
+  const q = searchEl ? searchEl.value.trim().toLowerCase() : '';
+  const withIdx = rawEntries.map((e, i) => ({ e, i, p: collPreview(e) }));
+  const filtered = q ? withIdx.filter(x => x.p.title.toLowerCase().includes(q) || x.p.sub.toLowerCase().includes(q)) : withIdx;
+  listEl.innerHTML = filtered.map(({i, p}) => `
+    <div class="entry-row" onclick="openCollectionEntry('${collId}', ${i})">
       ${p.cover ? `<img class="entry-thumb" src="${p.cover}" alt="" loading="lazy">` : '<div class="entry-thumb"></div>'}
       <div class="entry-row-text">${escapeHtml(p.title)}${p.sub ? ` <span class="entry-row-sub">— ${escapeHtml(p.sub)}</span>` : ''}</div>
-    </div>`;
-  }).join('') || '<div class="hint">No entries.</div>';
+    </div>`).join('') || `<div class="hint">${q ? 'No entries match.' : 'No entries.'}</div>`;
 }
 function openCollectionEntry(collId, idx){
   const state = collState[collId];
@@ -871,6 +1090,8 @@ async function saveCollectionEntry(collId){
       content: utf8ToBase64(updated), sha: file.sha,
     });
     statusEl.className = 'status-line ok'; statusEl.textContent = '✓ Saved. GitHub Pages redeploys shortly.';
+    const firstRaw = editedFields[0].newRawValue;
+    appendLiveCheck(statusEl, site, coll.file, valueKind(firstRaw) === 'string' ? unquoteString(firstRaw) : '');
     const idx = state.rawEntries.indexOf(origEntryText);
     if (idx !== -1) state.rawEntries[idx] = newEntryText;
     wrap.dataset.cfOrig = escapeHtml(newEntryText);
@@ -1122,6 +1343,8 @@ async function saveWanderEntry(){
       content: utf8ToBase64(updated), sha: file.sha,
     });
     statusEl.className = 'status-line ok'; statusEl.textContent = '✓ Saved. GitHub Pages redeploys shortly.';
+    const firstRaw = editedFields[0].newRawValue;
+    appendLiveCheck(statusEl, 'wander', `${wanderPageSlug}/index.html`, valueKind(firstRaw) === 'string' ? unquoteString(firstRaw) : '');
     const idx = wanderRawEntries.findIndex(t => parseEntryIdGeneric(t) === String(entryId));
     if (idx !== -1){ wanderRawEntries[idx] = newEntryText; wanderEntryList = wanderRawEntries.map(wanderParseForList); }
   } catch (err) {
