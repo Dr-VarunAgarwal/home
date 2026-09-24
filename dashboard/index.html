@@ -199,7 +199,6 @@ function forgetToken(){
   localStorage.removeItem(TOKEN_KEY);
   renderTokenStatus();
 }
-renderTokenStatus();
 
 /* =====================================================================
    Generic array/entry parsing — string/bracket-aware, no real JS parser.
@@ -1122,6 +1121,11 @@ async function saveWanderEntry(){
     statusEl.className = 'status-line err'; statusEl.textContent = `✗ ${err.message}`;
   }
 }
+
+/* Boot last: initApp() reads TABS/activeTab, which are `const`/`let`
+   further down — calling it any earlier throws a TDZ ReferenceError
+   and leaves the tab bar empty. */
+renderTokenStatus();
 </script>
 </body>
 </html>
