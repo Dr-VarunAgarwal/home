@@ -112,6 +112,9 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
 .gb:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
 .glegend{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:8px}
 .stage{scroll-margin-top:12px}
+.gb.u{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-style:italic}
+.gb.u.l{border-color:var(--accent2);background:var(--accent2-soft);color:var(--accent2)}
+.gb.u.m{border-color:var(--good);background:var(--good-soft);color:var(--good-ink)}
 </style>
 </head>
 <body>
@@ -119,7 +122,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
   <div class="topline"><a href="../">← Urology</a><a href="notes/">Read the full compilation, with slide photos →</a></div>
   <div class="eyebrow" style="margin-top:20px">OSCE · flashcard practice</div>
   <h1>OSCE Practice</h1>
-  <p class="dek">One card per station. Read the title, say what you would cover, then show the checklist and grade yourself. Cards you miss come back the same day; the rest return after 1, 3, 7 and 14 days. <span id="count"></span></p>
+  <p class="dek">One card per station, plus ten topics whose numbers couldn't be read (series A–J). Read the title, say what you would cover, then show the checklist and grade yourself. Cards you miss come back the same day; the rest return after 1, 3, 7 and 14 days. <span id="count"></span></p>
   <div class="ctrl"><div class="chips" id="chips" role="group" aria-label="Topic"></div></div>
   <div class="opts">
     <label>Deck <select id="mode"><option value="due">Due &amp; new</option><option value="all">All cards</option><option value="weak">Missed &amp; partly known</option></select></label>
@@ -128,7 +131,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
   </div>
   <div class="prog" id="prog" aria-hidden="true"></div>
   <div class="legend" id="legend"></div>
-  <details class="pick" open><summary>Pick any station</summary><div class="grid" id="grid"></div><div class="glegend">grey = new · blue = learning · green = mastered · dashed = title only in your notes · outlined = on screen · faded = outside the topic you filtered</div></details>
+  <details class="pick" open><summary>Pick any station</summary><div class="grid" id="grid"></div><div class="glegend">grey = new · blue = learning · green = mastered · dashed = title only in your notes · pink italic A–J = number unconfirmed · outlined = on screen · faded = outside the topic you filtered</div></details>
   <div class="stage" id="stage"></div>
   <p class="skipped">Progress is stored in this browser only. Where your notes flagged a slide or number as unclear, the card carries that caveat on the checklist side.</p>
 </div>
@@ -187,12 +190,13 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
     return (s.mergeNote ? '<div class="merge">' + esc(s.mergeNote) + "</div>" : "") + h;
   }
   function label(s){ return s.id; }
+  function nm(s){ return (s.u ? "Unconfirmed " : "OSCE ") + s.id; }
   function renderGrid(){
     var cur = pos < queue.length ? queue[pos] : null;
     $("grid").innerHTML = cards.map(function(s){
-      var c = st.cards[s.id], cls = "gb" + (c ? (c.b >= 3 ? " m" : " l") : "") + (hasBody(s) ? "" : " t") + (s.id === cur ? " cur" : "") + (st.group !== "all" && s.g !== st.group ? " off" : "");
+      var c = st.cards[s.id], cls = "gb" + (c ? (c.b >= 3 ? " m" : " l") : "") + (hasBody(s) ? "" : " t") + (s.u ? " u" : "") + (s.id === cur ? " cur" : "") + (st.group !== "all" && s.g !== st.group ? " off" : "");
       var status = c ? (c.b >= 3 ? "mastered" : "learning") : "new";
-      return '<button type="button" class="' + cls + '" data-id="' + s.id + '" title="OSCE ' + label(s) + " — " + esc(s.t) + " (" + status + (hasBody(s) ? "" : ", title only") + ')" aria-label="OSCE ' + label(s) + ", " + esc(s.t) + ", " + status + '"' + (s.id === cur ? ' aria-current="true"' : "") + ">" + label(s) + "</button>";
+      return '<button type="button" class="' + cls + '" data-id="' + s.id + '" title="' + nm(s) + " — " + esc(s.t) + " (" + status + (hasBody(s) ? "" : ", title only") + ')" aria-label="' + nm(s) + ", " + esc(s.t) + ", " + status + '"' + (s.id === cur ? ' aria-current="true"' : "") + ">" + label(s) + "</button>";
     }).join("");
   }
   function openCard(id){
@@ -238,7 +242,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
       (c ? '<span class="badge">' + (c.b >= 3 ? "mastered" : "learning") + "</span>" : '<span class="badge">new</span>') +
       (hasBody(s) ? "" : '<span class="badge" title="Only the title is in your compilation">title only</span>') +
       (warn ? '<span class="badge warn" title="This station carries caveats from your notes">⚠ ' + warn + " caveat" + (warn > 1 ? "s" : "") + "</span>" : "") + "</div>";
-    var head = '<div class="no">OSCE ' + s.n + (s.uncertain ? " (number unconfirmed)" : "") + '</div><h2>' + esc(s.t) + "</h2>";
+    var head = '<div class="no">' + (s.u ? "Number unconfirmed · series " + s.id : "OSCE " + s.n + (s.uncertain ? " (number unconfirmed)" : "")) + '</div><h2>' + esc(s.t) + "</h2>";
     var body = flipped
       ? '<hr class="rule"><div class="cbk">' + backHTML(s) + "</div>"
       : '<p class="prompt">Say it out loud: what would you cover, and in what order? Then show the checklist.<br><span style="font-size:12.5px;color:var(--faint)">Source' + (srcs.length > 1 ? "s" : "") + ": " + esc(srcs.join(", ").toLowerCase()) + "</span></p>";

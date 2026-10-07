@@ -1,4 +1,4 @@
-const OSCE_SOURCES = {"slides":"Class photographs","progress":"Progress-sheet notes","c2":"Second classmate's notes"};
+const OSCE_SOURCES = {"slides":"Class photographs","progress":"Progress-sheet notes","c2":"Second classmate's notes","unconf":"Notes with unreadable numbers"};
 const OSCE_GROUPS = [{"id":"stones","name":"Stones & endourology"},{"id":"prostate","name":"Prostate & LUTS"},{"id":"onco","name":"Uro-oncology"},{"id":"andro","name":"Andrology & sexual medicine"},{"id":"neuro","name":"Neuro-urology & urodynamics"},{"id":"recon","name":"Trauma, stricture & reconstruction"},{"id":"paeds","name":"Paediatrics"},{"id":"general","name":"Work-ups, peri-operative & reference"}];
 const OSCE = [
 {id:"3", n:3, g:"prostate", t:"Post-TURP fluid overload (TUR Syndrome)", parts:[
@@ -1201,6 +1201,66 @@ const OSCE = [
    [8,"ACE inhibitors — acute kidney injury, hyperkalaemia in susceptible patients (e.g. bilateral renal artery stenosis)."],
    [9,"Sunitinib (and related TKIs) — cardiac toxicity, hand-foot syndrome, hepatotoxicity, hypothyroidism."]
   ]],
+ ]},
+]},
+{id:"A", n:1001, g:"general", t:"Haematuria — evaluation", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 12 and OSCE 56. Check before treating them as the same station.", parts:[
+ {s:"unconf", b:[
+  ["p","Haematuria — evaluation: malignancy risk factors (visible haematuria, age >?, smoking, occupational dye/rubber exposure — partly illegible); nephrology criteria (ACR >30 mg/mmol, PCR >?58? mg/mmol, hypertension, eGFR <60 ml/min/1.73m²); role & interpretation of urine cytology."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"B", n:1002, g:"general", t:"Pregnant female with hydroureteronephrosis — management", u:true, parts:[
+ {s:"unconf", b:[
+  ["p","Pregnant female with (right-sided) hydroureteronephrosis — management."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"C", n:1003, g:"stones", t:"Dietary recommendations to prevent renal-calculus recurrence", u:true, parts:[
+ {s:"unconf", b:[
+  ["p","Dietary recommendations for prevention of renal calculus recurrence."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"D", n:1004, g:"onco", t:"TNM staging — testicular cancer", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 59. Check before treating them as the same station.", parts:[
+ {s:"unconf", b:[
+  ["p","TNM staging & stage grouping — testicular cancer."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"E", n:1005, g:"onco", t:"NMIBC risk stratification", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 60. Check before treating them as the same station.", parts:[
+ {s:"unconf", b:[
+  ["p","NMIBC (non-muscle-invasive bladder cancer) risk stratification."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"F", n:1006, g:"onco", t:"TURBT — SOP & checklist", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 60. Check before treating them as the same station.", parts:[
+ {s:"unconf", b:[
+  ["p","TURBT — SOP & checklist."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"G", n:1007, g:"paeds", t:"VUR management", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 60. Check before treating them as the same station.", parts:[
+ {s:"unconf", b:[
+  ["p","VUR (vesicoureteric reflux) management — determinants: age at presentation (1° vs 2° VUR), grade, laterality, BBD (bladder-bowel dysfunction)?, VUR in a duplex system, reflux nephropathy, conservative management components & compliance/response, surgical indications."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"H", n:1008, g:"paeds", t:"Paediatric developmental milestones", u:true, parts:[
+ {s:"unconf", b:[
+  ["p","Paediatric developmental milestones — cognitive, social, gross motor, fine motor (reference: Oxford handbook)."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"I", n:1009, g:"paeds", t:"Paediatric nocturnal enuresis", u:true, parts:[
+ {s:"unconf", b:[
+  ["p","Paediatric nocturnal enuresis — evaluation & management: primary vs. secondary, monosymptomatic vs. non-monosymptomatic, pathophysiology, natural history, management (behavioural, alarm therapy, pharmacotherapy)."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
+ ]},
+]},
+{id:"J", n:1010, g:"paeds", t:"Paediatric UTI (NICE guidance)", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 63. Check before treating them as the same station.", parts:[
+ {s:"unconf", b:[
+  ["p","Paediatric UTI — referencing NICE guidance."],
+  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]}
 ];
