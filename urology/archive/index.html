@@ -407,6 +407,10 @@
     .sheetwrap{ max-width:none; margin:0; }
     .sheet{ box-shadow:none; border:0; aspect-ratio:auto; min-height:100vh; font-size:12pt; }
   }
+
+  .sheet .date{ text-align:center; margin-top:.45em; }
+  .srcnote{ font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); text-align:center; margin:14px 0 0; }
+  @media print{ .srcnote{ display:none !important; } }
 </style>
 
 <header class="masthead">
@@ -789,9 +793,54 @@ function highlight(text, term){
 }
 const shortLabel = s => s.label.replace("December","Dec").replace("March","Mar").replace("July","Jul");
 
-/* one printed question paper, laid out like the Manipal sheet: Reg. No. boxes, university, exam, paper, marks, instruction, questions */
+/* Verbatim sheets, transcribed from photographs of the printed papers (spelling and punctuation as printed, typos included).
+   Used only to draw the sheets and for search; the repeat-offender counts still run on the condensed Q data. */
+const PRINTED = {
+ "2025d": {time:"14:00 – 17:00 Hrs.",
+  1:{date:"Monday, December 01, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labeled diagrams wherever necessary.","Answer all the questions"],
+     le:["Discuss the principles of electro-surgery as used in urology. What precautions would you take when doing TURP in a patient who has previously undergone left hip replacement and a permanent cardiac pacemaker implantation?","Discuss the management of sepsis and septic shock in a urological patient."],
+     se:["Role of Kidney in Calcium, phosphate and vitamin D metabolism.","Embryology of ectopic ureter and principles of its management.","Haemodynamic changes during laproscopy.","Female pseudohermaphroditism.","Physiology of Renin-Angiotensin- Aldosterone axis.","Phamacopenile Doppler Ultrasonography."]},
+  2:{date:"Tuesday, December 02, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labeled diagrams wherever necessary.","Answer all the questions"],
+     le:["Outline Surgical treatment for Peyronnie’s disease.","Management of 1.5cm Renal Pelvic calculus in male with BMI of 38 with mention of procedure related complications."],
+     se:["Complications of Trans Obturator Mid Urethral Slings.","Complications of Oral graft harvesting.","Perioperative management of Phaeochromocytoma.","Complications of Penile prosthesis surgery.","Extra-vesical techniques for ureteric implantation.","Management of low flow priapism."]},
+  3:{date:"Wednesday, December 03, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labelled diagrams wherever necessary.","Answer all the questions."],
+     le:["PCNL evolution: Macro, Mini-Micro: types, techniques, instrumentation, modifications for stone clearance.","Describe the ureterointestinal and ureterocolonic anastomosis techniques and its relevance in urosurgery."],
+     se:["Bosniak Classification.","Circumcaval ureter.","Renal arterial aneurysm and its management.","Biphosphonates.","Role of PDE-5 inhibitors in LUTS due to BPH.","Castration resistant prostate cancer: Management options."]},
+  4:{date:"Thursday, December 04, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labelled diagrams wherever necessary.","Answer all the questions."],
+     le:["Describe the different techniques employed in renal preservation during partial nephrectomy.","Describe the advances in the use of LASERS in Urology."],
+     se:["Atezolizumab.","Tumor vaccines.","STAMPEDE trial.","Relationship between sperm retrieval after varicocele repair and Trancriptome analysis.","Non invasive Urodynamic study.","Micro RNA."]}
+ },
+ "2025m": {time:"14:00 – 17:00 Hrs.",
+  1:{date:"Tuesday, March 11, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labeled diagrams wherever necessary."],
+     le:["Describe the development, anatomy and anamolies in development of ureter with special reference to ureterocele.","Discuss the female pelvic anatomy in relation to pathogenesis of stress urinary incontinence and the corrective procedures for stress urinary incontinence."],
+     se:["TUR syndrome.","Renal hypercalciuria.","Bacterial and host factors in urinary infections.","Bladder dysfunction in posterior urethral valve.","Function of Epididymis.","BXO."]},
+  2:{date:"Wednesday, March 12, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labeled diagrams wherever necessary."],
+     le:["Discuss rational approach to evaluation and management of painless haematuria in 35 years old male.","Discuss the medical measures for the secondary prevention of urolithiasis."],
+     se:["Fournier’s gangrene.","Evaluation and management of retroperitoneal fibrosis.","Complete ureteral avulsion.","Extra gonadal germ cell tumor.","Retrograde ejaculation.","Genetic causes of male infertility."]},
+  3:{date:"Thursday, March 13, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labeled diagrams wherever necessary."],
+     le:["Discuss the short and long term complications of orthotopic neobladder and their management.","Describe the anatomic basis and the surgical technique of radical retropubic nerve sparing prostatectomy."],
+     se:["Oncocytoma.","Anamolies of renal vasculature.","Calyceal diverticulum.","Growing teratoma syndrome.","Pathophysiology of renovascular hypertension.","Role of lymph node dissection in upper urinary tract TCC."]},
+  4:{date:"Friday, March 14, 2025",
+     instr:["Your answer should be specific to questions asked.","Draw neat labeled diagrams wherever necessary."],
+     le:["Describe current status of role of interventional radiology in Urology.","Describe the role of PET scanning in urological malignancies."],
+     se:["Role of Add-on Desmopressin for men with persistent nocturia on Alpha-Blocker monotherapy for LUTS.","Non surgical treatment options in BCG failure in NMIBC.","Immunotherapy in CA Prostate and CA Bladder.","Recent advances in management of SUI.","Bipolar TURP.","Haemostatic materials in urological practice."]}
+ }
+};
+function qs(s, pid){
+  const p = PRINTED[s.id] && PRINTED[s.id][pid], d = Q[pid][s.id];
+  return p ? {le:p.le, se:p.se, p:p} : {le:d.le || [], se:d.se || [], p:null};
+}
+
+/* one printed question paper, laid out like the Manipal sheet: Reg. No. boxes, university, exam, paper, marks, instructions, questions */
 function sheetHTML(s, pid){
-  const P = PAPERS[pid], d = Q[pid][s.id], le = d.le || [], se = d.se || [];
+  const P = PAPERS[pid], x = qs(s, pid), le = x.le, se = x.se, pr = x.p;
   let body;
   if(s.fmt === "notes"){
     body = `<div class="sec">Short Notes:</div>` +
@@ -804,19 +853,25 @@ function sheetHTML(s, pid){
       se.map((t,i) => `<div class="q sm"><span class="no">3${"ABCDEF"[i]}.</span><span class="tx">${t}</span></div>`).join("") +
       `<div class="tot">(10 marks × 6 = 60 marks)</div>`;
   }
+  const instr = pr ? pr.instr : ["Draw neat labelled diagrams wherever necessary."];
   return `<article class="sheet" aria-label="${s.label}, Paper ${P.code}">
     <div class="reg"><span>Reg. No.</span>${"<i></i>".repeat(10)}</div>
     <div class="uni">MANIPAL ACADEMY OF HIGHER EDUCATION</div>
     <div class="exam">M.Ch. (UROLOGY) DEGREE EXAMINATION – ${s.label.toUpperCase()}</div>
     <div class="subj">SUBJECT: PAPER ${P.code}</div>
-    <div class="meta"><span class="ptitle">${P.title}</span><span>Max. Marks: 100</span></div>
-    <ul class="instr"><li>Draw neat labelled diagrams wherever necessary.</li></ul>
+    ${pr ? `<div class="date">${pr.date}</div>` : ""}
+    <div class="meta">${pr ? `<span>Time: ${PRINTED[s.id].time}</span>` : `<span class="ptitle">${P.title}</span>`}<span>Max. Marks: 100</span></div>
+    <ul class="instr">${instr.map(t => `<li>${t}</li>`).join("")}</ul>
     ${body}
     <div class="orn" aria-hidden="true">✦ ✦ ✦</div>
     <div class="pg">Page 1 of 1</div>
   </article>`;
 }
-
+function sheetNote(s, pid){
+  return PRINTED[s.id] && PRINTED[s.id][pid]
+    ? `<p class="srcnote">Transcribed word for word from the printed paper, spelling as printed.</p>`
+    : `<p class="srcnote">Question wording here is the archive’s condensed text, not the verbatim printed wording.</p>`;
+}
 function tabBtn(kind, id, label, on){
   return `<button type="button" class="tab${on ? " active" : ""}" role="tab" aria-selected="${on}" data-k="${kind}" data-id="${id}">${label}</button>`;
 }
@@ -827,9 +882,9 @@ function renderHits(term){
   const t = term.toLowerCase();
   let n = 0, html = "";
   SESSIONS.forEach(s => [1,2,3,4].forEach(pid => {
-    const d = Q[pid][s.id], items = [];
-    (d.le || []).forEach((q,i) => items.push(["Q" + (i+1) + " · 20 marks", q]));
-    (d.se || []).forEach((q,i) => items.push([s.fmt === "notes" ? "Q" + (i+1) : "Q3" + "ABCDEF"[i], q]));
+    const x = qs(s, pid), items = [];
+    x.le.forEach((q,i) => items.push(["Q" + (i+1) + " · 20 marks", q]));
+    x.se.forEach((q,i) => items.push([s.fmt === "notes" ? "Q" + (i+1) : "Q3" + "ABCDEF"[i], q]));
     items.forEach(it => {
       if(it[1].toLowerCase().indexOf(t) > -1){
         n++;
@@ -850,7 +905,7 @@ function renderPapers(){
   priEl.innerHTML = mode === "year" ? sitBtns() : papBtns();
   secEl.innerHTML = mode === "year" ? papBtns() : sitBtns();
   const s = SESSIONS.filter(x => x.id === curSid)[0];
-  sheetEl.innerHTML = sheetHTML(s, curPid);
+  sheetEl.innerHTML = sheetHTML(s, curPid) + sheetNote(s, curPid);
   resultCount.textContent = s.label + " · Paper " + PAPERS[curPid].code;
   const act = priEl.querySelector(".active");
   if(act) priEl.scrollLeft = act.offsetLeft - priEl.clientWidth / 2 + act.offsetWidth / 2;
