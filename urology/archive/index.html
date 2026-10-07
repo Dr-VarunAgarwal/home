@@ -2,7 +2,7 @@
 <title>Urology Exam Archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#eef0f4;
@@ -350,6 +350,63 @@
     .session{ grid-template-columns:1fr; gap:6px; }
     .session-meta{ position:static; }
   }
+
+  /* ---------- Papers: sitting / paper tabs and the printed A4 sheet ---------- */
+  #papersView{ padding-top:6px; }
+  .ptools{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:22px 0 0; }
+  .printbtn{ font-family:var(--mono); font-size:12.5px; padding:7px 12px; border-radius:7px; border:1px solid var(--rule); background:var(--paper-raised); color:var(--ink-soft); cursor:pointer; }
+  .printbtn:hover{ border-color:var(--accent2); color:var(--accent2); }
+  .tabs.scroll{ margin-top:14px; }
+  .tabs.scroll .tab{ flex:none; white-space:nowrap; }
+  .tabs.sub{ margin-top:0; border-bottom:0; gap:6px; padding:12px 0 2px; }
+  .tabs.sub .tab{ border:1px solid var(--rule); border-radius:7px; margin-bottom:0; padding:6px 12px; }
+  .tabs.sub .tab.active{ border-color:var(--accent2); background:var(--accent2-soft); }
+  .sheetwrap{ container-type:inline-size; max-width:794px; margin:16px auto 0; }
+  .sheet{
+    background:#fdfcf8; color:#141414;
+    font-family:"Tinos","Times New Roman",Times,serif;
+    font-size:clamp(12.5px, 2.1cqw, 17px); line-height:1.5;
+    aspect-ratio:210 / 297;
+    padding:5.5% 7% 4%;
+    border:1px solid #d9d6cb;
+    box-shadow:0 1px 3px rgba(0,0,0,.25), 0 16px 42px -16px rgba(0,0,0,.45);
+    display:flex; flex-direction:column;
+  }
+  .sheet .reg{ align-self:flex-end; display:flex; align-items:stretch; border:1.5px solid #222; font-size:.8em; font-weight:700; }
+  .sheet .reg span{ padding:.15em .6em; border-right:1.5px solid #222; }
+  .sheet .reg i{ width:2.1em; border-right:1.5px solid #222; }
+  .sheet .reg i:last-child{ border-right:0; }
+  .sheet .uni{ text-align:center; font-weight:700; font-size:1.28em; letter-spacing:.03em; margin-top:1em; }
+  .sheet .exam{ text-align:center; font-weight:700; font-size:1.08em; margin-top:.35em; }
+  .sheet .subj{ text-align:center; font-weight:700; letter-spacing:.04em; margin-top:.5em; }
+  .sheet .meta{ display:flex; justify-content:space-between; align-items:baseline; gap:1em; border-bottom:2px solid #222; padding-bottom:.25em; margin-top:1.2em; }
+  .sheet .ptitle{ font-style:italic; }
+  .sheet .instr{ list-style:none; padding:0; margin:1.2em 0 1.2em; }
+  .sheet .instr li, .sheet .sec{ font-weight:700; padding-left:2.4em; position:relative; }
+  .sheet .instr li::before, .sheet .sec::before{ content:"✎"; position:absolute; left:.5em; font-weight:400; }
+  .sheet .sec{ margin:1.1em 0 .9em; }
+  .sheet .q{ display:grid; grid-template-columns:2.4em 1fr; margin-bottom:.75em; text-align:justify; }
+  .sheet .q .no{ padding-left:.25em; }
+  .sheet .q .mk{ grid-column:2; text-align:right; font-style:italic; margin-top:.1em; }
+  .sheet .q.sm{ margin-bottom:.2em; text-align:left; }
+  .sheet .sec2{ display:grid; grid-template-columns:2.4em 1fr; font-weight:700; margin:1.1em 0 .5em; }
+  .sheet .sec2 span:first-child{ padding-left:.25em; }
+  .sheet .tot{ text-align:right; font-style:italic; margin-top:.9em; }
+  .sheet .orn{ text-align:center; margin-top:2.2em; letter-spacing:.5em; }
+  .sheet .pg{ margin-top:auto; padding-top:2.5em; text-align:right; font-weight:700; font-size:.75em; }
+  .hits{ margin-top:18px; }
+  .hit{ display:block; width:100%; text-align:left; font:inherit; font-size:14.5px; line-height:1.5; color:var(--ink); background:var(--paper-raised); border:1px solid var(--rule); border-radius:8px; padding:9px 12px; margin-bottom:6px; cursor:pointer; }
+  .hit:hover{ border-color:var(--accent2); }
+  .hit small{ display:block; font-family:var(--mono); font-size:11px; color:var(--ink-faint); margin-bottom:2px; }
+  .hit mark{ background:var(--accent-soft); color:var(--accent-ink); border-radius:2px; }
+  @media (max-width:640px){ .sheet{ padding:7% 6% 5%; } .ptools .count{ margin-left:0; } }
+  @media print{
+    body{ background:#fff; }
+    header.masthead, .ptools, .tabs, #hits, footer, #homeSection{ display:none !important; }
+    .wrap{ padding:0; max-width:none; }
+    .sheetwrap{ max-width:none; margin:0; }
+    .sheet{ box-shadow:none; border:0; aspect-ratio:auto; min-height:100vh; font-size:12pt; }
+  }
 </style>
 
 <header class="masthead">
@@ -363,7 +420,7 @@
       </button>
     </div>
     <h1>Urology Exam Archive</h1>
-    <p class="dek">Every long essay, short essay and short-note question set on file, drawn from <em>sixteen</em> M.Ch. (Urology) degree examinations sat between July 2009 and December 2025.</p>
+    <p class="dek">July 2009 – December 2025</p>
     <div class="ledger">
       <div><span class="num">16</span><span class="lbl">Sittings</span></div>
       <div><span class="num">4</span><span class="lbl">Papers each</span></div>
@@ -371,10 +428,10 @@
       <div><span class="num">'09–'25</span><span class="lbl">Span</span></div>
     </div>
     <nav class="tabs" id="tabs">
-      <button type="button" class="tab active" data-tab="home">Home</button>
-      <button type="button" class="tab" data-tab="papers">Papers</button>
+      <button type="button" class="tab active" data-tab="papers">Papers</button>
+      <button type="button" class="tab" data-tab="home">Repeat offenders</button>
     </nav>
-    <div class="chips mast-chips" id="paperChips">
+    <div class="chips mast-chips" id="paperChips" hidden>
       <span class="chip active" data-p="all">All papers</span>
       <span class="chip" data-p="1">I · Basic Sciences</span>
       <span class="chip" data-p="2">II · General &amp; Andrology</span>
@@ -384,28 +441,9 @@
   </div>
 </header>
 
-<div class="toolbar" id="papersToolbar" hidden>
-  <div class="toolbar-inner">
-    <div class="search">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="q" type="text" placeholder="Search every paper — e.g. “BCG”, “PCNL”, “Peyronie”…" autocomplete="off">
-    </div>
-    <div class="seg" id="modeSeg">
-      <button type="button" class="segbtn active" data-mode="paper">By paper</button>
-      <button type="button" class="segbtn" data-mode="year">By year</button>
-    </div>
-    <select class="sortsel" id="yearSel" hidden></select>
-    <select class="sortsel" id="sortsel">
-      <option value="new">Newest first</option>
-      <option value="old">Oldest first</option>
-    </select>
-    <span class="count" id="resultCount"></span>
-  </div>
-</div>
-
 <div class="wrap">
 
-  <section class="highyield" id="homeSection">
+  <section class="highyield" id="homeSection" hidden>
     <div class="section-head">
       <h2>Repeat offenders</h2>
       <p>Topics the examiners keep coming back to, counted from the archive below. Pick a paper above to see what repeats within it.</p>
@@ -414,7 +452,21 @@
     <div class="hy-grid" id="hyGrid"></div>
   </section>
 
-  <div id="archive" hidden></div>
+  <section id="papersView">
+    <div class="ptools">
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="Search every paper — e.g. “BCG”, “PCNL”, “Peyronie”…" autocomplete="off" aria-label="Search every paper">
+      </div>
+      <div class="seg" id="modeSeg"><button type="button" class="segbtn active" data-mode="year">By year</button><button type="button" class="segbtn" data-mode="paper">By paper</button></div>
+      <button type="button" class="printbtn" id="printBtn">Print this paper</button>
+      <span class="count" id="resultCount"></span>
+    </div>
+    <nav class="tabs scroll" id="tabsPri" role="tablist" aria-label="Choose a sitting"></nav>
+    <nav class="tabs sub" id="tabsSec" role="tablist" aria-label="Choose a paper"></nav>
+    <div class="sheetwrap" id="sheetWrap"></div>
+    <div class="hits" id="hits" hidden></div>
+  </section>
 
   <footer>
     <p><strong>Sources.</strong> Compiled from the question papers on file: <code>25-kmc-qp.pdf</code> (Mar 2025), <code>Dec-2023_6.pdf</code>, <code>July-2020_4.pdf</code>, <code>July-2022_4.pdf</code>, four December&nbsp;2025 photographs, and eleven papers (2009–2019) in <code>PREVIOUS YEARS PAPER/</code>. Four March&nbsp;2025 photographs duplicated <code>25-kmc-qp.pdf</code> exactly and were folded in rather than listed twice.</p>
@@ -712,203 +764,131 @@ function renderHY(){
   }).join("") || `<div class="empty-state">Nothing repeats in this paper.</div>`;
 }
 
-const archiveEl = document.getElementById("archive");
-const qInput = document.getElementById("q");
-const chipsEl = document.getElementById("paperChips");
-const sortSel = document.getElementById("sortsel");
-const resultCount = document.getElementById("resultCount");
 const tabsEl = document.getElementById("tabs");
-const modeSegEl = document.getElementById("modeSeg");
-const yearSelEl = document.getElementById("yearSel");
-const papersToolbarEl = document.getElementById("papersToolbar");
+const chipsEl = document.getElementById("paperChips");
 const homeSectionEl = document.getElementById("homeSection");
+const papersViewEl = document.getElementById("papersView");
+const priEl = document.getElementById("tabsPri");
+const secEl = document.getElementById("tabsSec");
+const sheetEl = document.getElementById("sheetWrap");
+const hitsEl = document.getElementById("hits");
+const qInput = document.getElementById("q");
+const modeSegEl = document.getElementById("modeSeg");
+const resultCount = document.getElementById("resultCount");
 
-let activePaper = "all";
-let activeTab = "home";
-let sortMode = "paper";
-let yearFilter = "all";
-
-yearSelEl.innerHTML = `<option value="all">All sittings</option>` +
-  SESSIONS.map(s => `<option value="${s.id}">${s.label}</option>`).join("");
+let activePaper = "all";   // masthead chips: which paper the repeat-offender cards are counted for
+let mode = "year";         // "year": sittings are the main tabs and papers the sub-tabs; "paper": the other way round
+let curSid = SESSIONS[0].id, curPid = 1;
 
 function esc(s){ return s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
-
 function highlight(text, term){
   if(!term) return text;
-  // text may already contain safe inline <span> markup for "as printed" notes; escape only plain segments minimally
   const idx = text.toLowerCase().indexOf(term.toLowerCase());
   if(idx === -1) return text;
   return text.slice(0,idx) + "<mark>" + text.slice(idx, idx+term.length) + "</mark>" + text.slice(idx+term.length);
 }
+const shortLabel = s => s.label.replace("December","Dec").replace("March","Mar").replace("July","Jul");
 
-function render(){
-  if(sortMode === "year") renderByYear();
-  else renderByPaper();
-}
-
-function renderByYear(){
-  const term = qInput.value.trim().toLowerCase();
-  const sessionsOrdered = sortSel.value === "old" ? [...SESSIONS].reverse() : SESSIONS;
-  const paperIds = activePaper === "all" ? [1,2,3,4] : [Number(activePaper)];
-  const sessionsToShow = yearFilter === "all" ? sessionsOrdered : sessionsOrdered.filter(s => s.id === yearFilter);
-
-  let total = 0, shown = 0;
-  let html = "";
-
-  sessionsToShow.forEach(s => {
-    let sessionHtml = "";
-    paperIds.forEach(pid => {
-      const paper = PAPERS[pid];
-      const data = Q[pid][s.id];
-      const le = data.le || [];
-      const se = data.se || [];
-      total += le.length + se.length;
-
-      const matches = str => term === "" || str.toLowerCase().includes(term);
-      const leMatch = le.filter(matches);
-      const seMatch = se.filter(matches);
-      const leShow = term === "" ? le : leMatch;
-      const seShow = term === "" ? se : seMatch;
-      if(term !== "" && leShow.length === 0 && seShow.length === 0) return;
-
-      shown += leShow.length + seShow.length;
-
-      sessionHtml += `
-        <div class="paper-mini">
-          <div class="paper-mini-head"><span class="paper-mini-numeral">${paper.code}</span><span class="paper-mini-title">${paper.title}</span></div>
-          <ul class="qlist">
-            ${leShow.map((t,i)=>`<li><span class="qtag le">L${i+1} · 20</span><span class="qtext">${highlight(t,term)}</span></li>`).join("")}
-            ${seShow.map((t,i)=>`<li><span class="qtag se">${s.fmt==="notes" ? (i+1) : "ABCDEF"[i]} · 10</span><span class="qtext">${highlight(t,term)}</span></li>`).join("")}
-          </ul>
-        </div>`;
-    });
-
-    if(sessionHtml){
-      const fmtLabel = s.fmt === "notes" ? "10 short notes · 10 marks each" : "2 long essays (20) + 6 short essays (10×6)";
-      html += `
-        <section class="year-section" id="year-${s.id}">
-          <div class="year-head">
-            <span class="year-label">${s.label}</span>
-            <span class="session-fmt">${fmtLabel}</span>
-          </div>
-          ${sessionHtml}
-        </section>`;
-    }
-  });
-
-  if(!html){
-    html = `<div class="empty-state">No questions match “${esc(qInput.value)}”.</div>`;
+/* one printed question paper, laid out like the Manipal sheet: Reg. No. boxes, university, exam, paper, marks, instruction, questions */
+function sheetHTML(s, pid){
+  const P = PAPERS[pid], d = Q[pid][s.id], le = d.le || [], se = d.se || [];
+  let body;
+  if(s.fmt === "notes"){
+    body = `<div class="sec">Short Notes:</div>` +
+      se.map((t,i) => `<div class="q sm"><span class="no">${i+1}.</span><span class="tx">${t}</span></div>`).join("") +
+      `<div class="tot">(10 marks × 10 = 100 marks)</div>`;
+  } else {
+    body = `<div class="sec">Long Essays:</div>` +
+      le.map((t,i) => `<div class="q"><span class="no">${i+1}.</span><span class="tx">${t}</span><span class="mk">(20 marks)</span></div>`).join("") +
+      `<div class="sec2"><span>3.</span><span>Short Essays:</span></div>` +
+      se.map((t,i) => `<div class="q sm"><span class="no">3${"ABCDEF"[i]}.</span><span class="tx">${t}</span></div>`).join("") +
+      `<div class="tot">(10 marks × 6 = 60 marks)</div>`;
   }
-  archiveEl.innerHTML = html;
-  resultCount.textContent = term ? `${shown} of ${total} shown` : `${total} questions`;
+  return `<article class="sheet" aria-label="${s.label}, Paper ${P.code}">
+    <div class="reg"><span>Reg. No.</span>${"<i></i>".repeat(10)}</div>
+    <div class="uni">MANIPAL ACADEMY OF HIGHER EDUCATION</div>
+    <div class="exam">M.Ch. (UROLOGY) DEGREE EXAMINATION – ${s.label.toUpperCase()}</div>
+    <div class="subj">SUBJECT: PAPER ${P.code}</div>
+    <div class="meta"><span class="ptitle">${P.title}</span><span>Max. Marks: 100</span></div>
+    <ul class="instr"><li>Draw neat labelled diagrams wherever necessary.</li></ul>
+    ${body}
+    <div class="orn" aria-hidden="true">✦ ✦ ✦</div>
+    <div class="pg">Page 1 of 1</div>
+  </article>`;
 }
 
-function renderByPaper(){
-  const term = qInput.value.trim().toLowerCase();
-  const sessionsOrdered = sortSel.value === "old" ? [...SESSIONS].reverse() : SESSIONS;
-  const paperIds = activePaper === "all" ? [1,2,3,4] : [Number(activePaper)];
+function tabBtn(kind, id, label, on){
+  return `<button type="button" class="tab${on ? " active" : ""}" role="tab" aria-selected="${on}" data-k="${kind}" data-id="${id}">${label}</button>`;
+}
+const sitBtns = () => SESSIONS.map(s => tabBtn("s", s.id, shortLabel(s), s.id === curSid)).join("");
+const papBtns = () => [1,2,3,4].map(p => tabBtn("p", p, "Paper " + PAPERS[p].code, p === curPid)).join("");
 
-  let total = 0, shown = 0;
-  let html = "";
-
-  paperIds.forEach(pid => {
-    const paper = PAPERS[pid];
-    let paperHtml = "";
-    sessionsOrdered.forEach(s => {
-      const data = Q[pid][s.id];
-      const le = data.le || [];
-      const se = data.se || [];
-      total += le.length + se.length;
-
-      const matches = str => term === "" || str.toLowerCase().includes(term);
-      const leMatch = le.filter(matches);
-      const seMatch = se.filter(matches);
-      const sessionMatches = term === "" || s.label.toLowerCase().includes(term) || leMatch.length || seMatch.length;
-      if(!sessionMatches) return;
-
-      const leShow = term === "" ? le : leMatch;
-      const seShow = term === "" ? se : seMatch;
-      if(term !== "" && leShow.length === 0 && seShow.length === 0) return;
-
-      shown += leShow.length + seShow.length;
-
-      const fmtLabel = s.fmt === "notes" ? "10 short notes · 10 marks each" : "2 long essays (20) + 6 short essays (10×6)";
-      paperHtml += `
-        <div class="session">
-          <div class="session-meta">
-            <div class="session-label">${s.label}</div>
-            <div class="session-fmt">${fmtLabel}</div>
-          </div>
-          <ul class="qlist">
-            ${leShow.map((t,i)=>`<li><span class="qtag le">L${i+1} · 20</span><span class="qtext">${highlight(t,term)}</span></li>`).join("")}
-            ${seShow.map((t,i)=>`<li><span class="qtag se">${s.fmt==="notes" ? (i+1) : "ABCDEF"[i]} · 10</span><span class="qtext">${highlight(t,term)}</span></li>`).join("")}
-          </ul>
-        </div>`;
+function renderHits(term){
+  const t = term.toLowerCase();
+  let n = 0, html = "";
+  SESSIONS.forEach(s => [1,2,3,4].forEach(pid => {
+    const d = Q[pid][s.id], items = [];
+    (d.le || []).forEach((q,i) => items.push(["Q" + (i+1) + " · 20 marks", q]));
+    (d.se || []).forEach((q,i) => items.push([s.fmt === "notes" ? "Q" + (i+1) : "Q3" + "ABCDEF"[i], q]));
+    items.forEach(it => {
+      if(it[1].toLowerCase().indexOf(t) > -1){
+        n++;
+        html += `<button type="button" class="hit" data-s="${s.id}" data-p="${pid}"><small>${s.label} · Paper ${PAPERS[pid].code} · ${it[0]}</small>${highlight(it[1], term)}</button>`;
+      }
     });
-
-    if(paperHtml){
-      html += `
-        <section class="paper-section" id="paper-${pid}">
-          <div class="paper-head">
-            <span class="paper-numeral">${paper.code}</span>
-            <div>
-              <div class="paper-title">${paper.title}</div>
-              <div class="paper-sub">Paper ${paper.code}</div>
-            </div>
-          </div>
-          ${paperHtml}
-        </section>`;
-    }
-  });
-
-  if(!html){
-    html = `<div class="empty-state">No questions match “${esc(qInput.value)}”.</div>`;
-  }
-  archiveEl.innerHTML = html;
-  resultCount.textContent = term ? `${shown} of ${total} shown` : `${total} questions`;
+  }));
+  hitsEl.innerHTML = html || `<div class="empty-state">No questions match “${esc(term)}”.</div>`;
+  resultCount.textContent = n + " match" + (n === 1 ? "" : "es");
 }
 
-qInput.addEventListener("input", render);
-sortSel.addEventListener("change", render);
+function renderPapers(){
+  const term = qInput.value.trim(), searching = term !== "";
+  priEl.hidden = secEl.hidden = sheetEl.hidden = searching;
+  hitsEl.hidden = !searching;
+  [...modeSegEl.children].forEach(b => b.classList.toggle("active", b.dataset.mode === mode));
+  if(searching){ renderHits(term); return; }
+  priEl.innerHTML = mode === "year" ? sitBtns() : papBtns();
+  secEl.innerHTML = mode === "year" ? papBtns() : sitBtns();
+  const s = SESSIONS.filter(x => x.id === curSid)[0];
+  sheetEl.innerHTML = sheetHTML(s, curPid);
+  resultCount.textContent = s.label + " · Paper " + PAPERS[curPid].code;
+  const act = priEl.querySelector(".active");
+  if(act) priEl.scrollLeft = act.offsetLeft - priEl.clientWidth / 2 + act.offsetWidth / 2;
+}
+
+papersViewEl.addEventListener("click", e => {
+  const tb = e.target.closest(".tab[data-k]");
+  if(tb){ if(tb.dataset.k === "s") curSid = tb.dataset.id; else curPid = Number(tb.dataset.id); renderPapers(); return; }
+  const hit = e.target.closest(".hit");
+  if(hit){ curSid = hit.dataset.s; curPid = Number(hit.dataset.p); qInput.value = ""; renderPapers(); window.scrollTo(0, 0); return; }
+  if(e.target.closest("#printBtn")) window.print();
+});
+modeSegEl.addEventListener("click", e => {
+  const b = e.target.closest(".segbtn"); if(!b) return;
+  mode = b.dataset.mode; renderPapers();
+});
+qInput.addEventListener("input", renderPapers);
+
 chipsEl.addEventListener("click", e => {
   const chip = e.target.closest(".chip");
   if(!chip) return;
   [...chipsEl.children].forEach(c => c.classList.remove("active"));
   chip.classList.add("active");
   activePaper = chip.dataset.p;
-  render();
   renderHY();
 });
-
 tabsEl.addEventListener("click", e => {
   const btn = e.target.closest(".tab");
   if(!btn) return;
   [...tabsEl.children].forEach(t => t.classList.remove("active"));
   btn.classList.add("active");
-  activeTab = btn.dataset.tab;
-  homeSectionEl.hidden = activeTab !== "home";
-  papersToolbarEl.hidden = activeTab !== "papers";
-  archiveEl.hidden = activeTab !== "papers";
+  const tab = btn.dataset.tab;
+  papersViewEl.hidden = tab !== "papers";
+  homeSectionEl.hidden = tab !== "home";
+  chipsEl.hidden = tab !== "home";
 });
 
-modeSegEl.addEventListener("click", e => {
-  const btn = e.target.closest(".segbtn");
-  if(!btn) return;
-  [...modeSegEl.children].forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  sortMode = btn.dataset.mode;
-  yearFilter = "all";
-  yearSelEl.value = "all";
-  yearSelEl.hidden = sortMode !== "year";
-  render();
-});
-
-yearSelEl.addEventListener("change", () => {
-  yearFilter = yearSelEl.value;
-  render();
-});
-
-render();
+renderPapers();
 renderHY();
 
 let grandTotal = 0;
