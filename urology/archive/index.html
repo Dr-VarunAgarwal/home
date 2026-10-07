@@ -457,7 +457,7 @@
   <section class="highyield" id="homeSection" hidden>
     <div class="section-head">
       <h2>Repeat offenders</h2>
-      <p>Topics the examiners keep coming back to, counted from the archive below. Pick a paper above to see what repeats within it.</p>
+      <p>Topics the examiners keep coming back to, counted across all sittings. Pick a paper above to see what repeats within it.</p>
       <p class="hy-sub" id="hySub"></p>
     </div>
     <div class="hy-grid" id="hyGrid"></div>
@@ -481,8 +481,7 @@
   </section>
 
   <footer>
-    <p><strong>Sources.</strong> Compiled from the question papers on file: <code>25-kmc-qp.pdf</code> (Mar 2025), <code>Dec-2023_6.pdf</code>, <code>July-2020_4.pdf</code>, <code>July-2022_4.pdf</code>, four December&nbsp;2025 photographs, and eleven papers (2009–2019) in <code>PREVIOUS YEARS PAPER/</code>. Four March&nbsp;2025 photographs duplicated <code>25-kmc-qp.pdf</code> exactly and were folded in rather than listed twice.</p>
-    <p><strong>Gaps.</strong> No July&nbsp;2021 or 2024 sitting is present in the source files — the archive jumps 2020→2022 and 2023→2025. Papers I–IV kept the same four subjects throughout: <em>Basic Sciences</em>, <em>General/Female Urology &amp; Andrology</em>, <em>Operative/Uro-oncology/Paediatric</em>, <em>Recent Advances</em>. The format changed partway: 2009–2014 asked ten equal-weight short notes per paper (10 marks each); from 2015 onward each paper set two Long Essays (20 marks) and six Short Essays (10 marks).</p>
+    <p>No July&nbsp;2021 or 2024 sitting is included (the archive jumps 2020→2022 and 2023→2025). Papers I–IV kept the same four subjects throughout: <em>Basic Sciences</em>, <em>General/Female Urology &amp; Andrology</em>, <em>Operative/Uro-oncology/Paediatric</em>, <em>Recent Advances</em>. Format: 2009–2014, ten short notes per paper (10 marks each); from 2015, two Long Essays (20 marks) and six Short Essays (10 marks).</p>
     </footer>
 </div>
 
@@ -879,8 +878,8 @@ function sheetHTML(s, pid){
 }
 function sheetNote(s, pid){
   return PRINTED[s.id] && PRINTED[s.id][pid]
-    ? `<p class="srcnote">Transcribed word for word from the printed paper, spelling as printed.</p>`
-    : `<p class="srcnote">Question wording here is the archive’s condensed text, not the verbatim printed wording.</p>`;
+    ? `<p class="srcnote">Wording as printed.</p>`
+    : `<p class="srcnote">Abridged wording.</p>`;
 }
 function tabBtn(kind, id, label, on){
   return `<button type="button" class="tab${on ? " active" : ""}" role="tab" aria-selected="${on}" data-k="${kind}" data-id="${id}">${label}</button>`;
@@ -921,7 +920,7 @@ function unifiedHTML(s){
   }).join("");
   const printed = !!PRINTED[s.id];
   return `<div class="year-head"><span class="year-label">${s.label}</span><span class="session-fmt">${fmtLabel}</span></div>${blocks}
-    <p class="srcnote">${printed ? "Transcribed word for word from the printed papers, spelling as printed." : "Question wording here is the archive’s condensed text, not the verbatim printed wording."}</p>`;
+    <p class="srcnote">${printed ? "Wording as printed." : "Abridged wording."}</p>`;
 }
 
 /* By year → the unified list; By paper → pick a sitting, pick a paper, read the printed sheet */

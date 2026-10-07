@@ -1,4 +1,4 @@
-const OSCE_SOURCES = {"slides":"Class photographs","progress":"Progress-sheet notes","c2":"Second classmate's notes","unconf":"Notes with unreadable numbers"};
+const OSCE_SOURCES = {"slides":"Class photographs","progress":"Progress-sheet notes","c2":"Second classmate's notes","unconf":"Notes with unconfirmed numbers"};
 const OSCE_GROUPS = [{"id":"stones","name":"Stones & endourology"},{"id":"prostate","name":"Prostate & LUTS"},{"id":"onco","name":"Uro-oncology"},{"id":"andro","name":"Andrology & sexual medicine"},{"id":"neuro","name":"Neuro-urology & urodynamics"},{"id":"recon","name":"Trauma, stricture & reconstruction"},{"id":"paeds","name":"Paediatrics"},{"id":"general","name":"Work-ups, peri-operative & reference"}];
 const OSCE = [
 {id:"3", n:3, g:"prostate", t:"Post-TURP fluid overload (TUR Syndrome)", parts:[
@@ -14,7 +14,7 @@ const OSCE = [
   ["ul", [
    "TURP fluid absorption: ~20 ml/min absorbed; ~10 ml blood loss per gram of tissue resected.",
    "Water (irrigant) > Glycine irrigant for risk of cerebral / hepatic / renal toxicity.",
-   "Threshold: >45g prostate / >60 min resection time → ↑ risk (word after this was illegible — possibly a local term/mnemonic).",
+   "Threshold: >45g prostate / >60 min resection time → ↑ risk (word after this illegible).",
    "Incidence quoted: 0.5–2%."
   ]],
  ]},
@@ -42,7 +42,7 @@ const OSCE = [
   ["ul", [
    "Neurological evaluation red-flag signs — mnemonic DIAPERS: Delirium, Infection, Atrophic urethritis, Drugs/Psychology, Excessive urine output, Restricted mobility, Stool impaction.",
    "Parkinson's Plus → sphincter problems + more neurological symptoms (vs. idiopathic Parkinson's).",
-   "Avoid TURP in these patients (i.e., in Parkinson's Plus / significant neurogenic sphincter involvement) — precise reasoning line was cut off in the photo.",
+   "Avoid TURP in these patients (i.e., in Parkinson's Plus / significant neurogenic sphincter involvement); reasoning line cut off in the photo.",
    "UDS: Abraham–Griffiths number/index → used to derive the Bladder Outlet Obstruction Index (BOOI)."
   ]],
  ]},
@@ -84,9 +84,9 @@ const OSCE = [
   ]],
   ["ul", [
    "Casts: know the types and where in the nephron/tract each is found (own notes to be filled in per type).",
-   "DJ stent tolerability: symptom questionnaire → USSQ (Ureteric/stent Symptom Score) — handwriting read as 'SRS questionnaire → USS score'; transcribed as best-effort, please confirm the exact instrument name.",
+   "DJ stent tolerability: symptom questionnaire → USSQ (Ureteric/stent Symptom Score); handwriting reads 'SRS questionnaire → USS score'.",
    "Mid-ureteric injury: avoid uretero-ureterostomy here as the usual repair (better suited to upper/lower ureteric injury) — anastomosis under tension is the concern in the mid-ureter.",
-   "Names noted alongside ureteric injury/stenting discussion: 'Pfeifer, Hulbert' — could not be verified against a standard reference; please check spelling/context with your notes.",
+   "Names noted alongside ureteric injury/stenting discussion: 'Pfeifer, Hulbert' (not verified against a reference).",
    "Pearle & Mokhmalji → comparative reference for DJ stent vs. percutaneous nephrostomy (PCN) drainage of obstructing stones with infection."
   ]],
  ]},
@@ -140,7 +140,7 @@ const OSCE = [
    [4,"Reimaging after recovery + Staged procedure."]
   ]],
  ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
    "Sequential dilation vs. under-vision (visual obturator) dilation for renal access.",
    "Calyceal puncture: end-on vs. rotational entry, fluoroscopic control, in line with the infundibulum, favouring a more medial-side-of-pelvis puncture.",
@@ -150,8 +150,7 @@ const OSCE = [
  ]},
 ]},
 {id:"19", n:19, g:"general", t:"Lithotomy Positioning Complications", parts:[
- {s:"c2", tag:"new", b:[
-  ["note","This OSCE was previously listed as 'not captured' — it now has content from this second classmate's notes."],
+ {s:"c2", b:[
   ["ul", [
    "Exaggerated lithotomy position risks: compartment syndrome (calf), rhabdomyolysis, low-lithotomy alternative reduces risk.",
    "Common peroneal nerve injury → foot drop; a recognised positioning complication.",
@@ -176,14 +175,13 @@ const OSCE = [
    [5,"OT table height = 0.49 × surgeon height; Monitor distance = 5 × diagonal length of monitor."]
   ]],
  ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
    "Laparoscopic port/trocar types — metal vs. plastic.",
    "Supraumbilical, infraumbilical, umbilical entry points; Palmer's point; McBurney's point.",
    "Visual ergonomics — OT table height = 0.49 × surgeon height; monitor distance = 5 × diagonal length of monitor; fulcrum effect ratio 1:1.",
    "≥1 hand-width apart between ports (8–9cm); elevation and azimuth angles ~30–60° and ~30° respectively."
   ]],
-  ["note","This is a near-exact match with the OSCE 20 content already in this document from the first batch — good independent confirmation from a second classmate."],
  ]},
 ]},
 {id:"21", n:21, g:"stones", t:"Laser Lithotripsy in Endourology", parts:[
@@ -199,7 +197,7 @@ const OSCE = [
    [3,"'Snow-storm', bleeding/perforation, scope damage – proper positioning, activation & setting + adequate irrigation/suction."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Laser Lithotripsy", b:[
+ {s:"c2", t:"Laser Lithotripsy", b:[
   ["ul", [
    "Holmium/Thulium Fibre Laser (TFL) in endourology.",
    "Ho:YAG fragmentation settings mirrored the earlier batch: dusting 0.4J + 50Hz (renal), popcorning 1J + 20Hz (calyceal), pop-dusting 0.5J + 80Hz (calyceal).",
@@ -229,15 +227,15 @@ const OSCE = [
    ["","Culture","–","+/–*","+","+"],
    ["CAT IIIA","WBC","–","–","–","–"],
    ["","Culture","–","–","–","–"],
-   ["CAT IIIB","WBC","–","–","(not fully captured)","(not fully captured)"],
-   ["","Culture","–","–","(not fully captured)","(not fully captured)"]
+   ["CAT IIIB","WBC","–","–","(cut off in photo)","(cut off in photo)"],
+   ["","Culture","–","–","(cut off in photo)","(cut off in photo)"]
   ]],
-  ["note","The right-hand edge of the CAT IIIB row was cut off in the photo (partially obstructed) — the WBC/Culture pattern for CAT IIIB (classically all-negative, i.e. non-inflammatory CPPS) could not be fully confirmed from the image."],
+  ["note","CAT IIIB row partly cut off at the right edge of the photo; its WBC/culture pattern is not visible."],
   ["ol", [
    [5,"NSAIDS + Antibiotics + 5ARis + Amitriptyline + Pregabalin."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Chronic Prostatitis / Hormone Therapy", b:[
+ {s:"c2", t:"Chronic Prostatitis / Hormone Therapy", b:[
   ["ul", [
    "4-glass test (Meares–Stamey) and 2-glass test (PPMT); symptoms + culture/sensitivity + >3 months duration required for the chronic prostatitis diagnosis.",
    "Classification referenced again: CAT II, CAT IIIA, CAT IIIB, and CAT IV (asymptomatic inflammatory prostatitis — histological finding only).",
@@ -247,7 +245,7 @@ const OSCE = [
    "Threshold flags: IPSS >19 as a relative caution; HCT >50–54% (erythrocytosis) requires dose adjustment/cessation.",
    "Castration levels: testosterone <50 ng/dL (medical castration) or <20 ng/dL (some guidelines use a stricter surgical-castration-equivalent cut-off)."
   ]],
-  ["note","Some numeric thresholds here (IPSS >19, HCT cut-offs) were only partly legible — please verify exact values against your endocrinology/andrology reference before using them in an exam answer."],
+  ["note","Some thresholds (IPSS >19, HCT cut-offs) partly illegible in the source."],
  ]},
 ]},
 {id:"24", n:24, g:"prostate", t:"RARP — Perioperative Care ('Trifecta')", parts:[
@@ -261,7 +259,7 @@ const OSCE = [
    "Biochemical recurrence – Adjuvant treatment? – RT / ADT (2 marks)"
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"RARP / Consent for Radical Prostatectomy", b:[
+ {s:"c2", t:"RARP / Consent for Radical Prostatectomy", b:[
   ["ul", [
    "Consent for RP — shared decision making.",
    "Discuss: life expectancy + performance status, staging + risk stratification, pre-op prep (PFMT, PDE5i), intra-op risks (bleeding, visceral injury), post-op course (catheter, ambulation, diet, analgesia, discharge plan), follow-up (HPR, PSA, the 'trifecta' of continence/potency/oncological control), and biochemical recurrence management (adjuvant RT/ADT)."
@@ -283,7 +281,7 @@ const OSCE = [
    [10,"Outcomes / Prognosis."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Trauma Evaluation", b:[
+ {s:"c2", t:"Trauma Evaluation", b:[
   ["ul", [
    "Gross haematuria following alleged RTA — initial evaluation and management steps.",
    "ATLS principles — primary and secondary survey, assess hemodynamic status, blunt vs. penetrating vs. high-velocity injury.",
@@ -320,7 +318,7 @@ const OSCE = [
    [3,"Name a PD1 inhibitor + Indication + Supporting Trial."],
    [4,"Name a PD-L1 inhibitor + Indication + Supporting Trial."]
   ]],
-  ["note","No answer/checklist slide for OSCE 27 was captured in any of the photos — only the question slide above was photographed. The answer below is supplied from general knowledge, not from your slides, and should be checked against your course material."],
+  ["note","Answer supplied from general knowledge; no answer slide was photographed."],
   ["ol", [
    [1,"Nobel Prize in Physiology or Medicine 2018 was awarded jointly to James P. Allison and Tasuku Honjo for their discovery of cancer therapy by inhibition of negative immune regulation."],
    [2,"CTLA-4 inhibitor: Ipilimumab — indicated in metastatic melanoma (often combined with nivolumab), and in combination regimens for renal cell carcinoma; pivotal trial: Hodi et al., NEJM 2010 (MDX010-20)."],
@@ -357,24 +355,24 @@ const OSCE = [
    [5,"Sequence of penile repair → 16 hrs (ischemic time) permissible."],
    [6,"Urethra → corpora spongiosum → corpora cavernosum (layer order)."]
   ]],
-  ["note","This checklist comes from a classmate's handwritten notes (not from the projected slide), so it has been added as supplementary confirmation rather than a verbatim slide transcription."],
+  ["note","Checklist from a classmate's handwritten notes."],
  ]},
 ]},
 {id:"30", n:30, g:"andro", t:"Testicular Biopsy", parts:[
  {s:"slides", b:[
-  ["note","This OSCE was not in the original photo set — it comes entirely from a classmate's handwritten notes, so treat the detail below as less certain than the slide-sourced OSCEs."],
+  ["note","From a classmate's handwritten notes."],
   ["ol", [
    [1,"Biopsy indications → severe OATS (oligo-astheno-teratospermia), Azoospermia → with normal testicular volume and normal S. FSH."],
    [2,"TESE biopsy: <40yr patient, <12ml testis, H/O undescended testis (UDT) → subfertility work-up."],
    [3,"3-point fixation → avoid the poles and anterior surface (of the testis, to protect the blood supply / avoid the appendages)."],
    [4,"mTESE (microdissection TESE) → treatment of choice (in non-obstructive azoospermia)."]
   ]],
-  ["note","The line '②TESE Biopsy <40yr pt, <12ml testis, H/O UDT → Subfertility' and the final 'mTESE →' line were partly obscured by a strike-through in the original note; transcribed as best-effort."],
+  ["note","The “②TESE Biopsy <40yr pt, <12ml testis, H/O UDT → Subfertility” line and the final “mTESE →” line are partly obscured by a strike-through in the source."],
  ]},
 ]},
 {id:"31", n:31, g:"andro", t:"Metabolic Syndrome — Urological Implications", parts:[
  {s:"slides", b:[
-  ["note","A dedicated question-stem slide for OSCE 31 was not captured; the topic is inferred from the three checklist slides below."],
+  ["note","Question-stem slide not photographed; topic taken from the three checklist slides."],
   ["tbl", [
    ["","WHO (1998)","EGIR (1999)","AACE (2003)","IDF (2005)","NCEP ATP III (2005 revision)"],
    ["Required component","IR (IGT, IFG, T2DM, or additional evidence of IR)","Hyperinsulinemia (plasma insulin >75th percentile)","IR (IGT or IFG)","CO (WC)","None"],
@@ -401,13 +399,13 @@ const OSCE = [
    "CBP, RFT, LFT, PSA"
   ]],
  ]},
- {s:"c2", tag:"further confirmation", t:"Metabolic Syndrome / Hypogonadism", b:[
+ {s:"c2", t:"Metabolic Syndrome / Hypogonadism", b:[
   ["ul", [
    "ADAM ('Androgen Deprived Aging Male') — late-onset hypogonadism, testosterone <12 nmol/L (<3.5 ng/ml).",
    "Serum testosterone <8 nmol/L requires supplementation.",
    "Decreased libido <12 nmol/L; ED <8 nmol/L; decreased well-being <12–14 nmol/L.",
    "Baseline & monitoring bloods: CBP, RFT, LFT, PSA.",
-   "Azoospermia evaluation & management flowchart repeated with the same structure as the first batch's OSCE 32 — bilateral absence of vasa → CFTR panel; semen volume <1ml → post-ejaculatory urinalysis for retrograde ejaculation or TRUS for ejaculatory duct obstruction; testicular long-axis & FSH split between obstructive and non-obstructive causes; TLA thresholds quoted as ~4–6cm and FSH ~5–7.6, broadly consistent with the earlier batch."
+   "Azoospermia evaluation & management flowchart: bilateral absence of vasa → CFTR panel; semen volume <1ml → post-ejaculatory urinalysis for retrograde ejaculation or TRUS for ejaculatory duct obstruction; testicular long-axis & FSH split between obstructive and non-obstructive causes; TLA thresholds quoted as ~4–6cm and FSH ~5–7.6."
   ]],
  ]},
 ]},
@@ -423,7 +421,7 @@ const OSCE = [
    [2,"Evaluation (7 marks)"],
    [3,"Management (7 marks)"]
   ]],
-  ["note","The slide displayed \"Management 97 marks)\" — almost certainly a typo for \"(7 marks)\" to match the pattern of the other two items; transcribed above as 7 marks."],
+  ["note","Slide reads “Management 97 marks)”; taken as 7 marks."],
   ["ul", [
    "Arterial – arterial, arteriolar.",
    "Cavernosal – tunica albuginea, cavernous muscle, gap junction, endothelium, fibroelastic trabeculae, emissary vein.",
@@ -437,9 +435,9 @@ const OSCE = [
    "Trial with PDE5i – Counselling / dosing & S/E"
   ]],
  ]},
- {s:"c2", tag:"further confirmation", t:"ED", b:[
+ {s:"c2", t:"ED", b:[
   ["ul", [
-   "Same four causal categories confirmed: Arterial (arterial/arteriolar), Cavernosal (tunica albuginea, cavernous muscle, gap junction, endothelium, fibroelastic trabeculae, emissary vein), Neurologic (sensory, motor, autonomic), Hormonal (testicular, pituitary).",
+   "Causal categories: Arterial (arterial/arteriolar), Cavernosal (tunica albuginea, cavernous muscle, gap junction, endothelium, fibroelastic trabeculae, emissary vein), Neurologic (sensory, motor, autonomic), Hormonal (testicular, pituitary).",
    "Evaluation: 1°/2° history, family history, GlyHb/FLP/S. Testosterone, Tanner's classification of secondary sexual characters, DRE (prostate/BCR), external genitalia exam.",
    "Trial with PDE5i — counselling on dosing and side effects; food does not interfere with tadalafil but can affect sildenafil absorption; Tadalafil is longer-acting and can be used as a daily low-dose regimen (useful for LUTS-with-ED overlap)."
   ]],
@@ -469,12 +467,12 @@ const OSCE = [
    [8,"'Failure' – Vacuum pump / Caverject / Prosthesis. (1 mark)"]
   ]],
  ]},
- {s:"c2", tag:"further confirmation", t:"PDE5i Counselling", b:[
+ {s:"c2", t:"PDE5i Counselling", b:[
   ["ul", [
-   "Same PDE5i checklist confirmed: contraindications (CAD, CVA, HTN, arrhythmias), side effects (flushing, congestion, headache, visual disturbances, low back pain, blurred vision), mandatory sexual stimulation, graduated dose escalation, trial of at least 6–10 doses at maximum tolerated dose before declaring failure, other treatment options (vacuum pump, intracavernosal injection/Caverject/alprostadil, MUSE, prosthesis) for PDE5i failures."
+   "PDE5i checklist: contraindications (CAD, CVA, HTN, arrhythmias), side effects (flushing, congestion, headache, visual disturbances, low back pain, blurred vision), mandatory sexual stimulation, graduated dose escalation, trial of at least 6–10 doses at maximum tolerated dose before declaring failure, other treatment options (vacuum pump, intracavernosal injection/Caverject/alprostadil, MUSE, prosthesis) for PDE5i failures."
   ]],
  ]},
- {s:"c2", tag:"additional detail", t:"Vardenafil / PDE5i Failure Management", b:[
+ {s:"c2", t:"Vardenafil / PDE5i Failure Management", b:[
   ["ul", [
    "Vardenafil noted as another PDE5i option alongside sildenafil and tadalafil.",
    "Contraindications repeated: CAD, CVA, HTN, arrhythmia; side effects repeated: flushing, congestion, headache, visual disturbance.",
@@ -504,9 +502,9 @@ const OSCE = [
    ["Obturator","Anterior trunk","Adductor muscles of the leg and overlying skin"],
    ["Inferior gluteal","Anterior trunk","Gluteus muscles and overlying skin"]
   ]],
-  ["note","*Exact origin attribution for the Deep circumflex iliac / Pubic / Cremasteric rows was slightly ambiguous in the photographed table (the origin column's line-wrapping did not align perfectly with the artery-name rows) — shown here as best-effort reading; please cross-check against the original slide or a standard anatomy reference."],
+  ["note","* Origin for the Deep circumflex iliac / Pubic / Cremasteric rows is ambiguous in the photographed table."],
  ]},
- {s:"c2", tag:"expanded", t:"Iliac Vessel / Pelvic Anatomy", b:[
+ {s:"c2", t:"Iliac Vessel / Pelvic Anatomy", b:[
   ["ul", [
    "IVC tributaries (Campbell's picture referenced as the source diagram).",
    "Abdominal aorta branches; branches of the internal iliac artery (left-hand side as drawn).",
@@ -526,11 +524,11 @@ const OSCE = [
    [7,"Patient request. (2 marks)"]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Ureteric Colic Indications", b:[
+ {s:"c2", t:"Ureteric Colic Indications", b:[
   ["ul", [
-   "Confirms the checklist from the first batch: solitary kidney, intractable pain, deranged RFT, infected obstructed system/sepsis, occupation (pilot), high-grade obstruction with urinoma, patient request.",
+   "Checklist: solitary kidney, intractable pain, deranged RFT, infected obstructed system/sepsis, occupation (pilot), high-grade obstruction with urinoma, patient request.",
    "Additional detail: history of calcitriol use / dilated ureter noted as relevant.",
-   "Two named trial references (handwriting reads as 'SUSPEND trial' and 'MIMIC trial') relating to spontaneous ureteric stone passage with medical expulsive therapy — please confirm exact trial names against your reference, as these were not fully legible.",
+   "Two named trial references (handwriting reads as 'SUSPEND trial' and 'MIMIC trial') relating to spontaneous ureteric stone passage with medical expulsive therapy; names not fully legible.",
    "Priority order for treating bilateral/complex stone burden: adequate renal function, deranged RFT takes priority, infected system + sepsis is an emergency."
   ]],
  ]},
@@ -545,7 +543,7 @@ const OSCE = [
    [5,"Symptomatic side – Better functioning side – Infected side."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Staghorn Calculi", b:[
+ {s:"c2", t:"Staghorn Calculi", b:[
   ["ul", [
    "18Ch(?) nephrolithotomy referenced for large stone burden.",
    "Causes: hyperparathyroidism, hyperuricaemia, hyperoxaluria (MAP — magnesium ammonium phosphate/struvite — and anatomical causes both noted), cystinuria.",
@@ -599,7 +597,7 @@ const OSCE = [
    "Zero-ischemia (CLOCK Trial)"
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Nephron-Sparing Surgery", b:[
+ {s:"c2", t:"Nephron-Sparing Surgery", b:[
   ["ul", [
    "NSS techniques and associated ischaemic times; enucleation/enucleo-resection — cold ischaemia vs. zero-ischaemia (CLOCK trial).",
    "Positive surgical margins are significant if associated with an increased local recurrence rate.",
@@ -620,9 +618,9 @@ const OSCE = [
    [8,"Clinical F/U + Repeat biochemistry ± repeat imaging."]
   ]],
  ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
-   "Confirms structure from the first batch: newly detected HTN → USG + CECT (A+P); diagnosis — Phaeo / Cushing's / Conn's; functional evaluation — fasting metanephrines, cortisol, aldosterone; anatomical evaluation — CECT / MIBG / DOTATATE.",
+   "Structure: newly detected HTN → USG + CECT (A+P); diagnosis — Phaeo / Cushing's / Conn's; functional evaluation — fasting metanephrines, cortisol, aldosterone; anatomical evaluation — CECT / MIBG / DOTATATE.",
    "Pre-op: Roizen's criteria, aggressive hydration (fluid deficit relates to chronic alpha-blockade).",
    "Intra-op precautions: early control of the adrenal vein, minimal tumour handling (to avoid catecholamine surge), team should anticipate intra-op hypotension after tumour devascularisation.",
    "MIBG is the investigation of choice for extra-adrenal / bilateral / multifocal phaeochromocytoma and for paraganglioma."
@@ -655,7 +653,7 @@ const OSCE = [
 ]},
 {id:"43", n:43, g:"prostate", t:"PSA — Normal Values & Kinetics", parts:[
  {s:"slides", b:[
-  ["note","This OSCE comes from a dated page (13 May 2026) that appears to be a later revision/consolidation session — no question stem was noted, just the reference values below."],
+  ["note","From a page dated 13 May 2026; no question stem noted."],
   ["ol", [
    [1,"Normal PSA value by age category: 40–50 yrs → 2.5 ng/ml; 50–60 yrs → 3.5 ng/ml; 60–70 yrs → 4.5 ng/ml; 70–80 yrs → 6.5 ng/ml."],
    [2,"PSA half-life (T½) → 2–3 days."],
@@ -672,7 +670,7 @@ const OSCE = [
    [3,"Offer early PSA testing to men with a family history of prostate cancer."],
    [4,"Risk-adapted screening strategy (rest of line cut off in photo)."]
   ]],
-  ["note","Points 2 and 4 were partly cut off at the edge of the photo — only points 1 and 3 could be read in full."],
+  ["note","Points 2 and 4 partly cut off at the edge of the photo; only points 1 and 3 legible."],
  ]},
 ]},
 {id:"45", n:45, g:"paeds", t:"Antenatal Hydronephrosis", parts:[
@@ -687,14 +685,14 @@ const OSCE = [
    [1,"Differentials (DIPS?) — Hydronephrosis."],
    [2,"PUJO, VUJ reflux, ectopic ureter, ureterocele, Posterior urethral valves (PUV), Prune Belly syndrome."],
    [3,"Follow-up USG at term → UTD (Urinary Tract Dilatation) classification."],
-   [4,"Postnatal USG (timing partly illegible — appears to be ~1 week) + RFT & MCUG; isotope renogram at 3 months; drop of >10% function on repeat renogram is significant."],
+   [4,"Postnatal USG (timing partly illegible; ~1 week) + RFT & MCUG; isotope renogram at 3 months; drop of >10% function on repeat renogram is significant."],
    [5,"Indications to intervene: symptomatic UTI, APD (antero-posterior diameter) 30–50mm, and <40% split function."]
   ]],
  ]},
 ]},
 {id:"56", n:56, g:"general", t:"Haematuria", parts:[
- {s:"c2", tag:"new number; overlaps with OSCE 12 content", b:[
-  ["note","This duplicates the topic of OSCE 12 from the first batch (haematuria evaluation) but is independently numbered 56 in this classmate's notes — listed here under its own number since the two numbering schemes don't appear to align exactly."],
+ {s:"c2", b:[
+  ["note","Same topic as OSCE 12 (haematuria evaluation); numbered 56 in these notes."],
   ["ol", [
    [1,"Evaluation of painful vs. painless haematuria: visible haematuria (VH), symptomatic non-visible haematuria (sNVH), asymptomatic non-visible haematuria (aNVH)."],
    [2,"% of significant urological pathology and risk factors for malignancy in haematuria; role of urine cytology."],
@@ -705,7 +703,7 @@ const OSCE = [
  ]},
 ]},
 {id:"59", n:59, g:"onco", t:"Testicular Cancer TNM Staging", parts:[
- {s:"c2", tag:"new", b:[
+ {s:"c2", b:[
   ["ol", [
    [1,"TNM staging + 'S' (serum tumour marker) staging for testicular cancer."],
    [2,"Stage I to Stage IIA/B — staging is based on nodal (N) status."],
@@ -714,8 +712,8 @@ const OSCE = [
  ]},
 ]},
 {id:"60", n:60, g:"onco", t:"NMIBC Risk Stratification / VUR / TURBT", parts:[
- {s:"c2", tag:"new", b:[
-  ["note","Note: this number was used for two different topics on this page (NMIBC risk stratification and, separately, VUR management) — both are transcribed below under the same OSCE 60 heading as written, but please confirm with your own notes which one is correct, as they may in fact be two different OSCE numbers."],
+ {s:"c2", b:[
+  ["note","Number 60 is used for two topics on this page (NMIBC risk stratification; VUR management)."],
   ["ul", [
    "EAU risk stratification referenced; multiple recurrences (>3) and tumour size/grade as risk factors.",
    "AUA risk stratification also referenced as an alternative system.",
@@ -732,7 +730,7 @@ const OSCE = [
  ]},
 ]},
 {id:"63", n:63, g:"paeds", t:"Paediatric UTI", parts:[
- {s:"c2", tag:"new", b:[
+ {s:"c2", b:[
   ["ul", [
    "Referencing NICE guideline (originally 2007, updated 2017/updated again ~2022) on imaging after UTI in children.",
    "Age-stratified imaging pathway: <6 months, 6 months–3 years, and >3 years, each with different USG/DMSA/MCUG requirements depending on whether the UTI responds to antibiotics within 48 hours and whether it is 'atypical' or 'recurrent'.",
@@ -742,20 +740,20 @@ const OSCE = [
    "Recurrent UTI defined as >2 UTIs in 6 months, or 3 in 1 year.",
    "'Atypical' UTI features: seriously ill child, poor urine flow, abdominal or bladder mass, raised serum creatinine, septicaemia, failure to respond to a suitable antibiotic within 48 hours, infection with a non-E.coli organism."
   ]],
-  ["note","One word in the '>3 years' line rendered as non-English characters in the source and could not be transcribed — likely just says 'atypical', matching the pattern of the other two age bands."],
+  ["note","One word in the “>3 years” line was written in non-English characters and could not be transcribed."],
  ]},
 ]},
-{id:"69", n:69, g:"general", t:"Immunosuppression in Renal Transplant", mergeNote:"A second, different topic is filed under this number in the second classmate's notes — see the next card.", parts:[
+{id:"69", n:69, g:"general", t:"Immunosuppression in Renal Transplant", mergeNote:"Number 69 is also used for a different topic in the second classmate's notes (next card).", parts:[
  {s:"progress", b:[
-  ["note","Circled number partly smudged — read with reasonable confidence as 69, but treat as unconfirmed."],
+  ["note","Circled number partly smudged; read as 69."],
  ]},
 ]},
-{id:"69b", n:69, g:"neuro", t:"Non-Traumatic Catheter Care / Neurogenic Bladder", mergeNote:"The second classmate's notes file this topic under 69, the same number the progress-sheet notes use for “Immunosuppression in Renal Transplant”. It is shown separately because the topics differ.", parts:[
- {s:"c2", tag:"expanded", b:[
+{id:"69b", n:69, g:"neuro", t:"Non-Traumatic Catheter Care / Neurogenic Bladder", mergeNote:"Numbered 69 in the second classmate's notes; the progress-sheet notes use 69 for “Immunosuppression in Renal Transplant”.", parts:[
+ {s:"c2", b:[
   ["ul", [
    "Catheter used for irrigation only 1 week (context: post-op catheter care).",
    "PVC (or similar) catheter done every 4 hourly, low-frequency intermittent catheterisation as an alternative.",
-   "Non-neurogenic vs. neurogenic bladder — 'safe' vs. 'unsafe' bladder distinction (echoing OSCE 87's criteria from the first batch).",
+   "Non-neurogenic vs. neurogenic bladder — 'safe' vs. 'unsafe' bladder distinction (as in OSCE 87).",
    "Assessment before starting clean intermittent catheterisation (CIC): ambulation status, hand dexterity, cognition/higher mental function.",
    "Family/caregiver teaching: technique, frequency, timing, catheter type/calibre; regular follow-up with USG and serum creatinine; monitoring of bowel habits.",
    "Medical management adjuncts to CIC: anticholinergics (guided by UDS if there is any change in bladder behaviour), intradetrusor Botulinum toxin injection.",
@@ -766,20 +764,20 @@ const OSCE = [
 {id:"71", n:71, g:"onco", t:"Renal Tumour Management", parts:[
  {s:"progress", b:[
   ["ol", [
-   [1,"cT2N0M0 (partly obscured — could be a different T-stage), Renal tumour management."],
+   [1,"cT2N0M0 (partly obscured; T-stage uncertain), Renal tumour management."],
    [2,"RTB (abbreviation not expanded in the note)."],
-   [3,"RENAL nephrometry score / risk stratification (handwriting read as 'Renal JMDC risk stratification' — likely refers to a nephrometry scoring system; please confirm exact term)."],
+   [3,"RENAL nephrometry score / risk stratification (handwriting reads 'Renal JMDC risk stratification')."],
    [4,"CARMENA Trial – SURTIME Trial."]
   ]],
-  ["note","The 'Investigations Ordered' column beside this entry separately notes \"NOTSS – non-technical skills\" (Non-Technical Skills for Surgeons) — unclear if this is part of the same OSCE or a separate assessment note; flagged for your confirmation."],
+  ["note","A neighbouring “Investigations Ordered” column also notes “NOTSS – non-technical skills” (Non-Technical Skills for Surgeons)."],
  ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
    "Metastatic renal tumour management referenced as RTB(?) — 5-year survival ~20% with 'sunitinib/cabozantinib' era therapy, vs. ~30% with nivolumab-based ('Nimo') regimens.",
    "IMDC risk stratification (International Metastatic RCC Database Consortium) — poor risk = do not perform cytoreductive nephrectomy immediately; intermediate risk = individualised decision.",
    "EORTC trial referenced regarding timing of nephrectomy vs. systemic therapy; good performance status favours upfront cytoreductive nephrectomy.",
-   "'Sunitinib vs. cytoreductive nephrectomy' (CARMENA-type) trial comparison referenced again, consistent with the first batch's mention of the CARMENA/SURTIME trials.",
-   "Separately, this page notes 'NOTSS' (Non-Technical Skills for Surgeons) — components: situation awareness, decision making, communication & teamwork, leadership — echoing the earlier note that flagged this alongside OSCE 71."
+   "'Sunitinib vs. cytoreductive nephrectomy' (CARMENA-type) trial comparison referenced.",
+   "Separately, this page notes 'NOTSS' (Non-Technical Skills for Surgeons) — components: situation awareness, decision making, communication & teamwork, leadership."
   ]],
  ]},
 ]},
@@ -793,23 +791,21 @@ const OSCE = [
    [5,"Treatment options — referencing the PIVOT and ProtecT trials."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"PSA Evaluation & Management", b:[
+ {s:"c2", t:"PSA Evaluation & Management", b:[
   ["ul", [
    "60yr M, PSA 10 ng/ml — evaluation and management principles.",
-   "Life expectancy + ECOG + CCI (Charlson Comorbidity Index); DRE findings + clinical T-stage; risk stratification (3 markers referenced — likely PSA, Gleason/ISUP grade, and clinical stage).",
+   "Life expectancy + ECOG + CCI (Charlson Comorbidity Index); DRE findings + clinical T-stage; risk stratification (3 markers referenced).",
    "mpMRI — PROMIS and PRECISION trial evidence referenced (as in OSCE 95).",
    "Severe LUTS — avoid RT as a treatment option in this setting (rationale: radiation cystitis/LUTS worsening).",
    "PI-RADS 3 lesions — biopsy only if PSA density >0.15.",
    "Transperineal biopsy trend — better infection profile than transrectal (TRUS) biopsy, per NICE guidelines; biopsy zones referenced — transition zone (anterior, 'AZ') and peripheral zone (posterior, 'PZ') sampling patterns for MRI-targeted biopsy.",
    "Clinically significant prostate cancer defined (Epstein criteria referenced) — ISUP/Gleason grade group ≥2 and/or significant tumour volume on biopsy, distinguishing low-risk/very-low-risk disease suitable for active surveillance from intermediate/high-risk disease."
   ]],
-  ["note","Several specific numeric thresholds and trial names on this page were partly illegible (particularly the exact PI-RADS/PSA density cut-off, and one risk-stratification detail) — please cross-check against a current EAU/NICE prostate cancer guideline before relying on the exact figures."],
+  ["note","Some thresholds and trial names partly illegible in the source (the exact PI-RADS / PSA-density cut-off; one risk-stratification detail)."],
  ]},
 ]},
 {id:"73", n:73, g:"onco", t:"TNM Staging — Renal Tumour", parts:[
- {s:"progress", b:[
- ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
    "Partial nephrectomy can be considered up to cT2 tumours in appropriate cases (nephron-sparing surgery is not limited strictly to small/cT1 tumours where technically feasible).",
    "cT3 tumours — 'beyond Gerota's fascia' spread is the defining feature separating cT3 from cT2."
@@ -819,18 +815,14 @@ const OSCE = [
 {id:"74", n:74, g:"onco", t:"TNM Staging — Bladder Tumour", parts:[
  {s:"progress", b:[
  ]},
- {s:"c2", tag:"confirmed, no further detail legible", b:[
- ]},
 ]},
 {id:"75", n:75, g:"prostate", t:"TNM Staging — Prostate Cancer", parts:[
  {s:"progress", b:[
  ]},
- {s:"c2", tag:"confirmed, no further detail legible", b:[
- ]},
 ]},
 {id:"76", n:76, g:"stones", t:"RIRS — Safety Parameters", uncertain:true, parts:[
  {s:"progress", b:[
-  ["note","The circled number for this entry was hard to read with confidence — transcribed as 76, but please verify against your own numbering."],
+  ["note","Circled number hard to read; read as 76."],
   ["ul", [
    "Ureteral caliber, guidewire dimensions.",
    "Unfavourable calyx definition; safe operating time.",
@@ -839,19 +831,18 @@ const OSCE = [
    "Freiburg technique — for stenting."
   ]],
  ]},
- {s:"c2", tag:"expanded, still uncertain number", b:[
+ {s:"c2", b:[
   ["ul", [
    "RIRS (retrograde intrarenal surgery) normal ureteric calibre and consensus/measurement points noted.",
    "'Unfavourable calyx' definition; safe operative time (quoted around 90 minutes — partly illegible), safe intrarenal pressure (quoted around 40 cmH₂O — partly illegible), safe suction pressure, and consequences of higher intrarenal pressures (pyelovenous/pyelolymphatic backflow, sepsis risk).",
    "Safe lasing power; the 'Freiburg technique' for stenting after RIRS.",
    "RESI/RESD (Ratio of Endoscope to Sheath Diameter) — ratio of endoscope diameter to sheath diameter, relevant to irrigant outflow and intrarenal pressure.",
-   "Infundibular width and length thresholds for a 'favourable' calyx for stone clearance — infundibulopelvic angle <90°(?), infundibular length >3cm, infundibular width <5mm as unfavourable calyx criteria (please verify these numbers — the note was hard to read precisely)."
+   "Infundibular width and length thresholds for a 'favourable' calyx for stone clearance — infundibulopelvic angle <90°(?), infundibular length >3cm, infundibular width <5mm as unfavourable calyx criteria (note hard to read precisely)."
   ]],
  ]},
 ]},
 {id:"77", n:77, g:"general", t:"Non-Technical Skills (NOTSS)", parts:[
  {s:"c2", b:[
-  ["note","This OSCE was previously listed as 'not captured' — it now has content, though still fairly sparse."],
  ]},
 ]},
 {id:"78", n:78, g:"stones", t:"Mini-PCNL (mPNL)", parts:[
@@ -876,24 +867,22 @@ const OSCE = [
    [5,"Discharge plan — F/U + HPR (histopathology report)."]
   ]],
  ]},
- {s:"c2", tag:"much expanded", t:"Radical Cystectomy OT Notes", b:[
+ {s:"c2", t:"Radical Cystectomy OT Notes", b:[
   ["ul", [
    "Full TNM, ASA, ECOG, ECHO work-up.",
-   "Informed consent: continent diversion vs. stoma, complications, results; mention of 'miltrano' and 'catheterisable/tunnelled stoma' (likely referring to catheterisable continent diversion options e.g. Mitrofanoff-type or Indiana pouch) — spelling uncertain, please verify.",
+   "Informed consent: continent diversion vs. stoma, complications, results; mention of 'miltrano' and 'catheterisable/tunnelled stoma' (spelling uncertain).",
    "Checklist includes DVT + antibiotic prophylaxis.",
-   "Positioning, incision, access: assessment of your own bladder mobility, bowel mobilisation & packing; PLND with lymph node density noted; a haematocrit target ('HCT ≥10' — likely a truncated note, meaning a specific pre-op haematocrit threshold) mentioned.",
+   "Positioning, incision, access: assessment of bladder mobility, bowel mobilisation & packing; PLND with lymph node density noted; a haematocrit target ('HCT ≥10'; note appears truncated) mentioned.",
    "Ureteral mobilisation, bladder mobilisation + lateral & posterior vascular pedicle control; prostate/urethral or vaginal dissection depending on sex.",
    "Urinary diversion options detailed: ileal conduit, ileal ureter, orthotopic neobladder (Indiana pouch, Studer pouch — 'low pressure/high capacity' referenced), Indiana pouch (catheterisable), with named surgical eponyms: Bricker's (ileal conduit) anastomosis, Wallace anastomosis, Leadbetter–Clarke ureteric anastomosis (uretero-ileal), Leadbetter (colonic) uretero-colic anastomosis.",
    "Technical pearls: making a submucosal tunnel for anastomosis (anti-reflux), taenia coli opened for suturing, 'open bowel technique' referenced.",
    "Discharge plan: follow-up and further therapy as indicated."
   ]],
-  ["note","This is a much more detailed version of OSCE 80 than what was captured in the first batch — worth reading carefully, but several surgical eponyms (Bricker's, Wallace, Leadbetter, Leadbetter–Clarke) were written quickly and should be checked against a reconstructive urology reference."],
+  ["note","Surgical eponyms in this section (Bricker's, Wallace, Leadbetter, Leadbetter–Clarke) not verified against a reference."],
  ]},
 ]},
 {id:"81", n:81, g:"stones", t:"OT Notes for mPNL", parts:[
- {s:"progress", b:[
- ]},
- {s:"c2", tag:"expanded", t:"mPNL OT Notes", b:[
+ {s:"c2", t:"mPNL OT Notes", b:[
   ["ul", [
    "Patient factors: comorbidities, ASA grade, renal function, active infection.",
    "Antibiotics and DVT prophylaxis (Caprini score); positioning — prone vs. supine, with fluoroscopy/ultrasound guidance for access.",
@@ -910,7 +899,6 @@ const OSCE = [
 ]},
 {id:"83", n:83, g:"onco", t:"OT Notes for Partial Nephrectomy", parts:[
  {s:"progress", b:[
-  ["note","Noted only by title — no further detail was written under this heading in the photo."],
  ]},
 ]},
 {id:"84", n:84, g:"recon", t:"OT Notes for PFUI Repair", parts:[
@@ -942,10 +930,10 @@ const OSCE = [
    [1,"Impaired compliance (< ~20 ml/cmH₂O — exact cut-off partly illegible)."],
    [2,"Detrusor–external sphincter dyssynergia (DESD) / Detrusor–internal sphincter dyssynergia (DISD)."],
    [3,"High-pressure detrusor overactivity (DO); DLPP > 40 cmH₂O."],
-   [4,"'Nurse's criteria' referenced for risk-stratifying unsafe bladders — exact criteria not spelled out in the note; please cross-check the precise reference (this may be a phonetic mishearing of a named criteria set)."]
+   [4,"'Nurse's criteria' referenced for risk-stratifying unsafe bladders; exact criteria not spelled out in the note."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Unsafe Bladder / High-Risk UDS", b:[
+ {s:"c2", t:"Unsafe Bladder / High-Risk UDS", b:[
   ["ul", [
    "Principles of UDS: repeatable, clinical questions formulated before the study, correlate with USG/KUB and MRI/imaging findings where relevant, bladder diary correlation.",
    "'Nurse's criteria' referenced again for defining 'unsafe' bladder: impaired compliance (<20ml/cmH₂O), DESD, DISD, high-pressure detrusor overactivity, DLPP >40cmH₂O.",
@@ -957,9 +945,9 @@ const OSCE = [
  {s:"progress", b:[
   ["ol", [
    [1,"1 Fr ≈ 0.3 mm."],
-   [2,"6 Fr urethroscope corresponds to roughly a 6mm urethral plate (as noted — please verify this conversion, it reads a little unusual)."],
+   [2,"6 Fr urethroscope corresponds to roughly a 6mm urethral plate (as noted)."],
    [3,"Normal voiding implies a urethral caliber of >14 Fr."],
-   [4,"A term resembling 'Pena Cava' was used, said to refer to the corpus spongiosum — this could not be verified against a standard reference; possibly a surgeon's name/classification not recognised as transcribed. Please confirm."],
+   [4,"A term resembling 'Pena Cava' was used, said to refer to the corpus spongiosum (not verified against a reference)."],
    [5,"Distal bulbar stricture → dorsal BMG (buccal mucosa graft) location."],
    [6,"Proximal bulbar stricture → ventral BMG location."],
    [7,"Double-faced Palminteri graft (dorsal inlay + ventral onlay) — used for a urethral plate in the range of roughly 4–9mm (numbers partly unclear in the photo)."],
@@ -978,13 +966,13 @@ const OSCE = [
    [4,"Survival — quoted as ~42 months (on ADT alone)."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"CRPC", b:[
+ {s:"c2", t:"CRPC", b:[
   ["ul", [
-   "Same definition/time-to-develop/survival figures as the first batch (definition — clinical, radiological, biochemical; time to develop from HSPC ~14 months; survival on ADT alone ~42 months).",
-   "Survival advantage of ~10–17 months with upfront docetaxel added to ADT before castration resistance develops, referencing a 'CHAARTED'-type trial (handwriting reads 'TRBX trial' — likely a mistranscription; please verify against CHAARTED/STAMPEDE literature).",
-   "Sequencing of CRPC drugs referenced with three unlabelled options ('COU 301', 'COU 302', 'COU 303' — likely referring to the COU-AA trial series for abiraterone) noted as options once castration resistance is confirmed and no prior treatment has been introduced."
+   "Definition — clinical, radiological, biochemical; time to develop from HSPC ~14 months; survival on ADT alone ~42 months).",
+   "Survival advantage of ~10–17 months with upfront docetaxel added to ADT before castration resistance develops, referencing a 'CHAARTED'-type trial (handwriting reads 'TRBX trial').",
+   "Sequencing of CRPC drugs referenced with three unlabelled options ('COU 301', 'COU 302', 'COU 303') noted as options once castration resistance is confirmed and no prior treatment has been introduced."
   ]],
-  ["note","The exact trial name behind 'TRBX trial' could not be confirmed — likely refers to CHAARTED or a similarly-designed docetaxel-in-hormone-sensitive-disease trial; please check your notes or a reference source."],
+  ["note","Trial name “TRBX trial” not confirmed; possibly CHAARTED or a similar docetaxel-in-hormone-sensitive-disease trial."],
  ]},
 ]},
 {id:"90", n:90, g:"onco", t:"Intravesical BCG", parts:[
@@ -998,9 +986,9 @@ const OSCE = [
    [6,"Side effects → LUTS, BCG sepsis (requires cessation of therapy), temporary treatment interruption, ATT (anti-tubercular therapy) and steroids for BCG sepsis."]
   ]],
  ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
-   "Confirms strains: Danish 1331, TICE, Connaught, Pasteur, Moscow, Tokyo, Frappier.",
+   "Strains: Danish 1331, TICE, Connaught, Pasteur, Moscow, Tokyo, Frappier.",
    "Indications — high-risk NMIBC: CIS, pT1G3, TCC.",
    "Dosage & schedule — 40–120mg intravesically, weekly for 6 weeks (induction), then maintenance for 1–3 years.",
    "Side effects & management — LUTS, BCG sepsis (requires cessation and, in severe cases, anti-tubercular therapy and steroids)."
@@ -1010,33 +998,28 @@ const OSCE = [
 {id:"94", n:94, g:"onco", t:"Muscle-Invasive Bladder Cancer Counselling", parts:[
  {s:"progress", b:[
   ["ol", [
-   [1,"Prognosis — 5-year survival ~50% (exact T-stage/N-stage breakdown partly illegible); 5-year local recurrence-free survival quoted as ~80% (N0) vs ~40% (N+) — please verify these figures."],
+   [1,"Prognosis — 5-year survival ~50% (exact T-stage/N-stage breakdown partly illegible); 5-year local recurrence-free survival quoted as ~80% (N0) vs ~40% (N+)."],
    [2,"Treatment options — NACT + RC (radical cystectomy) ± RT — bladder preservation — trimodality therapy."],
    [3,"Role of bladder preservation — solitary tumour <3cm, low stage, low grade, not near trigone, no hydronephrosis, no CIS."],
    [4,"Role of NAC (neoadjuvant chemo) — up to T2/T3 N0M0 — quoted as a 5–8% absolute 5-year survival benefit."],
    [5,"NAC regimen & selection criteria — cisplatin-based if eligible — Galsky criteria for cisplatin eligibility."]
   ]],
-  ["note","Several numeric details on this page (exact T-stage, survival percentages) were only partly legible — please cross-check against your reference material before relying on the numbers."],
- ]},
- {s:"c2", tag:"further confirmation; numbered '94/96' in these notes", b:[
+  ["note","Some figures (exact T-stage, survival percentages) partly illegible in the source."],
  ]},
 ]},
 {id:"95", n:95, g:"onco", t:"Pivotal Urology Trials", parts:[
  {s:"progress", b:[
-  ["note","This appears to be a revision list of high-yield trials rather than a single clinical-scenario OSCE."],
   ["ol", [
    [1,"PROPSMA trial — PSMA-PET/CT vs. conventional imaging (CT abdomen/pelvis + bone scan) for staging metastatic prostate cancer."],
    [2,"PROMIS / PRECISION trials — multiparametric MRI first, shown to better detect clinically significant (Gleason pattern >3) prostate cancer than TRUS + systematic biopsy alone."],
    [3,"MTOPS / CombAT trials — combination medical therapy (α-blocker + 5-ARI) for BPH."],
-   [4,"SMART trial — (detail illegible in the note; possibly related to SBRT/HDR brachytherapy fractionation — please confirm)."],
+   [4,"SMART trial — (detail illegible in the note; possibly related to SBRT/HDR brachytherapy fractionation)."],
    [5,"CARMENA / SURTIME trials — role and timing of cytoreductive nephrectomy in metastatic RCC."],
    [6,"KEYNOTE-564 trial — adjuvant pembrolizumab in high-risk renal cell carcinoma."],
    [7,"CU-AA301 / AA302 trials — abiraterone acetate in metastatic castration-resistant prostate cancer (pre- and post-chemotherapy settings)."],
    [8,"TAX 327 trial — docetaxel in metastatic castration-resistant prostate cancer."],
    [9,"Radical cystectomy vs. RT/trimodality trials for muscle-invasive bladder cancer (specific trial name not given)."]
   ]],
- ]},
- {s:"c2", tag:"further confirmation", b:[
  ]},
 ]},
 {id:"96", n:96, g:"recon", t:"Urethroplasty — Techniques & Outcomes", parts:[
@@ -1048,18 +1031,16 @@ const OSCE = [
    "VOBMG — Ventral Onlay Buccal Mucosa Graft",
    "AAG — Augmented Anastomotic Graft (as best interpreted)",
    "Palminteri / (a second name, illegible) technique(s)",
-   "NIABU — could not be confidently expanded or verified",
-   "NIABU (again, listed a second time in the note — possibly a different acronym intended)",
-   "ANTABO — could not be confidently expanded or verified",
+   "NIABU (not expanded)",
+   "NIABU (listed a second time in the note)",
+   "ANTABO (not expanded)",
    "Perineal urethrostomy"
   ]],
-  ["note","Several of the acronyms above (NIABU, ANTABO) could not be matched to standard urethroplasty terminology — please double check these against your course material or textbook, as they may be mistranscriptions of terms like 'non-transecting anastomotic urethroplasty' or similar."],
+  ["note","Expansions of NIABU and ANTABO not identified."],
  ]},
 ]},
 {id:"99", n:99, g:"general", t:"Medical Ethics", parts:[
  {s:"progress", b:[
- ]},
- {s:"c2", tag:"further confirmation", b:[
  ]},
 ]},
 {id:"100", n:100, g:"general", t:"The Operating Theatre — Standards", parts:[
@@ -1077,10 +1058,10 @@ const OSCE = [
    [10,"Normal saline constituents, in mmol/L."]
   ]],
  ]},
- {s:"c2", tag:"expanded", t:"Operating Theatre Standards", b:[
+ {s:"c2", t:"Operating Theatre Standards", b:[
   ["ul", [
    "Optimal temperature 20–22°C; optimal humidity ~50–55%.",
-   "Required air-flow changes ~20–30 air changes per hour (400 changes/hour also noted, possibly for laminar-flow zones specifically — figures partly inconsistent between notes, please verify).",
+   "Required air-flow changes ~20–30 air changes per hour (400 changes/hour also noted; figures inconsistent between notes).",
    "Designated OT zones: 1) Dirty zone, 2) Clean zone, 3) Aseptic zone, 4) Sterile zone.",
    "Sterilisation techniques and steps: resectoscopes / semi-rigid URS / nephroscopes via ETO (ethylene oxide) or glutaraldehyde soak (for flexible URS — 30 minutes' soak); autoclave criteria 121°C for 15–30 minutes, or 134°C for 3 minutes.",
    "WHO Surgical Safety Checklist — Sign In, Time Out, Sign Out.",
@@ -1104,14 +1085,14 @@ const OSCE = [
    [10,"Volume at strong desire to void — ~90% of capacity."]
   ]],
  ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
    "BCI <100; BOOI (Bladder Outlet Obstruction Index).",
    "ALPP: DSD/SUI thresholds; 60–90 cmH₂O and >100 cmH₂O ranges noted for grading leak point pressure severity.",
    "DLPP >30–40 cmH₂O considered unsafe for the upper urinary tracts; bladder compliance normal ≥30 ml/cmH₂O (below this, e.g. ≤10 ml/cmH₂O, considered poorly compliant/'unsafe').",
    "ΔV/ΔP compliance calculation — change in volume over change in pressure; pressure should not rise more than 1 cmH₂O per 30ml of fluid instilled into the bladder for the bladder to be considered compliant/safe.",
    "Qmax for a 60yr male ≥15 ml/s; Pdet at Qmax around 10 cmH₂O in a normal void.",
-   "Volume at first sensation, normal desire, and strong desire again quoted, broadly consistent with the first batch's figures (~50%/75%/90% of capacity)."
+   "Volume at first sensation, normal desire, and strong desire quoted (~50%/75%/90% of capacity)."
   ]],
  ]},
 ]},
@@ -1121,7 +1102,7 @@ const OSCE = [
    [1,"Renal dimensions & parenchymal thickness; seminal vesicle & testicular long-axis (TLA) measurements."],
    [2,"Bladder wall thickness."],
    [3,"Pampiniform plexus venous diameter (for varicocele grading on Doppler)."],
-   [4,"IPP (intrarenal pelvic pressure? or Intra-Prostatic Protrusion — abbreviation not expanded in the note) grading."],
+   [4,"IPP (abbreviation not expanded in the note) grading."],
    [5,"TRUS probe frequency."],
    [6,"Renal arterial Resistive Index (RI)."],
    [7,"Ellipsoid formula for prostate volume."],
@@ -1130,13 +1111,13 @@ const OSCE = [
    [10,"Penile Doppler — end-diastolic velocity (EDV)."]
   ]],
  ]},
- {s:"c2", tag:"expanded", b:[
+ {s:"c2", b:[
   ["ul", [
    "Renal dimensions with cortical thickness; transducer frequency for renal USG ~3.5–5 MHz.",
    "IPP (Intravesical/Intrarenal Pelvic Protrusion or similar — abbreviation still not fully expanded) grading.",
    "Bladder wall thickness normal 3–5mm (anterior wall), measured at a bladder volume of ≥150ml for accuracy; bladder capacity ~450–500ml normal.",
    "Renal arterial resistive index (RI) normal ≤0.7; a raised renal arterial RI (>0.7–0.8) is associated with obstruction or chronic parenchymal disease.",
-   "Penile arterial RI >0.9 associated with normal erectile function (consistent with OSCE 14 from the first batch).",
+   "Penile arterial RI >0.9 associated with normal erectile function (as in OSCE 14).",
    "Penile Doppler: PSV (peak systolic velocity) transducer frequency 12–18MHz; PSV >35cm/s and EDV (end-diastolic velocity) <5cm/s are broadly consistent with normal arterial inflow; EDV >5cm/s suggests veno-occlusive dysfunction.",
    "Seminal vesicle & testicular long-axis normal measurements — testicular long axis normal ~4–6cm.",
    "Pampiniform plexus venous diameter — >3mm diameter (with dilation on Valsalva) is the accepted threshold for varicocele on Doppler USG.",
@@ -1167,7 +1148,7 @@ const OSCE = [
    [5,"Dorsal-onlay (Barbagli technique) vs. ventral-onlay approaches — dorsal graft tends to be used for a long-segment stricture with a well-vascularised bed; ventral approach cited as 'Palminteri / Kulkarni' technique."],
    [6,"Choice of graft bed and approach depends on stricture length, location, and vascularity of the spongiosum."]
   ]],
-  ["note","This overlaps substantially with OSCE 96 (Urethroplasty — Techniques & Outcomes) from the earlier batch, and helpfully resolves some of the uncertain acronyms there — DVIU, EPA, DOBMG and VOBMG are confirmed by this second classmate's notes. The names 'Palminteri' and 'Kulkarni' are now more legible here than in the earlier batch, but please still double-check spelling against your course material."],
+  ["note","Overlaps with OSCE 96 (Urethroplasty — Techniques & Outcomes)."],
  ]},
 ]},
 {id:"105", n:105, g:"general", t:"Intractable / Haemorrhagic Cystitis — Drug Options", parts:[
@@ -1185,7 +1166,7 @@ const OSCE = [
    [10,"Pyridoxine (Vitamin B6) — adjunct for treatment of primary hyperoxaluria (types depending on the enzyme defect)."],
    [11,"Reference to treatment of primary hyperoxaluria in general."]
   ]],
-  ["note","This list is dense and several drug-indication pairings were only partly legible (particularly bedaquiline's exact relevance here, and a note about 'diabetic cystopathy' contraindication for duloxetine) — please cross-check each drug against your pharmacology reference before relying on this list for an exam."],
+  ["note","Some drug–indication pairings partly illegible in the source (bedaquiline's relevance here; a note on “diabetic cystopathy” as a contraindication for duloxetine)."],
  ]},
 ]},
 {id:"106", n:106, g:"general", t:"Urological Drugs — Notable Side Effects", parts:[
@@ -1203,66 +1184,56 @@ const OSCE = [
   ]],
  ]},
 ]},
-{id:"A", n:1001, g:"general", t:"Haematuria — evaluation", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 12 and OSCE 56. Check before treating them as the same station.", parts:[
+{id:"A", n:1001, g:"general", t:"Haematuria — evaluation", u:true, mergeNote:"May overlap with OSCE 12 and OSCE 56.", parts:[
  {s:"unconf", b:[
   ["p","Haematuria — evaluation: malignancy risk factors (visible haematuria, age >?, smoking, occupational dye/rubber exposure — partly illegible); nephrology criteria (ACR >30 mg/mmol, PCR >?58? mg/mmol, hypertension, eGFR <60 ml/min/1.73m²); role & interpretation of urine cytology."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
 {id:"B", n:1002, g:"general", t:"Pregnant female with hydroureteronephrosis — management", u:true, parts:[
  {s:"unconf", b:[
   ["p","Pregnant female with (right-sided) hydroureteronephrosis — management."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
 {id:"C", n:1003, g:"stones", t:"Dietary recommendations to prevent renal-calculus recurrence", u:true, parts:[
  {s:"unconf", b:[
   ["p","Dietary recommendations for prevention of renal calculus recurrence."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
-{id:"D", n:1004, g:"onco", t:"TNM staging — testicular cancer", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 59. Check before treating them as the same station.", parts:[
+{id:"D", n:1004, g:"onco", t:"TNM staging — testicular cancer", u:true, mergeNote:"May overlap with OSCE 59.", parts:[
  {s:"unconf", b:[
   ["p","TNM staging & stage grouping — testicular cancer."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
-{id:"E", n:1005, g:"onco", t:"NMIBC risk stratification", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 60. Check before treating them as the same station.", parts:[
+{id:"E", n:1005, g:"onco", t:"NMIBC risk stratification", u:true, mergeNote:"May overlap with OSCE 60.", parts:[
  {s:"unconf", b:[
   ["p","NMIBC (non-muscle-invasive bladder cancer) risk stratification."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
-{id:"F", n:1006, g:"onco", t:"TURBT — SOP & checklist", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 60. Check before treating them as the same station.", parts:[
+{id:"F", n:1006, g:"onco", t:"TURBT — SOP & checklist", u:true, mergeNote:"May overlap with OSCE 60.", parts:[
  {s:"unconf", b:[
   ["p","TURBT — SOP & checklist."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
-{id:"G", n:1007, g:"paeds", t:"VUR management", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 60. Check before treating them as the same station.", parts:[
+{id:"G", n:1007, g:"paeds", t:"VUR management", u:true, mergeNote:"May overlap with OSCE 60.", parts:[
  {s:"unconf", b:[
   ["p","VUR (vesicoureteric reflux) management — determinants: age at presentation (1° vs 2° VUR), grade, laterality, BBD (bladder-bowel dysfunction)?, VUR in a duplex system, reflux nephropathy, conservative management components & compliance/response, surgical indications."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
 {id:"H", n:1008, g:"paeds", t:"Paediatric developmental milestones", u:true, parts:[
  {s:"unconf", b:[
   ["p","Paediatric developmental milestones — cognitive, social, gross motor, fine motor (reference: Oxford handbook)."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
 {id:"I", n:1009, g:"paeds", t:"Paediatric nocturnal enuresis", u:true, parts:[
  {s:"unconf", b:[
   ["p","Paediatric nocturnal enuresis — evaluation & management: primary vs. secondary, monosymptomatic vs. non-monosymptomatic, pathophysiology, natural history, management (behavioural, alarm therapy, pharmacotherapy)."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]},
-{id:"J", n:1010, g:"paeds", t:"Paediatric UTI (NICE guidance)", u:true, mergeNote:"Possible overlap (a cross-reference added when this page was built, not from your notes): OSCE 63. Check before treating them as the same station.", parts:[
+{id:"J", n:1010, g:"paeds", t:"Paediatric UTI (NICE guidance)", u:true, mergeNote:"May overlap with OSCE 63.", parts:[
  {s:"unconf", b:[
   ["p","Paediatric UTI — referencing NICE guidance."],
-  ["note","Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number."],
  ]},
 ]}
 ];
-const OSCE_UNCONF = {"items":["Haematuria — evaluation: malignancy risk factors (visible haematuria, age >?, smoking, occupational dye/rubber exposure — partly illegible); nephrology criteria (ACR >30 mg/mmol, PCR >?58? mg/mmol, hypertension, eGFR <60 ml/min/1.73m²); role & interpretation of urine cytology.","Pregnant female with (right-sided) hydroureteronephrosis — management.","Dietary recommendations for prevention of renal calculus recurrence.","TNM staging & stage grouping — testicular cancer.","NMIBC (non-muscle-invasive bladder cancer) risk stratification.","TURBT — SOP & checklist.","VUR (vesicoureteric reflux) management — determinants: age at presentation (1° vs 2° VUR), grade, laterality, BBD (bladder-bowel dysfunction)?, VUR in a duplex system, reflux nephropathy, conservative management components & compliance/response, surgical indications.","Paediatric developmental milestones — cognitive, social, gross motor, fine motor (reference: Oxford handbook).","Paediatric nocturnal enuresis — evaluation & management: primary vs. secondary, monosymptomatic vs. non-monosymptomatic, pathophysiology, natural history, management (behavioural, alarm therapy, pharmacotherapy).","Paediatric UTI — referencing NICE guidance."],"notes":["Because the circled numbers on this page could not be read with confidence, none of these topics have been assigned a definite OSCE number. If you can confirm the numbering from a classmate, let me know and I'll fold these into the numbered sequence properly."]};
+const OSCE_UNCONF = {"items":["Haematuria — evaluation: malignancy risk factors (visible haematuria, age >?, smoking, occupational dye/rubber exposure — partly illegible); nephrology criteria (ACR >30 mg/mmol, PCR >?58? mg/mmol, hypertension, eGFR <60 ml/min/1.73m²); role & interpretation of urine cytology.","Pregnant female with (right-sided) hydroureteronephrosis — management.","Dietary recommendations for prevention of renal calculus recurrence.","TNM staging & stage grouping — testicular cancer.","NMIBC (non-muscle-invasive bladder cancer) risk stratification.","TURBT — SOP & checklist.","VUR (vesicoureteric reflux) management — determinants: age at presentation (1° vs 2° VUR), grade, laterality, BBD (bladder-bowel dysfunction)?, VUR in a duplex system, reflux nephropathy, conservative management components & compliance/response, surgical indications.","Paediatric developmental milestones — cognitive, social, gross motor, fine motor (reference: Oxford handbook).","Paediatric nocturnal enuresis — evaluation & management: primary vs. secondary, monosymptomatic vs. non-monosymptomatic, pathophysiology, natural history, management (behavioural, alarm therapy, pharmacotherapy).","Paediatric UTI — referencing NICE guidance."],"notes":["Circled numbers on this page not legible; no definite OSCE number assigned."]};
 const OSCE_GAPS = [1,2,6,7,8,9,10,13,17,23,46,47,48,49,50,51,52,53,54,55,57,58,61,62,64,65,66,67,68,70,91,92,93,97,98];
