@@ -99,6 +99,19 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
 .skipped summary{cursor:pointer;font-family:var(--mono);font-size:12px}
 @media (max-width:640px){.card{padding:20px 16px}.btn.quiet{flex:1 1 100%}}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
+.pick{margin:16px 0 4px;background:var(--raised);border:1px solid var(--rule);border-radius:10px;padding:10px 14px}
+.pick summary{cursor:pointer;font-family:var(--mono);font-size:12px;color:var(--soft)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;margin-top:10px}
+.gb{font-family:var(--mono);font-size:12px;padding:7px 0;border-radius:6px;border:1px solid var(--rule);background:var(--paper);color:var(--soft);cursor:pointer}
+.gb:hover{border-color:var(--accent2)}
+.gb.l{border-color:var(--accent2);background:var(--accent2-soft);color:var(--accent2)}
+.gb.m{border-color:var(--good);background:var(--good-soft);color:var(--good-ink)}
+.gb.t{border-style:dashed}
+.gb.cur{outline:2px solid var(--accent);outline-offset:1px;font-weight:600}
+.gb.off{opacity:.4}
+.gb:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+.glegend{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:8px}
+.stage{scroll-margin-top:12px}
 </style>
 </head>
 <body>
@@ -115,8 +128,8 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
   </div>
   <div class="prog" id="prog" aria-hidden="true"></div>
   <div class="legend" id="legend"></div>
+  <details class="pick" open><summary>Pick any station</summary><div class="grid" id="grid"></div><div class="glegend">grey = new · blue = learning · green = mastered · dashed = title only in your notes · outlined = on screen · faded = outside the topic you filtered</div></details>
   <div class="stage" id="stage"></div>
-  <details class="skipped" id="skipped"></details>
   <p class="skipped">Progress is stored in this browser only. Where your notes flagged a slide or number as unclear, the card carries that caveat on the checklist side.</p>
 </div>
 <script src="data.js"></script>
@@ -126,7 +139,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
   function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
   var KEY = "urology-osce-practice-v1", INTERVALS = [0, 1, 3, 7, 14], DAY = 86400000;
   function hasBody(s){ return s.parts.some(function(p){ return p.b.some(function(x){ return x[0] !== "note"; }); }); }
-  var cards = OSCE.filter(hasBody), skipped = OSCE.filter(function(s){ return !hasBody(s); });
+  var cards = OSCE.slice();                       // every station, including the title-only ones
   var byId = {}; cards.forEach(function(s){ byId[s.id] = s; });
   var st = {cards:{}, group:"all", mode:"due", shuffle:false};
   try{ var raw = localStorage.getItem(KEY); if(raw){ var o = JSON.parse(raw); if(o && typeof o === "object") st = Object.assign(st, o); } }catch(e){}
@@ -170,7 +183,24 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
       var label = OSCE_SOURCES[p.s] + (p.tag ? " · " + p.tag : "") + (p.t ? " · " + p.t : "");
       return (multi || p.tag || p.t ? '<div class="plabel">' + esc(label) + "</div>" : "") + blocksHTML(p);
     }).join("");
+    if(!hasBody(s)) h += '<div class="merge">Your compilation lists only the title for this station, so there is no checklist to show here. Say what you would cover, check it against your own notes or a textbook, then grade yourself honestly.</div>';
     return (s.mergeNote ? '<div class="merge">' + esc(s.mergeNote) + "</div>" : "") + h;
+  }
+  function label(s){ return s.id; }
+  function renderGrid(){
+    var cur = pos < queue.length ? queue[pos] : null;
+    $("grid").innerHTML = cards.map(function(s){
+      var c = st.cards[s.id], cls = "gb" + (c ? (c.b >= 3 ? " m" : " l") : "") + (hasBody(s) ? "" : " t") + (s.id === cur ? " cur" : "") + (st.group !== "all" && s.g !== st.group ? " off" : "");
+      var status = c ? (c.b >= 3 ? "mastered" : "learning") : "new";
+      return '<button type="button" class="' + cls + '" data-id="' + s.id + '" title="OSCE ' + label(s) + " — " + esc(s.t) + " (" + status + (hasBody(s) ? "" : ", title only") + ')" aria-label="OSCE ' + label(s) + ", " + esc(s.t) + ", " + status + '"' + (s.id === cur ? ' aria-current="true"' : "") + ">" + label(s) + "</button>";
+    }).join("");
+  }
+  function openCard(id){
+    var i = queue.indexOf(id);
+    if(i < 0){ if(pos >= queue.length){ queue.push(id); i = queue.length - 1; } else { queue.splice(pos, 0, id); i = pos; } }
+    pos = i; flipped = false; render();
+    var stage = $("stage"); if(stage && stage.scrollIntoView) stage.scrollIntoView({block:"start"});
+    var c = $("card"); if(c) c.focus({preventScroll:true});
   }
   function groupName(g){ var r = OSCE_GROUPS.filter(function(x){ return x.id === g; })[0]; return r ? r.name : ""; }
 
@@ -190,6 +220,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
     var c = counts(pool()), t = c.new + c.learning + c.mastered || 1;
     $("prog").innerHTML = '<i class="p-m" style="width:' + (c.mastered / t * 100) + '%"></i><i class="p-l" style="width:' + (c.learning / t * 100) + '%"></i>';
     $("legend").innerHTML = "<span>" + c.mastered + " mastered</span><span>" + c.learning + " learning</span><span>" + c.new + " new</span>";
+    renderGrid();
   }
   function render(){
     renderChrome();
@@ -205,6 +236,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
     var srcs = s.parts.map(function(p){ return OSCE_SOURCES[p.s]; }).filter(function(v, i, a){ return a.indexOf(v) === i; });
     var where = '<div class="where"><span>Card ' + (pos + 1) + " of " + queue.length + "</span><span class=\"badge\">" + esc(groupName(s.g)) + "</span>" +
       (c ? '<span class="badge">' + (c.b >= 3 ? "mastered" : "learning") + "</span>" : '<span class="badge">new</span>') +
+      (hasBody(s) ? "" : '<span class="badge" title="Only the title is in your compilation">title only</span>') +
       (warn ? '<span class="badge warn" title="This station carries caveats from your notes">⚠ ' + warn + " caveat" + (warn > 1 ? "s" : "") + "</span>" : "") + "</div>";
     var head = '<div class="no">OSCE ' + s.n + (s.uncertain ? " (number unconfirmed)" : "") + '</div><h2>' + esc(s.t) + "</h2>";
     var body = flipped
@@ -252,8 +284,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
     else if(e.key === "ArrowLeft"){ if(pos > 0){ pos--; flipped = false; render(); } }
   });
 
-  $("skipped").innerHTML = skipped.length ? "<summary>" + skipped.length + " stations have no card — your document lists the title only</summary><p>" + skipped.map(function(s){ return "OSCE " + s.n + " — " + esc(s.t); }).join("<br>") + "</p>" : "";
-  if(!skipped.length) $("skipped").hidden = true;
+  $("grid").addEventListener("click", function(e){ var b = e.target.closest("[data-id]"); if(b) openCard(b.getAttribute("data-id")); });
   $("count").textContent = cards.length + " cards";
   go();
 })();
