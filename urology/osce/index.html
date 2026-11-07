@@ -237,9 +237,10 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
       (c ? '<span class="badge">' + (c.b >= 3 ? "mastered" : "learning") + "</span>" : '<span class="badge">new</span>') +
       "</div>";
     var head = '<div class="no">' + (s.u ? "Extra · " + s.id : "OSCE " + s.n) + '</div><h2>' + esc(s.t) + "</h2>";
+    var qh = s.q && s.q.length ? '<div class="cbk qs">' + blocksHTML({b: s.q}) + "</div>" : "";
     var body = flipped
-      ? '<hr class="rule"><div class="cbk">' + backHTML(s) + "</div>"
-      : '';
+      ? qh + '<hr class="rule"><div class="cbk">' + backHTML(s) + "</div>"
+      : qh;
     var acts = flipped
       ? '<button type="button" class="btn miss" data-g="0">Missed it <small>(1)</small></button><button type="button" class="btn part" data-g="1">Partly <small>(2)</small></button><button type="button" class="btn got" data-g="2">Got it <small>(3)</small></button>'
       : '<button type="button" class="btn" data-act="flip">Show checklist</button><button type="button" class="btn quiet" data-act="prev"' + (pos ? "" : " disabled") + '>← Back</button><button type="button" class="btn quiet" data-act="skip">Skip →</button>';
