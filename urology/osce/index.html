@@ -200,7 +200,7 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,38px);line-
     var i = queue.indexOf(id);
     if(i < 0){ if(pos >= queue.length){ queue.push(id); i = queue.length - 1; } else { queue.splice(pos, 0, id); i = pos; } }
     pos = i; flipped = false; render();
-    var stage = $("stage"); if(stage && stage.scrollIntoView) stage.scrollIntoView({block:"start"});
+    var stage = $("stage"); if(stage){ var r = stage.getBoundingClientRect(); if(r.top < 0 || r.top > window.innerHeight * 0.6){ stage.scrollIntoView({block:"start"}); } }   /* only scroll when the card is out of view, so going through the numbers does not jump the page */
     var c = $("card"); if(c) c.focus({preventScroll:true});
   }
   function groupName(g){ var r = OSCE_GROUPS.filter(function(x){ return x.id === g; })[0]; return r ? r.name : ""; }
