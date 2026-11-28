@@ -60,7 +60,7 @@ button{color:inherit}
 
 /* band (brown): the three tabs, notch marks the open one */
 .band{background:var(--brown);color:#fff;position:relative}
-.band-in{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-block:24px 22px}
+.band-in{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding-block:24px 22px}
 .band-btn{background:none;border:0;cursor:pointer;display:grid;justify-items:center;gap:6px;padding:6px 4px;position:relative;font-family:var(--body);color:#D9D2CA}
 .band-btn svg{width:30px;height:30px}
 .band-label{font:700 1rem var(--display);color:inherit}
@@ -110,6 +110,21 @@ input[type=search]{min-width:0;width:230px;max-width:100%}
 @media (max-width:900px){.spotlight{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.spotlight{grid-template-columns:1fr}}
 
+.scrub{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0 0}
+.scrub input[type=range]{flex:1 1 240px;min-width:180px;accent-color:var(--brown)}
+.scrub output{font:700 1rem var(--display);min-width:5ch}
+.gs{max-width:720px;margin:0 auto}
+.gs-card{background:var(--cream);border-radius:12px;padding:22px 24px}
+.gs-card h3{font-size:1.35rem;margin:4px 0 6px}
+.gs-meta{color:var(--muted);font-size:.9rem;margin:0 0 12px}
+.gs-q{font-size:1.05rem;margin:10px 0 14px}
+.gs-guess{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 14px}
+.gs-guess input[type=range]{flex:1 1 260px;accent-color:var(--brown)}
+.gs-guess output{font:800 1.5rem var(--display);min-width:9ch}
+.gs-result{border-left:4px solid var(--app);background:#fff;border-radius:6px;padding:12px 16px;margin:14px 0 0}
+.gs-score{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:.9rem;margin:12px 0 0}
+.gs-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+@media (max-width:640px){.band-in{gap:2px}.band-sub{display:none}}
 .statline{background:var(--cream);border-radius:8px;padding:13px 18px;margin:14px 0 0;font-size:.95rem;line-height:1.55}
 .statline b{font-weight:800;color:var(--ink)}
 
@@ -263,6 +278,7 @@ footer{margin-top:46px;color:var(--muted);font-size:.8rem;max-width:72ch}
     <button class="band-btn" role="tab" id="tab-what" aria-selected="false" aria-controls="p-what"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8c-3-2-7-2.5-11-2v17c4-.5 8 0 11 2 3-2 7-2.5 11-2V6c-4-.5-8 0-11 2z"/><path d="M16 8v17"/></svg><span class="band-label">What Happened</span><span class="band-sub"><span class="ct" id="ct-what"></span> stories &raquo;</span></button>
     <button class="band-btn" role="tab" id="tab-map" aria-selected="false" aria-controls="p-map"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="24" cy="9" r="3"/><circle cx="16" cy="24" r="3"/><path d="M11 9h10M9.5 12l5 9M22.5 12l-5 9"/></svg><span class="band-label">Connections</span><span class="band-sub"><span class="ct" id="ct-map"></span> links &raquo;</span></button>
     <button class="band-btn" role="tab" id="tab-horizon" aria-selected="false" aria-controls="p-horizon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22h26M7 27h18"/><path d="M8 22a8 8 0 0 1 16 0"/><path d="M16 8v3M6.5 12.5l2 2M25.5 12.5l-2 2"/></svg><span class="band-label">Horizon</span><span class="band-sub"><span class="ct" id="ct-horizon"></span> futures &raquo;</span></button>
+    <button class="band-btn" role="tab" id="tab-guess" aria-selected="false" aria-controls="p-guess"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="11"/><path d="M12.5 12.5a3.5 3.5 0 1 1 5 3.2c-1 .6-1.5 1.2-1.5 2.3M16 22.5v.5"/></svg><span class="band-label">Guess the wait</span><span class="band-sub">a quick game &raquo;</span></button>
   </div>
 </nav>
 
@@ -298,6 +314,13 @@ footer{margin-top:46px;color:var(--muted);font-size:.8rem;max-width:72ch}
       </select>
     </div>
   </div>
+  <div class="scrub" id="scrub">
+    <button class="chip" id="scrubPlay" type="button">&#9654; Play through time</button>
+    <input type="range" id="yearRange" min="1750" step="1" aria-label="Show the world as of this year">
+    <output id="yearOut" for="yearRange">Today</output>
+    <button class="chip" id="scrubAll" type="button">Show all</button>
+  </div>
+  <p class="statline" id="scrubLine" hidden></p>
   <div class="legend">
     <span><i class="dot" style="background:var(--disc)"></i>Discovered</span>
     <span><i class="dot" style="background:var(--app)"></i>First major application</span>
@@ -322,6 +345,14 @@ footer{margin-top:46px;color:var(--muted);font-size:.8rem;max-width:72ch}
   <div class="mapkey" id="mapkey"></div>
   <div class="mapbox"><svg id="mapsvg" class="map" role="img" aria-label="Connections between discoveries"></svg></div>
   <p class="maphint" id="maphint"></p>
+</section>
+
+<section id="p-guess" role="tabpanel" aria-labelledby="tab-guess" hidden>
+  <div class="gs">
+    <h2>Guess the wait</h2>
+    <p class="lede">A finding is made in a lab. How many years until someone first uses it for something? Slide to your guess.</p>
+    <div class="gs-card" id="gsCard"></div>
+  </div>
 </section>
 
 <section id="p-horizon" role="tabpanel" aria-labelledby="tab-horizon" hidden>
@@ -547,8 +578,8 @@ const STAGES = ["","Theory only","Shown in the lab","Prototype or early trials",
 const LIKE_CLASS = {"On track":"on","Possible, big hurdle":"hurdle","Speculative":"spec"};
 let added = [];                // viewer-added rows from db
 let db = null;
-const st = { field:"All", status:"All", view:"cal", sort:"d", q:"", tab:"timeline", hzsort:"stage", story:null, from:null, rand:null, trail:null };
-try { const t = localStorage.getItem("l2l-tab"); if (["timeline","what","map","horizon"].includes(t)) st.tab = t; } catch(e){}
+const st = { year:null, field:"All", status:"All", view:"cal", sort:"d", q:"", tab:"timeline", hzsort:"stage", story:null, from:null, rand:null, trail:null };
+try { const t = localStorage.getItem("l2l-tab"); if (["timeline","what","map","horizon","guess"].includes(t)) st.tab = t; } catch(e){}
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const lagOf = r => (r.a==null ? null : r.a - r.d);
@@ -604,7 +635,10 @@ function visibleRows(){
 }
 
 function renderChart(){
-  const rows = visibleRows(), box = $("chart");
+  const yr = (st.view==="cal" && st.year!=null && st.year<NOW) ? st.year : null;
+  $("scrub").hidden = st.view!=="cal";
+  const rows = visibleRows().filter(r => yr==null || r.d<=yr), box = $("chart");
+  renderScrubLine(rows, yr);
   if(!rows.length){ box.innerHTML = `<div class="empty">No discoveries match these filters.</div>`; return; }
   const W = Math.max(740, box.clientWidth || 740), LW = Math.min(250, Math.round(W*0.3)), R = 110, top = 30, RH = 28;
   const x0 = LW + 20, x1 = W - R, H = top + rows.length*RH + 12;
@@ -621,11 +655,12 @@ function renderChart(){
   let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Discovery to application timeline">`;
   s += `<text x="${LW}" y="${top-12}" font-size="11" text-anchor="end" fill="var(--muted)">${st.view==="cal"?"Year":"Years waited (√ scale)"}</text>`;
   ticks.forEach(t=>{ const x=sx(t); s+=`<line x1="${x}" x2="${x}" y1="${top-8}" y2="${H-6}" stroke="var(--faint)"/><text x="${x}" y="${top-12}" font-size="10.5" text-anchor="middle" fill="var(--muted)" font-family="var(--mono)">${tickLbl(t)}</text>`; });
+  if(yr!=null){ const x=sx(yr); s+=`<line x1="${x}" x2="${x}" y1="${top-8}" y2="${H-6}" stroke="var(--brown)" stroke-width="2"/>`; }
   if(st.view==="cal"){ const x=sx(NOW); s+=`<line x1="${x}" x2="${x}" y1="${top-8}" y2="${H-6}" stroke="var(--muted)" stroke-dasharray="2 3"/><text x="${x}" y="${top-12}" font-size="10.5" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)">${NOW}</text>`; }
   rows.forEach((r,i)=>{
-    const y = top + i*RH + RH/2, open = r.a==null, lag = open ? NOW-r.d : lagOf(r);
+    const y = top + i*RH + RH/2, open = yr==null ? r.a==null : (r.a==null || r.a>yr), lag = open ? (yr??NOW)-r.d : lagOf(r);
     const xa = st.view==="cal" ? sx(r.d) : sx(0);
-    const xb = st.view==="cal" ? sx(open?NOW:r.a) : sx(lag);
+    const xb = st.view==="cal" ? sx(open?(yr??NOW):r.a) : sx(lag);
     const name = r.n.length>32 ? r.n.slice(0,31)+"…" : r.n;
     s += `<g class="row" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="Read the story: ${esc(r.n)}, discovered ${r.d}, ${open?"not yet applied":"first applied "+r.a}">`;
     s += `<rect class="hit" x="0" y="${y-RH/2}" width="${W}" height="${RH}" fill="transparent"/>`;
@@ -635,7 +670,7 @@ function renderChart(){
     s += `<circle cx="${xa}" cy="${y}" r="4.5" fill="var(--disc)"/>`;
     s += `<text x="${xa-7}" y="${y-8}" font-size="9.5" text-anchor="end" fill="var(--disc-t)" font-family="var(--mono)">${r.d}</text>`;
     s += open ? `<circle cx="${xb}" cy="${y}" r="4" fill="var(--surface)" stroke="var(--open)" stroke-width="2.5"/>` : `<circle cx="${xb}" cy="${y}" r="4.5" fill="var(--app)"/>`;
-    const tail = open ? `${lag} yr, open` : `${r.a} · ${lag<1?"<1 yr":"+"+lag+" yr"}`;
+    const tail = open ? `${lag} yr, ${yr==null?"open":"waiting"}` : `${r.a} · ${lag<1?"<1 yr":"+"+lag+" yr"}`;
     s += `<text x="${Math.max(xa,xb)+10}" y="${y+4}" font-size="11" fill="var(--muted)" font-family="var(--mono)">${tail}</text>`;
     s += `</g>`;
   });
@@ -786,12 +821,72 @@ function renderHorizon(){
   }).join("");
 }
 
+function renderScrubLine(rows, yr){
+  const el = $("scrubLine");
+  if(yr==null){ el.hidden = true; return; }
+  const used = rows.filter(r=>r.a!=null && r.a<=yr).length, waiting = rows.length - used;
+  el.hidden = false;
+  el.innerHTML = `<b>In ${yr}:</b> ${rows.length} of these discoveries were known. <b>${used}</b> already had a first major use, <b>${waiting}</b> were still waiting.`;
+}
+function setYear(v){
+  st.year = v>=NOW ? null : v;
+  $("yearRange").value = v; $("yearOut").textContent = st.year==null ? "Today" : String(st.year);
+  renderChart();
+}
+let scrubTimer = null;
+function stopScrub(){ if(scrubTimer){ clearInterval(scrubTimer); scrubTimer=null; } $("scrubPlay").innerHTML = "&#9654; Play through time"; }
+function toggleScrub(){
+  if(scrubTimer){ stopScrub(); return; }
+  let y = (st.year==null || st.year>=NOW) ? 1750 : st.year;
+  $("scrubPlay").innerHTML = "&#10074;&#10074; Pause";
+  scrubTimer = setInterval(()=>{ y += 1; setYear(Math.min(y,NOW)); if(y>=NOW) stopScrub(); }, 70);
+}
+
+/* ---- Guess the wait ---- */
+const gs = { cur:null, revealed:false, rounds:0, pts:0, best:0, seen:[], guess:0 };
+const gsYears = v => Math.round(230*Math.pow(v/1000,2));
+function gsPool(){ return allLedger().filter(r=>r.a!=null && r.a>r.d && r.app); }
+function gsNext(){
+  const pool = gsPool(), fresh = pool.filter(r=>!gs.seen.includes(r.key));
+  if(!fresh.length) gs.seen = [];
+  const src = fresh.length ? fresh : pool;
+  gs.cur = src[Math.floor(Math.random()*src.length)]; gs.seen.push(gs.cur.key); gs.revealed = false;
+  renderGuess();
+}
+function gsPoints(guess, actual){ return Math.max(0, Math.round(100 - 100*Math.abs(Math.log2((guess+1)/(actual+1)))/4)); }
+function renderGuess(){
+  const r = gs.cur, box = $("gsCard"); if(!r){ gsNext(); return; }
+  const score = `<div class="gs-score"><span>Rounds: <b>${gs.rounds}</b></span><span>Points: <b>${gs.pts}</b>${gs.rounds?` (avg ${Math.round(gs.pts/gs.rounds)})`:""}</span><span>Best round: <b>${gs.best}</b></span></div>`;
+  let h = `<span class="eyebrow">${esc(r.f)}</span><h3>${esc(r.n)}</h3><p class="gs-meta">${esc(r.who||"")}${r.who?" · ":""}found in <b>${r.d}</b></p>`;
+  h += `<p class="gs-q">How many years until it first led to: <b>${esc(r.app)}</b>?</p>`;
+  if(!gs.revealed){
+    h += `<div class="gs-guess"><input type="range" id="gsRange" min="0" max="1000" value="250" aria-label="Your guess in years"><output id="gsOut" for="gsRange">${gsYears(250)} years</output></div>
+      <div class="gs-actions"><button class="chip" id="gsLock" type="button" aria-pressed="true">Lock in my guess</button></div>`;
+  } else {
+    const lag = r.a - r.d, g = gs.guess, pts = gsPoints(g, lag), diff = g - lag;
+    const verdict = Math.abs(diff) <= Math.max(2, lag*0.1) ? "Spot on." : (diff>0 ? `You guessed ${diff} year${diff===1?"":"s"} too long.` : `You guessed ${-diff} year${diff===-1?"":"s"} too short.`);
+    h += `<div class="gs-result"><p style="margin:0 0 6px">You said <b>${g} years</b>. It took <b>${lag} year${lag===1?"":"s"}</b> (${r.d} &rarr; ${r.a}). ${verdict} <b>+${pts}</b></p>${r.note?`<p style="margin:0;color:var(--muted)">${esc(r.note)}</p>`:""}</div>
+      <div class="gs-actions"><button class="chip" id="gsNext" type="button" aria-pressed="true">Next one &raquo;</button><button class="chip" id="gsRead" type="button" aria-pressed="false">Read the story</button></div>`;
+  }
+  box.innerHTML = h + score;
+  if(!gs.revealed){
+    const rg = $("gsRange"); rg.addEventListener("input", ()=>{ $("gsOut").textContent = gsYears(+rg.value)+" years"; });
+    $("gsLock").addEventListener("click", ()=>{ gs.guess = gsYears(+rg.value); const p = gsPoints(gs.guess, gs.cur.a-gs.cur.d); gs.rounds++; gs.pts += p; gs.best = Math.max(gs.best,p); gs.revealed = true; renderGuess(); $("gsNext").focus(); });
+  } else {
+    $("gsNext").addEventListener("click", gsNext);
+    $("gsRead").addEventListener("click", ()=>openStory(gs.cur.key));
+  }
+}
+
 function setTab(t){
   st.tab = t;
   $("tab-timeline").setAttribute("aria-selected", t==="timeline"); $("tab-what").setAttribute("aria-selected", t==="what"); $("tab-horizon").setAttribute("aria-selected", t==="horizon");
   $("p-timeline").hidden = t!=="timeline"; $("p-what").hidden = t!=="what"; $("p-horizon").hidden = t!=="horizon"; $("p-map").hidden = t!=="map"; $("tab-map").setAttribute("aria-selected", t==="map");
-  $("sharedFilters").hidden = t==="horizon" || t==="map";
+  $("sharedFilters").hidden = t==="horizon" || t==="map" || t==="guess";
   $("featured").hidden = t!=="timeline";
+  $("p-guess").hidden = t!=="guess"; $("tab-guess").setAttribute("aria-selected", t==="guess");
+  if(t!=="timeline") stopScrub();
+  if(t==="guess") renderGuess();
   try { localStorage.setItem("l2l-tab", t); } catch(e){}
   if(t==="timeline") renderChart();
   if(t==="map") renderMap();
@@ -887,6 +982,11 @@ $("tab-timeline").addEventListener("click", ()=>setTab("timeline"));
 $("tab-what").addEventListener("click", ()=>setTab("what"));
 $("tab-horizon").addEventListener("click", ()=>setTab("horizon"));
 $("tab-map").addEventListener("click", ()=>setTab("map"));
+$("tab-guess").addEventListener("click", ()=>setTab("guess"));
+$("yearRange").max = NOW; $("yearRange").value = NOW;
+$("yearRange").addEventListener("input", e=>{ stopScrub(); setYear(+e.target.value); });
+$("scrubPlay").addEventListener("click", toggleScrub);
+$("scrubAll").addEventListener("click", ()=>{ stopScrub(); setYear(NOW); });
 $("hzsort").addEventListener("change", e=>{ st.hzsort=e.target.value; renderHorizon(); });
 let rt; addEventListener("resize", ()=>{ clearTimeout(rt); rt=setTimeout(renderChart,120); });
 
